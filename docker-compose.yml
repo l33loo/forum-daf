@@ -1,0 +1,10 @@
+services:
+  php:
+    image: fsilva/php:8.3-apache
+    ports:
+      - 80
+    volumes:
+      - ./:/var/www/app
+    environment:
+      - WEBROOT=public
+      - USE_XDEBUG=yes
