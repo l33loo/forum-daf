@@ -22,3 +22,10 @@ services:
 
     # add more service definitions when explicit configuration is needed
     # please note that last definitions always *replace* previous ones
+
+    Slick\Event\EventDispatcher:
+        class: App\Infrastructure\Events\DomainEventDispatcher
+
+    App\UserInterface\Console\ConsoleTerminateEventListener:
+        tags:
+            - { name: kernel.event_listener, event: console.terminate, method: onTerminate }

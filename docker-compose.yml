@@ -8,3 +8,15 @@ services:
     environment:
       - WEBROOT=public
       - USE_XDEBUG=yes
+    depends_on:
+      - database
+
+  database:
+    image: mysql
+    ports:
+      - 3306:3306
+    environment:
+      MYSQL_ROOT_PASSWORD: root
+      MYSQL_USER: app
+      MYSQL_PASSWORD: secret
+      MYSQL_DATABASE: forum
