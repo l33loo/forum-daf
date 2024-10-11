@@ -1,6 +1,6 @@
 services:
   php:
-    image: fsilva/php:8.3-apache
+    build: docker/php
     ports:
       - 80
     volumes:
@@ -8,6 +8,8 @@ services:
     environment:
       - WEBROOT=public
       - USE_XDEBUG=yes
+      - ENABLE_XDEBUG_FOR_MAC=yes
+      - ENABLE_OPCACHE=no
     depends_on:
       - database
 

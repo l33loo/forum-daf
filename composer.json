@@ -14,12 +14,15 @@
         "ramsey/uuid": "^4.7",
         "slick/event": "^1.0",
         "symfony/apache-pack": "^1.0",
+        "symfony/asset": "7.1.*",
         "symfony/console": "7.1.*",
         "symfony/dotenv": "7.1.*",
         "symfony/flex": "^2",
         "symfony/framework-bundle": "7.1.*",
+        "symfony/monolog-bundle": "^3.10",
         "symfony/runtime": "7.1.*",
         "symfony/security-bundle": "7.1.*",
+        "symfony/twig-bundle": "7.1.*",
         "symfony/yaml": "7.1.*"
     },
     "config": {
@@ -72,6 +75,8 @@
         }
     },
     "require-dev": {
-        "phpspec/phpspec": "^7.5"
+        "phpspec/phpspec": "^7.5",
+        "symfony/stopwatch": "7.1.*",
+        "symfony/web-profiler-bundle": "7.1.*"
     }
 }

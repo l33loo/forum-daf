@@ -1,0 +1,16 @@
+{% extends "base.html.twig" %}
+
+{% block body %}
+    <div class="page">
+        {{ include("includes/page-header.html.twig") }}
+
+        <div class="page-wrapper">
+            <div class="page-body">
+                <div class="container-xl">
+                    {% block content %}
+                    {% endblock %}
+                </div>
+            </div>
+        </div>
+    </div>
+{% endblock %}

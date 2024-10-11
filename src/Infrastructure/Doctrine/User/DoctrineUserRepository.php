@@ -19,13 +19,17 @@ use App\Domain\User\UserRepository;
 use Doctrine\ORM\EntityManagerInterface;
 use Doctrine\ORM\Exception\ORMException;
 use Doctrine\ORM\OptimisticLockException;
+use Symfony\Component\Security\Core\User\PasswordAuthenticatedUserInterface;
+use Symfony\Component\Security\Core\User\PasswordUpgraderInterface;
+use Symfony\Component\Security\Core\User\UserInterface;
+use Symfony\Component\Security\Core\User\UserProviderInterface;
 
 /**
  * DoctrineUserRepository
  *
  * @package App\Infrastructure\Doctrine\User
  */
-final readonly class DoctrineUserRepository implements UserRepository
+final readonly class DoctrineUserRepository implements UserRepository, UserProviderInterface, PasswordUpgraderInterface
 {
 
     /**
@@ -63,5 +67,45 @@ final readonly class DoctrineUserRepository implements UserRepository
         }
 
         throw new EntityNotFound("User not found");
+    }
+
+    /**
+     * @inheritDoc
+     */
+    public function refreshUser(UserInterface $user): UserInterface
+    {
+        return $user;
+    }
+
+    /**
+     * @inheritDoc
+     */
+    public function supportsClass(string $class): bool
+    {
+        return User::class === $class;
+    }
+
+    /**
+     * @inheritDoc
+     */
+    public function loadUserByIdentifier(string $identifier): UserInterface
+    {
+        $repository = $this->entityManager->getRepository(User::class);
+        $user = $repository->findOneBy(["email" => new User\Email($identifier)]);
+        if ($user instanceof User) {
+                return $user;
+        }
+
+        throw new EntityNotFound("User not found");
+    }
+
+    /**
+     * @inheritDoc
+     * @param PasswordAuthenticatedUserInterface|User $user
+     */
+    public function upgradePassword(PasswordAuthenticatedUserInterface $user, string $newHashedPassword): void
+    {
+        $user->withPassword($newHashedPassword);
+        $this->entityManager->flush();
     }
 }
