@@ -2,7 +2,7 @@ services:
   php:
     build: docker/php
     ports:
-      - 80
+      - 8080:80
     volumes:
       - ./:/var/www/app
     environment:

@@ -38,6 +38,10 @@ final readonly class UserLoginListener
      */
     public function onLoginSuccess(LoginSuccessEvent $event): void
     {
+        if ($event->getFirewallName() !== "main") {
+            return;
+        }
+
         $this->dispatcher->dispatch(new UserHasLoggedIn($event->getUser()->userId()));
     }
 }

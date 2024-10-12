@@ -1,0 +1,27 @@
+league_oauth2_server:
+    authorization_server:
+        private_key: '%env(resolve:OAUTH_PRIVATE_KEY)%'
+        private_key_passphrase: '%env(resolve:OAUTH_PASSPHRASE)%'
+        encryption_key: '%env(resolve:OAUTH_ENCRYPTION_KEY)%'
+
+        # Whether to enable the refresh token grant
+        enable_refresh_token_grant: true
+
+        # Whether to enable the authorization code grant
+        enable_auth_code_grant: true
+
+        # Whether to require code challenge for public clients for the auth code grant
+        require_code_challenge_for_public_clients: true
+    resource_server:
+        public_key: '%env(resolve:OAUTH_PUBLIC_KEY)%'
+    role_prefix: ROLE_OAUTH2_
+    scopes:
+        available: [ 'USER', 'ADMIN' ]
+        default: [ 'USER' ]
+    persistence:
+        doctrine: null
+
+when@test:
+    league_oauth2_server:
+        persistence:
+            in_memory: null

@@ -23,6 +23,9 @@ use Doctrine\ORM\Mapping\Table;
 use SensitiveParameter;
 use Slick\Event\Domain\EventGeneratorMethods;
 use Slick\Event\EventGenerator;
+use Slick\JSONAPI\Object\SchemaDiscover\Attributes\AsResourceObject;
+use Slick\JSONAPI\Object\SchemaDiscover\Attributes\ResourceAttribute;
+use Slick\JSONAPI\Object\SchemaDiscover\Attributes\ResourceIdentifier;
 use Symfony\Component\Security\Core\User\PasswordAuthenticatedUserInterface;
 use Symfony\Component\Security\Core\User\UserInterface;
 
@@ -33,6 +36,7 @@ use Symfony\Component\Security\Core\User\UserInterface;
  */
 #[Entity]
 #[Table(name: "users")]
+#[AsResourceObject(type: "users")]
 class User implements UserInterface, PasswordAuthenticatedUserInterface, EventGenerator
 {
 
@@ -44,6 +48,7 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface, EventGe
     #[Id]
     #[GeneratedValue(strategy: 'NONE')]
     #[Column(name: 'id', type: 'UserId')]
+    #[ResourceIdentifier(className: UserId::class)]
     private UserId $userId;
 
     /** @var array<string>  */
@@ -53,14 +58,16 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface, EventGe
     /**
      * Creates a user
      *
-     * @param string $name The name of the user
      * @param Email $email The email of the user
+     * @param string|null $name The name of the user
      * @param string|null $password (Optional) The password of the user, default is null
      */
     public function __construct(
         #[Column(type: "Email", length: 180, unique: true)]
+        #[ResourceAttribute(className: Email::class)]
         private Email $email,
         #[Column(nullable: true)]
+        #[ResourceAttribute]
         private ?string $name = null,
         #[Column(nullable: true)]
         private ?string $password = null
@@ -101,6 +108,7 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface, EventGe
     /**
      * @inheritDoc
      */
+    #[ResourceAttribute(name: "roles")]
     public function getRoles(): array
     {
         $roles = $this->roles;
