@@ -10,6 +10,7 @@
 namespace spec\App\Domain;
 
 use App\Domain\Event\User\UserHasChangedPassword;
+use App\Domain\Event\User\UserHasRegistered;
 use App\Domain\Event\User\UserWasCreated;
 use App\Domain\User;
 use PhpSpec\ObjectBehavior;
@@ -63,8 +64,9 @@ class UserSpec extends ObjectBehavior
 
     function it_can_erase_credentials()
     {
-        $this->beConstructedWith($this->email, $this->name, 'pass');
+        $this->beConstructedWith($this->email, $this->name);
         $this->shouldBeAnInstanceOf(PasswordAuthenticatedUserInterface::class);
+        $this->withPassword('pass');
         $this->getPassword()->shouldBe('pass');
         $this->eraseCredentials();
         $this->getPassword()->shouldBeNull();
@@ -91,5 +93,17 @@ class UserSpec extends ObjectBehavior
         $events = $this->releaseEvents();
         $events->shouldHaveCount(1);
         $events[0]->shouldBeAnInstanceOf(UserHasChangedPassword::class);
+    }
+
+    function it_can_be_created_as_a_registration()
+    {
+        $this->beConstructedThrough('register', [$this->email, $this->name, 'hashed_password']);
+        $this->email()->shouldBe($this->email);
+        $this->userId()->shouldBeAnInstanceOf(User\UserId::class);
+        $this->name()->shouldBe($this->name);
+        $this->getPassword()->shouldBe('hashed_password');
+        $events = $this->releaseEvents();
+        $events->shouldHaveCount(1);
+        $events[0]->shouldBeAnInstanceOf(UserHasRegistered::class);
     }
 }

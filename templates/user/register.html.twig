@@ -1,0 +1,36 @@
+{% extends 'base.html.twig' %}
+
+{% block body_class %}d-flex flex-column{% endblock %}
+
+{% block body%}
+    <div class="page page-center">
+        <div class="container container-tight py-2">
+            {{ include('user/_card-logo.twig') }}
+            <div class="card card-md">
+                {{ form_start(form) }}
+                <div class="card-body">
+                    <h2 class="h2 text-center mb-4">{{ 'Create new account'|trans }}</h2>
+                    {{ form_errors(form) }}
+                    <div class="mb-3">
+                        {{ form_row(form.name) }}
+                    </div>
+                    <div class="mb-3">
+                        {{ form_row(form.email) }}
+                    </div>
+                    <div class="mb-3">
+                        {{ form_row(form.password) }}
+                    </div>
+                    <div class="form-footer">
+                        <button type="submit" class="btn btn-primary w-100">{{ 'Create new account'|trans }}</button>
+                    </div>
+                    {{ form_row(form._token) }}
+                </div>
+                {{ form_end(form) }}
+            </div>
+
+            <div class="text-center text-muted mt-3">
+                {{ "Already have an account? "|trans }} <a href="{{ path("login") }}" tabindex="-1">{{ 'Login'|trans }}</a>
+            </div>
+        </div>
+    </div>
+{% endblock %}

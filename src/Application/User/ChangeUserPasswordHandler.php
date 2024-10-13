@@ -15,7 +15,6 @@ use App\Domain\User;
 use App\Domain\User\UserRepository;
 use Slick\Event\EventDispatcher;
 use Symfony\Component\PasswordHasher\Hasher\UserPasswordHasherInterface;
-use Symfony\Component\PasswordHasher\PasswordHasherInterface;
 
 /**
  * ChangeUserPasswordHandler

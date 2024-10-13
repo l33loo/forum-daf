@@ -39,4 +39,13 @@ interface UserRepository
      * @throws EntityNotFound|DomainException When no user is found for provided identifier
      */
     public function withId(UserId $userId): User;
+
+    /**
+     * Retrieves a user by email address
+     *
+     * @param Email $email The email address of the user to be retrieved
+     * @return User The user with the provided email address
+     * @throws EntityNotFound|DomainException When no user is found for provided identifier
+     */
+    public function withEmail(Email $email): User;
 }

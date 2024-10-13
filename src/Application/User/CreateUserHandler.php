@@ -11,7 +11,9 @@ declare(strict_types=1);
 
 namespace App\Application\User;
 
+use App\Domain\Exception\FailedSpecification;
 use App\Domain\User;
+use App\Domain\User\Specification\NewUserSpecification;
 use App\Domain\User\UserRepository;
 use Slick\Event\EventDispatcher;
 
@@ -28,10 +30,12 @@ final readonly class CreateUserHandler
      *
      * @param UserRepository $users The UserRepository instance.
      * @param EventDispatcher $dispatcher The EventDispatcher instance.
+     * @param NewUserSpecification $newUserSpec
      */
     public function __construct(
         private UserRepository  $users,
-        private EventDispatcher $dispatcher
+        private EventDispatcher $dispatcher,
+        private User\Specification\NewUserSpecification $newUserSpec
     ) {
     }
 
@@ -43,10 +47,13 @@ final readonly class CreateUserHandler
      */
     public function handle(CreateUserCommand $command): User
     {
-        $user = $this->users->add(
-            new User($command->email(), $command->name())
-        );
-        $this->dispatcher->dispatchEventsFrom($user);
+        $user = new User($command->email(), $command->name());
+
+        if (!$this->newUserSpec->isSatisfiedBy($user)) {
+            throw new FailedSpecification("User with email '{$command->email()}' already exists");
+        }
+
+        $this->dispatcher->dispatchEventsFrom($this->users->add($user));
         return $user;
     }
 }

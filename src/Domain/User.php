@@ -12,6 +12,7 @@ declare(strict_types=1);
 namespace App\Domain;
 
 use App\Domain\Event\User\UserHasChangedPassword;
+use App\Domain\Event\User\UserHasRegistered;
 use App\Domain\Event\User\UserWasCreated;
 use App\Domain\User\Email;
 use App\Domain\User\UserId;
@@ -55,12 +56,14 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface, EventGe
     #[Column(type: "json")]
     private array $roles = [];
 
+    #[Column(nullable: true)]
+    private ?string $password = null;
+
     /**
      * Creates a user
      *
      * @param Email $email The email of the user
      * @param string|null $name The name of the user
-     * @param string|null $password (Optional) The password of the user, default is null
      */
     public function __construct(
         #[Column(type: "Email", length: 180, unique: true)]
@@ -68,12 +71,36 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface, EventGe
         private Email $email,
         #[Column(nullable: true)]
         #[ResourceAttribute]
-        private ?string $name = null,
-        #[Column(nullable: true)]
-        private ?string $password = null
+        private ?string $name = null
     ) {
         $this->userId = new UserId();
         $this->recordThat(new UserWasCreated($this->userId, $this->email, $this->name));
+    }
+
+    /**
+     * Registers a new user with the provided email, name, and hashed password.
+     *
+     * @param Email $email The email of the user
+     * @param string|null $name The name of the user
+     * @param string|null $hashedPassword The hashed password of the user
+     * @return self The newly registered user object
+     */
+    public static function register(
+        Email $email,
+        ?string $name = null,
+        #[SensitiveParameter]
+        ?string $hashedPassword = null
+    ): self {
+        $user = new self($email, $name);
+        $user->password = $hashedPassword;
+        $user->releaseEvents();
+        $user->recordThat(new UserHasRegistered(
+            $user->userId,
+            $email,
+            $name,
+            $hashedPassword
+        ));
+        return $user;
     }
 
     /**

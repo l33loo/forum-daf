@@ -11,6 +11,7 @@ declare(strict_types=1);
 
 namespace App\Domain\User;
 
+use App\Domain\Common\Equatable;
 use App\Domain\Exception\InvalidEmailAddress;
 use JsonSerializable;
 use Stringable;
@@ -20,7 +21,7 @@ use Stringable;
  *
  * @package App\Domain\User
  */
-final readonly class Email implements Stringable, JsonSerializable
+final readonly class Email implements Stringable, JsonSerializable, Equatable
 {
 
     private string $email;
@@ -53,5 +54,16 @@ final readonly class Email implements Stringable, JsonSerializable
     public function jsonSerialize(): string
     {
         return $this->email;
+    }
+
+    /**
+     * @inheritDoc
+     */
+    public function equals(object $other): bool
+    {
+        if ($other instanceof self) {
+            return $this->email === $other->email;
+        }
+        return false;
     }
 }

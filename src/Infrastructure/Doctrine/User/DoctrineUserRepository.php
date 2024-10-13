@@ -14,6 +14,7 @@ namespace App\Infrastructure\Doctrine\User;
 use App\Domain\DomainException;
 use App\Domain\Exception\EntityNotFound;
 use App\Domain\User;
+use App\Domain\User\Email;
 use App\Domain\User\UserId;
 use App\Domain\User\UserRepository;
 use Doctrine\ORM\EntityManagerInterface;
@@ -90,13 +91,8 @@ final readonly class DoctrineUserRepository implements UserRepository, UserProvi
      */
     public function loadUserByIdentifier(string $identifier): UserInterface
     {
-        $repository = $this->entityManager->getRepository(User::class);
-        $user = $repository->findOneBy(["email" => new User\Email($identifier)]);
-        if ($user instanceof User) {
-                return $user;
-        }
-
-        throw new EntityNotFound("User not found");
+        $email = new User\Email($identifier);
+        return $this->withEmail($email);
     }
 
     /**
@@ -107,5 +103,19 @@ final readonly class DoctrineUserRepository implements UserRepository, UserProvi
     {
         $user->withPassword($newHashedPassword);
         $this->entityManager->flush();
+    }
+
+    /**
+     * @inheritDoc
+     */
+    public function withEmail(Email $email): User
+    {
+        $repository = $this->entityManager->getRepository(User::class);
+        $user = $repository->findOneBy(["email" => $email]);
+        if ($user instanceof User) {
+            return $user;
+        }
+
+        throw new EntityNotFound("There is no user with the email $email");
     }
 }

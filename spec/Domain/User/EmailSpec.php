@@ -9,6 +9,7 @@
 
 namespace spec\App\Domain\User;
 
+use App\Domain\Common\Equatable;
 use App\Domain\Exception\InvalidEmailAddress;
 use App\Domain\User\Email;
 use PhpSpec\ObjectBehavior;
@@ -58,5 +59,13 @@ class EmailSpec extends ObjectBehavior
         $this->beConstructedWith('invalid-email');
         $this->shouldThrow(InvalidEmailAddress::class)
             ->duringInstantiation();
+    }
+
+    function it_is_equatable()
+    {
+        $this->shouldBeAnInstanceOf(Equatable::class);
+        $emailAddress = new Email('user@example.org');
+        $this->equals($emailAddress)->shouldBe(false);
+        $this->equals(new Email($this->emailAddress))->shouldBe(true);
     }
 }

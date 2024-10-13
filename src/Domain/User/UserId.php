@@ -11,6 +11,7 @@ declare(strict_types=1);
 
 namespace App\Domain\User;
 
+use App\Domain\Common\Equatable;
 use App\Domain\Exception\InvalidIdentifier;
 use JsonSerializable;
 use Ramsey\Uuid\Uuid;
@@ -22,7 +23,7 @@ use Stringable;
  *
  * @package App\Domain\User
  */
-final class UserId implements Stringable, JsonSerializable
+final class UserId implements Stringable, JsonSerializable, Equatable
 {
     private UuidInterface $uuid;
 
@@ -56,5 +57,16 @@ final class UserId implements Stringable, JsonSerializable
     public function jsonSerialize(): string
     {
         return $this->uuid->toString();
+    }
+
+    /**
+     * @inheritDoc
+     */
+    public function equals(object $other): bool
+    {
+        if ($other instanceof self) {
+            return $this->uuid->equals($other->uuid);
+        }
+        return false;
     }
 }

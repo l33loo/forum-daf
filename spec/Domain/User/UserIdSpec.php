@@ -9,6 +9,7 @@
 
 namespace spec\App\Domain\User;
 
+use App\Domain\Common\Equatable;
 use App\Domain\Exception\InvalidIdentifier;
 use App\Domain\User\UserId;
 use PhpSpec\ObjectBehavior;
@@ -59,5 +60,12 @@ class UserIdSpec extends ObjectBehavior
         $this->beConstructedWith('invalid');
         $this->shouldThrow(InvalidIdentifier::class)
             ->duringInstantiation();
+    }
+
+    function it_is_equatable()
+    {
+        $this->shouldBeAnInstanceOf(Equatable::class);
+        $this->equals(new UserId($this->uniqueId))->shouldBe(true);
+        $this->equals(new UserId())->shouldBe(false);
     }
 }
