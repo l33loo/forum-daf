@@ -11,11 +11,15 @@ declare(strict_types=1);
 
 namespace App\Domain;
 
+use App\Domain\Common\Equatable;
 use App\Domain\Event\User\UserHasChangedPassword;
 use App\Domain\Event\User\UserHasRegistered;
 use App\Domain\Event\User\UserWasCreated;
 use App\Domain\User\Email;
+use App\Domain\User\UserAuthenticationTrait;
+use App\Domain\User\UserConfirmationRequestsTrait;
 use App\Domain\User\UserId;
+use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\ORM\Mapping\Column;
 use Doctrine\ORM\Mapping\Entity;
 use Doctrine\ORM\Mapping\GeneratedValue;
@@ -38,12 +42,15 @@ use Symfony\Component\Security\Core\User\UserInterface;
 #[Entity]
 #[Table(name: "users")]
 #[AsResourceObject(type: "users")]
-class User implements UserInterface, PasswordAuthenticatedUserInterface, EventGenerator
+class User implements UserInterface, PasswordAuthenticatedUserInterface, EventGenerator, Equatable
 {
 
     use EventGeneratorMethods;
+    use UserConfirmationRequestsTrait;
+    use UserAuthenticationTrait;
 
     public const ROLE_USER = 'ROLE_OAUTH2_USER';
+    public const ROLE_VERIFIED_USER = 'ROLE_OAUTH2_VERIFIED_USER';
     public const ROLE_ADMIN = 'ROLE_OAUTH2_ADMIN';
 
     #[Id]
@@ -52,12 +59,6 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface, EventGe
     #[ResourceIdentifier(className: UserId::class)]
     private UserId $userId;
 
-    /** @var array<string>  */
-    #[Column(type: "json")]
-    private array $roles = [];
-
-    #[Column(nullable: true)]
-    private ?string $password = null;
 
     /**
      * Creates a user
@@ -74,6 +75,7 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface, EventGe
         private ?string $name = null
     ) {
         $this->userId = new UserId();
+        $this->emailConfirmationRequests = new ArrayCollection();
         $this->recordThat(new UserWasCreated($this->userId, $this->email, $this->name));
     }
 
@@ -133,42 +135,6 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface, EventGe
     }
 
     /**
-     * @inheritDoc
-     */
-    #[ResourceAttribute(name: "roles")]
-    public function getRoles(): array
-    {
-        $roles = $this->roles;
-        // guarantee every user at least has ROLE_USER
-        $roles[] = self::ROLE_USER;
-        return array_unique($roles);
-    }
-
-    /**
-     * @inheritDoc
-     */
-    public function eraseCredentials(): void
-    {
-        $this->password = null;
-    }
-
-    /**
-     * @inheritDoc
-     */
-    public function getUserIdentifier(): string
-    {
-        return (string) $this->email;
-    }
-
-    /**
-     * @inheritDoc
-     */
-    public function getPassword(): ?string
-    {
-        return $this->password;
-    }
-
-    /**
      * Sets the password for this user and returns it.
      *
      * @param string $password The password to set
@@ -179,5 +145,16 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface, EventGe
         $this->password = $password;
         $this->recordThat(new UserHasChangedPassword($this->userId, $password));
         return $this;
+    }
+
+    /**
+     * @inheritDoc
+     */
+    public function equals(object $other): bool
+    {
+        if ($other instanceof self) {
+            return $this->userId->equals($other->userId);
+        }
+        return false;
     }
 }

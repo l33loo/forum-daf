@@ -9,10 +9,14 @@
 
 namespace spec\App\Domain;
 
+use App\Domain\Common\Equatable;
+use App\Domain\Event\User\EmailConfirmationRequestWasCreated;
+use App\Domain\Event\User\UserEmailWasConfirmed;
 use App\Domain\Event\User\UserHasChangedPassword;
 use App\Domain\Event\User\UserHasRegistered;
 use App\Domain\Event\User\UserWasCreated;
 use App\Domain\User;
+use App\Domain\User\EmailConfirmationRequest;
 use PhpSpec\ObjectBehavior;
 use Slick\Event\EventGenerator;
 use Symfony\Component\Security\Core\User\PasswordAuthenticatedUserInterface;
@@ -62,16 +66,6 @@ class UserSpec extends ObjectBehavior
         $this->getUserIdentifier()->shouldBe((string) $this->email);
     }
 
-    function it_can_erase_credentials()
-    {
-        $this->beConstructedWith($this->email, $this->name);
-        $this->shouldBeAnInstanceOf(PasswordAuthenticatedUserInterface::class);
-        $this->withPassword('pass');
-        $this->getPassword()->shouldBe('pass');
-        $this->eraseCredentials();
-        $this->getPassword()->shouldBeNull();
-    }
-
     function it_has_roles()
     {
         $this->getRoles()->shouldBe([User::ROLE_USER]);
@@ -105,5 +99,34 @@ class UserSpec extends ObjectBehavior
         $events = $this->releaseEvents();
         $events->shouldHaveCount(1);
         $events[0]->shouldBeAnInstanceOf(UserHasRegistered::class);
+    }
+
+    function it_can_create_email_confirmation_requests()
+    {
+        $this->releaseEvents();
+        $request = $this->createEmailConfirmation("PT10M");
+        $request->shouldBeAnInstanceOf(EmailConfirmationRequest::class);
+        $events = $this->releaseEvents();
+        $events->shouldHaveCount(1);
+        $events[0]->shouldBeAnInstanceOf(EmailConfirmationRequestWasCreated::class);
+    }
+
+    function it_can_confirm_the_email_address()
+    {
+        $request = $this->createEmailConfirmation("PT10M");
+        $this->isVerified()->shouldBe(false);
+        $this->releaseEvents();
+        $this->confirmEmail($request)->shouldBe($this->getWrappedObject());
+        $this->isVerified()->shouldBe(true);
+        $events = $this->releaseEvents();
+        $events->shouldHaveCount(1);
+        $events[0]->shouldBeAnInstanceOf(UserEmailWasConfirmed::class);
+    }
+
+    function it_can_be_compared()
+    {
+        $this->shouldBeAnInstanceOf(Equatable::class);
+        $this->equals($this->getWrappedObject())->shouldBe(true);
+        $this->equals(new User($this->email))->shouldBe(false);
     }
 }

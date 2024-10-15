@@ -48,4 +48,21 @@ interface UserRepository
      * @throws EntityNotFound|DomainException When no user is found for provided identifier
      */
     public function withEmail(Email $email): User;
+
+    /**
+     * Retrieves the email confirmation token for a given token
+     *
+     * @param string $token The email confirmation token to search for
+     * @return EmailConfirmationRequest The EmailConfirmationRequest
+     * @throws EntityNotFound|DomainException When no token is found for provided identifier
+     */
+    public function emailConfirmationToken(string $token): EmailConfirmationRequest;
+
+    /**
+     * Returns the currently logged-in user
+     *
+     * @return User The currently logged-in user
+     * @throws EntityNotFound|DomainException When no user is currently logged-in
+     */
+    public function currentLoggedInUser(): User;
 }

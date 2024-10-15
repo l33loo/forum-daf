@@ -15,11 +15,13 @@ use App\Domain\DomainException;
 use App\Domain\Exception\EntityNotFound;
 use App\Domain\User;
 use App\Domain\User\Email;
+use App\Domain\User\EmailConfirmationRequest;
 use App\Domain\User\UserId;
 use App\Domain\User\UserRepository;
 use Doctrine\ORM\EntityManagerInterface;
 use Doctrine\ORM\Exception\ORMException;
 use Doctrine\ORM\OptimisticLockException;
+use Symfony\Bundle\SecurityBundle\Security;
 use Symfony\Component\Security\Core\User\PasswordAuthenticatedUserInterface;
 use Symfony\Component\Security\Core\User\PasswordUpgraderInterface;
 use Symfony\Component\Security\Core\User\UserInterface;
@@ -38,8 +40,10 @@ final readonly class DoctrineUserRepository implements UserRepository, UserProvi
      *
      * @param EntityManagerInterface $entityManager
      */
-    public function __construct(private EntityManagerInterface $entityManager)
-    {
+    public function __construct(
+        private EntityManagerInterface $entityManager,
+        private Security $security,
+    ) {
     }
 
     /**
@@ -88,6 +92,7 @@ final readonly class DoctrineUserRepository implements UserRepository, UserProvi
 
     /**
      * @inheritDoc
+     * @throws DomainException
      */
     public function loadUserByIdentifier(string $identifier): UserInterface
     {
@@ -117,5 +122,40 @@ final readonly class DoctrineUserRepository implements UserRepository, UserProvi
         }
 
         throw new EntityNotFound("There is no user with the email $email");
+    }
+
+    /**
+     * Find email confirmation request by token
+     *
+     * @param string $token The confirmation token
+     * @return EmailConfirmationRequest The email confirmation request object
+     * @throws EntityNotFound If the email confirmation request is not found
+     * @throws ORMException
+     */
+    public function emailConfirmationToken(string $token): EmailConfirmationRequest
+    {
+        $request = $this->entityManager->find(
+            EmailConfirmationRequest::class,
+            new EmailConfirmationRequest\EmailConfirmationRequestId($token)
+        );
+
+        if ($request instanceof EmailConfirmationRequest) {
+            return $request;
+        }
+
+        throw new EntityNotFound("Email confirmation request not found.");
+    }
+
+    /**
+     * @inheritDoc
+     */
+    public function currentLoggedInUser(): User
+    {
+        $user = $this->security->getUser();
+        if ($user instanceof User) {
+            return $user;
+        }
+
+        throw new EntityNotFound("There are no current logged in user");
     }
 }

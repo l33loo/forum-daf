@@ -26,6 +26,10 @@ services:
     Slick\Event\EventDispatcher:
         class: App\Infrastructure\Events\DomainEventDispatcher
 
+    App\Infrastructure\Doctrine\DoctrineResponseEventListener:
+        tags:
+            - { name: kernel.event_listener, event: kernel.response, method: onResponse }
+
     App\UserInterface\Console\ConsoleTerminateEventListener:
         tags:
             - { name: kernel.event_listener, event: console.terminate, method: onTerminate }

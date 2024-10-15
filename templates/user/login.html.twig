@@ -5,7 +5,6 @@
 {% block body%}
     <div class="page page-center">
         <div class="container container-tight py-2">
-            {{ include('user/_card-logo.twig') }}
             <div class="card card-md">
                 <div class="card-body">
                     <h2 class="h2 text-center mb-4">{{ 'Login to your account'|trans }}</h2>
@@ -21,7 +20,13 @@
                             <input class="form-control" type="text" id="username" name="_username" value="{{ last_username|default(null) }}" autocomplete="off">
                         </div>
                         <div class="mb-3">
-                            <label class="form-label" for="password">{{ 'Password'|trans }}:</label>
+
+                            <label class="form-label" for="password">
+                                {{ 'Password'|trans }}:
+                                <span class="form-label-description">
+                                    <a href="#">I forgot password</a>
+                                </span>
+                            </label>
                             <input class="form-control" type="password" id="password" name="_password" autocomplete="off">
                         </div>
 

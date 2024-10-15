@@ -9,17 +9,17 @@
 
 declare(strict_types=1);
 
-namespace App\Domain\User;
+namespace App\Domain\User\EmailConfirmationRequest;
 
 use App\Domain\Common\EntityIdentifier;
 use App\Domain\Common\EntityIdentifierMethods;
 
 /**
- * UserId
+ * EmailConfirmationRequestId
  *
- * @package App\Domain\User
+ * @package App\Domain\User\EmailConfirmationRequest
  */
-final class UserId implements EntityIdentifier
+final class EmailConfirmationRequestId implements EntityIdentifier
 {
     use EntityIdentifierMethods;
 }
