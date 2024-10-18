@@ -12,6 +12,8 @@ declare(strict_types=1);
 namespace App\Domain;
 
 use App\Domain\Common\Equatable;
+use App\Domain\Event\User\UserEmailHasChanged;
+use App\Domain\Event\User\UserHasChanged;
 use App\Domain\Event\User\UserHasChangedPassword;
 use App\Domain\Event\User\UserHasRegistered;
 use App\Domain\Event\User\UserWasCreated;
@@ -156,5 +158,24 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface, EventGe
             return $this->userId->equals($other->userId);
         }
         return false;
+    }
+
+    /**
+     * Updates the name and email of the user
+     *
+     * @param string $name The new name of the user
+     * @param Email $updatedEmail The updated email of the user
+     * @return self
+     */
+    public function update(string $name, Email $updatedEmail): self
+    {
+        $oldEmail = $this->email;
+        $this->name = $name;
+        $this->email = $updatedEmail;
+        $this->recordThat(new UserHasChanged($this->userId, $name, $updatedEmail));
+        if (!$oldEmail->equals($updatedEmail)) {
+            $this->recordThat(new UserEmailHasChanged($this->userId, $oldEmail, $updatedEmail));
+        }
+        return $this;
     }
 }

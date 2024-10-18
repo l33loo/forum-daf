@@ -11,7 +11,7 @@ declare(strict_types=1);
 
 namespace App\Domain;
 
-use App\Domain\Events\Question\QuestionWasPost;
+use App\Domain\Event\Question\QuestionWasPost;
 use App\Domain\Question\QuestionId;
 
 /**

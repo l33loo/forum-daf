@@ -7,9 +7,9 @@
  * file that was distributed with this source code.
  */
 
-namespace spec\App\Domain\Events\Question;
+namespace spec\App\Domain\Event\Question;
 
-use App\Domain\Events\Question\QuestionWasPost;
+use App\Domain\Event\Question\QuestionWasPost;
 use App\Domain\Question\QuestionId;
 use App\Domain\User\UserId;
 use DateTimeImmutable;

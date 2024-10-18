@@ -9,7 +9,7 @@
 
 namespace spec\App\Domain;
 
-use App\Domain\Events\Question\QuestionWasPost;
+use App\Domain\Event\Question\QuestionWasPost;
 use App\Domain\Post;
 use App\Domain\Question;
 use App\Domain\Question\QuestionId;

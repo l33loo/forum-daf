@@ -65,4 +65,6 @@ interface UserRepository
      * @throws EntityNotFound|DomainException When no user is currently logged-in
      */
     public function currentLoggedInUser(): User;
+
+    public function update($argument1, $argument2);
 }

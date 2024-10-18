@@ -11,7 +11,9 @@ namespace spec\App\Domain;
 
 use App\Domain\Common\Equatable;
 use App\Domain\Event\User\EmailConfirmationRequestWasCreated;
+use App\Domain\Event\User\UserEmailHasChanged;
 use App\Domain\Event\User\UserEmailWasConfirmed;
+use App\Domain\Event\User\UserHasChanged;
 use App\Domain\Event\User\UserHasChangedPassword;
 use App\Domain\Event\User\UserHasRegistered;
 use App\Domain\Event\User\UserWasCreated;
@@ -128,5 +130,29 @@ class UserSpec extends ObjectBehavior
         $this->shouldBeAnInstanceOf(Equatable::class);
         $this->equals($this->getWrappedObject())->shouldBe(true);
         $this->equals(new User($this->email))->shouldBe(false);
+    }
+
+    function it_updates_user_name()
+    {
+        $name = "Jane doe";
+        $this->releaseEvents();
+        $this->update($name, $this->email)->shouldBe($this->getWrappedObject());
+        $this->name()->shouldBe($name);
+        $events = $this->releaseEvents();
+        $events->shouldHaveCount(1);
+        $events[0]->shouldBeAnInstanceOf(UserHasChanged::class);
+    }
+
+    function it_records_email_changes()
+    {
+        $name = "Jane doe";
+        $this->releaseEvents();
+        $updatedEmail = new User\Email('jane.doe@test.org');
+        $this->update($name, $updatedEmail)->shouldBe($this->getWrappedObject());
+        $this->name()->shouldBe($name);
+        $events = $this->releaseEvents();
+        $events->shouldHaveCount(2);
+        $events[0]->shouldBeAnInstanceOf(UserHasChanged::class);
+        $events[1]->shouldBeAnInstanceOf(UserEmailHasChanged::class);
     }
 }
