@@ -138,7 +138,17 @@
                                             <td style="overflow-wrap:break-word;word-break:break-word;padding:10px;font-family:arial,helvetica,sans-serif;" align="left">
 
                                                 <div style="font-size: 14px; line-height: 140%; text-align: left; word-wrap: break-word;">
-                                                    <p style="line-height: 140%;">Welcome to <strong>Forum DAF</strong>! We're excited to have you join our community. To complete your registration, please confirm your email address by clicking the link below:</p>
+                                                    {% if update|default(false) %}
+                                                        <p style="line-height: 140%;">
+                                                            You've recently updated your email address on <strong>Forum DAF</strong>.To finalize this change and ensure we can
+                                                            continue communicating with you, please confirm your new email address by clicking the link below:
+                                                        </p>
+                                                    {% else %}
+                                                        <p style="line-height: 140%;">
+                                                            Welcome to <strong>Forum DAF</strong>! We're excited to have you join our community. To complete your registration,
+                                                            please confirm your email address by clicking the link below:
+                                                        </p>
+                                                    {% endif %}
                                                 </div>
 
                                             </td>

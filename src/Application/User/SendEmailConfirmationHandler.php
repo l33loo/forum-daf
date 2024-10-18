@@ -45,8 +45,9 @@ final readonly class SendEmailConfirmationHandler
      * @return EmailConfirmationMessage The email confirmation message sent
      * @throws DomainException
      */
-    public function handle(SendEmailConfirmationCommand $command): EmailConfirmationMessage
-    {
+    public function handle(
+        SendEmailConfirmationCommand|SendUpdateEmailConfirmationCommand $command
+    ): EmailConfirmationMessage {
         $user = $this->users->withId($command->userId());
         $subject = $this->translator->trans("Confirm Your Email Address - Forum DAF");
         $content = $this->contentCreator->createContentFor(
@@ -54,8 +55,11 @@ final readonly class SendEmailConfirmationHandler
             compact('user', 'subject')
         );
 
-        $message = new EmailConfirmationMessage($user, $subject, $content);
-        $message = $this->emailSender->sendEmail($message);
+        $message = $command instanceof SendUpdateEmailConfirmationCommand
+            ? EmailConfirmationMessage::createFromUpdate($user, $subject, $content)
+            : new EmailConfirmationMessage($user, $subject, $content);
+
+        $this->emailSender->sendEmail($message);
         $this->dispatcher->dispatchEventsFrom($user);
         $this->dispatcher->dispatch(
             new EmailConfirmationWasSent($command->userId(), $message->messageId(), $message->message())

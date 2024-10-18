@@ -5,9 +5,22 @@
         {{ include("includes/page-header.html.twig") }}
 
         <div class="page-wrapper">
+            {% block title_wrapper %}
+                <div class="page-header">
+                    <div class="container-xl">
+                        {{ include("includes/flash-messages.html.twig") }}
+                        <div class="row g-2 align-items-center">
+                            <div class="col">
+                                <h2 class="page-title">
+                                    {% block page_title %}{% endblock %}
+                                </h2>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            {% endblock %}
             <div class="page-body">
                 <div class="container-xl">
-                    {{ include("includes/flash-messages.html.twig") }}
 
                     {% block content %}
                     {% endblock %}

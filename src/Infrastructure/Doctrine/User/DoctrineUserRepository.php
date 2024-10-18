@@ -22,6 +22,7 @@ use Doctrine\ORM\EntityManagerInterface;
 use Doctrine\ORM\Exception\ORMException;
 use Doctrine\ORM\OptimisticLockException;
 use Symfony\Bundle\SecurityBundle\Security;
+use Symfony\Component\Security\Core\Exception\UserNotFoundException;
 use Symfony\Component\Security\Core\User\PasswordAuthenticatedUserInterface;
 use Symfony\Component\Security\Core\User\PasswordUpgraderInterface;
 use Symfony\Component\Security\Core\User\UserInterface;
@@ -97,7 +98,11 @@ final readonly class DoctrineUserRepository implements UserRepository, UserProvi
     public function loadUserByIdentifier(string $identifier): UserInterface
     {
         $email = new User\Email($identifier);
-        return $this->withEmail($email);
+        try {
+            return $this->withEmail($email);
+        } catch (EntityNotFound $exception) {
+            throw new UserNotFoundException($exception->getMessage());
+        }
     }
 
     /**

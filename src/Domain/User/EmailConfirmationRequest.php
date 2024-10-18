@@ -44,6 +44,9 @@ class EmailConfirmationRequest implements Stringable
     #[Column]
     private bool $verified = false;
 
+    #[Column(type: "Email")]
+    private Email $email;
+
 
     /**
      * @throws Exception
@@ -52,10 +55,11 @@ class EmailConfirmationRequest implements Stringable
         #[ManyToOne(targetEntity: User::class, inversedBy: "emailConfirmationRequests")]
         #[JoinColumn(name: 'user_id', referencedColumnName: 'id')]
         private readonly User $user,
-        ?string $validityPeriod = "P2D"
+        ?string $validityPeriod = "PT2H"
     ) {
         $this->emailConfirmationRequestId = new User\EmailConfirmationRequest\EmailConfirmationRequestId();
-        $this->expireDate = (new DateTimeImmutable())->add(new DateInterval($validityPeriod));
+        $this->expireDate = (new DateTimeImmutable())->add(new DateInterval($validityPeriod ?? "PT2H"));
+        $this->email = $this->user->email();
     }
 
     /**
@@ -87,6 +91,17 @@ class EmailConfirmationRequest implements Stringable
     {
         return $this->user;
     }
+
+    /**
+     * EmailConfirmationRequest email
+     *
+     * @return Email
+     */
+    public function email(): Email
+    {
+        return $this->email;
+    }
+
 
     /**
      * Check if the expiration date is valid

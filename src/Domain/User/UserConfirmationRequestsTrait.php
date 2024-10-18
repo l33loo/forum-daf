@@ -63,7 +63,7 @@ trait UserConfirmationRequestsTrait
     public function isVerified(): bool
     {
         foreach ($this->emailConfirmationRequests as $confirmationRequest) {
-            if ($confirmationRequest->isVerified()) {
+            if ($confirmationRequest->isVerified() && $this->email->equals($confirmationRequest->email())) {
                 return true;
             }
         }

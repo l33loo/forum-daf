@@ -18,14 +18,14 @@ use App\Domain\Common\EmailMessage\MessageId;
 use App\Domain\User;
 
 /**
- * EmailConfirmationMessage
  *
- * @package App\Domain\User\Email
  */
-final readonly class EmailConfirmationMessage implements EmailMessage
+final class EmailConfirmationMessage implements EmailMessage
 {
 
     private MessageId $messageId;
+
+    private bool $update = false;
 
     /**
      * Creates a EmailConfirmationMessage
@@ -35,12 +35,33 @@ final readonly class EmailConfirmationMessage implements EmailMessage
      * @param MessageContent $message
      */
     public function __construct(
-        private User $user,
-        private string $subject,
-        private MessageContent $message,
-        private ?string $validityExpirePeriod = "P2D"
+        private readonly User $user,
+        private readonly string $subject,
+        private readonly MessageContent $message,
+        private readonly ?string $validityExpirePeriod = "PT2H"
     ) {
         $this->messageId = new MessageId();
+    }
+
+    /**
+     * Creates an EmailConfirmationMessage object from an update action
+     *
+     * @param User $user
+     * @param string $subject
+     * @param MessageContent $message
+     * @param string|null $validityExpirePeriod
+     * @return EmailConfirmationMessage
+     */
+    public static function createFromUpdate(
+        User $user,
+        string $subject,
+        MessageContent $message,
+        ?string $validityExpirePeriod = null
+    ) {
+        $emailConfirmationMessage = new EmailConfirmationMessage($user, $subject, $message, $validityExpirePeriod);
+        $emailConfirmationMessage->update = true;
+
+        return $emailConfirmationMessage;
     }
 
     /**
@@ -99,7 +120,18 @@ final readonly class EmailConfirmationMessage implements EmailMessage
         return [
             'subject' => $this->subject,
             'user' => $this->user,
-            'token' => $this->user->createEmailConfirmation($this->validityExpirePeriod)
+            'token' => $this->user->createEmailConfirmation($this->validityExpirePeriod),
+            'update' => $this->update,
         ];
+    }
+
+    /**
+     * Determines if the entity instance represents an update operation.
+     *
+     * @return bool
+     */
+    public function isAnUpdate(): bool
+    {
+        return $this->update;
     }
 }

@@ -18,7 +18,7 @@ use App\Domain\User\UserId;
  *
  * @package App\Application\User
  */
-final readonly class SendEmailConfirmationCommand
+readonly class SendEmailConfirmationCommand
 {
 
 

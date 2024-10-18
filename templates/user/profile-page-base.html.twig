@@ -1,0 +1,22 @@
+{% extends "page.html.twig" %}
+
+{% block page_title %}{% trans with {'%name%': app.user.name} %}%name%'s profile{% endtrans %}{% endblock %}
+
+{% block content %}
+    <div class="card">
+        <div class="row g-0">
+            <div class="col-3 d-none d-md-block border-end">
+                <div class="card-body">
+                    {% block profile_menu %}
+                        {{ include("user/profile/profile-menu.html.twig") }}
+                    {% endblock %}
+                </div>
+
+            </div>
+            <div class="col d-flex flex-column">
+                {% block profile_content %}{% endblock %}
+            </div>
+
+        </div>
+    </div>
+{% endblock %}

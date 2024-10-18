@@ -73,8 +73,19 @@ class EmailConfirmationMessageSpec extends ObjectBehavior
         $this->context()->shouldReturn([
             'subject' => $this->subject,
             'user' => $user,
-            'token' => $request
+            'token' => $request,
+            'update' => false
         ]);
     }
 
+    function it_has_an_update_status()
+    {
+        $this->isAnUpdate()->shouldBe(false);
+    }
+
+    function it_can_be_created_as_a_change_email(User $user)
+    {
+        $this->beConstructedThrough('createFromUpdate', [$user, $this->subject, $this->message, "PT3H"]);
+        $this->isAnUpdate()->shouldBe(true);
+    }
 }

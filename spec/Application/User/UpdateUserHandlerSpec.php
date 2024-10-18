@@ -15,7 +15,9 @@ use App\Domain\User;
 use App\Domain\User\UserId;
 use App\Domain\User\UserRepository;
 use PhpSpec\ObjectBehavior;
+use Prophecy\Argument;
 use Slick\Event\EventDispatcher;
+use Symfony\Contracts\Translation\TranslatorInterface;
 
 /**
  * UpdateUserHandlerSpec specs
@@ -31,6 +33,7 @@ class UpdateUserHandlerSpec extends ObjectBehavior
     function let(
         UserRepository $users,
         EventDispatcher $dispatcher,
+        User\Specification\EmailNotUsedByAnotherUserSpecification $notInUse,
         User $user
     ) {
         $this->userId = new UserId();
@@ -40,7 +43,9 @@ class UpdateUserHandlerSpec extends ObjectBehavior
         $user->update($this->name, $this->updatedEmail)->willReturn($user);
         $dispatcher->dispatchEventsFrom($user)->willReturn([]);
 
-        $this->beConstructedWith($users, $dispatcher);
+        $notInUse->isSatisfiedBy($user)->willReturn(true);
+
+        $this->beConstructedWith($users, $notInUse, $dispatcher);
     }
 
     function it_is_initializable()
