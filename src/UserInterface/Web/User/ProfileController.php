@@ -79,7 +79,7 @@ final class ProfileController extends AbstractController
         $user = $this->handler->handle($command);
         $this->addFlash('success', $this->translator->trans('User details were successfully updated!'));
 
-        if (!$user->email()->equals($security->getUser()->email())) {
+        if ($user->userId()->equals($security->getUser()->userId())) {
             $security->login($user, 'form_login');
         }
         return $user;

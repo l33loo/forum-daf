@@ -8,7 +8,9 @@
             {% block title_wrapper %}
                 <div class="page-header">
                     <div class="container-xl">
-                        {{ include("includes/flash-messages.html.twig") }}
+                        {% block top_flash_messages %}
+                            {{ include("includes/flash-messages.html.twig") }}
+                        {% endblock %}
                         <div class="row g-2 align-items-center">
                             <div class="col">
                                 <h2 class="page-title">
