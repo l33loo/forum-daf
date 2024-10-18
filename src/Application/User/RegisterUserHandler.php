@@ -60,8 +60,8 @@ final readonly class RegisterUserHandler
         if (!$this->newUserSpec->isSatisfiedBy($user)) {
             throw new FailedSpecification(
                 $this->translator->trans(
-                    "A user with email '{mail}' already exists",
-                    ['mail' => $command->email()]
+                    "A user with email '%mail%' already exists",
+                    ['%mail%' => $command->email()]
                 )
             );
         }

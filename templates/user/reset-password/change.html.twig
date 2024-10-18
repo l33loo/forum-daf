@@ -1,0 +1,40 @@
+{% extends 'base.html.twig' %}
+
+{% block body_class %}d-flex flex-column{% endblock %}
+
+{% block body%}
+    <div class="page page-center">
+        <div class="container container-tight py-2">
+            <div class="card card-md">
+                <div class="card-body">
+                    <h2 class="h2 text-center mb-4">{{ 'Change your password'|trans }}</h2>
+                    {{ include("includes/flash-messages.html.twig") }}
+
+                    {% if error|default(null) %}
+                        <div class="alert alert-danger" role="alert">
+                            {{ error.messageKey|trans(error.messageData, 'security') }}
+                        </div>
+                    {% endif %}
+
+                    {% if user %}
+                    <p><small>{{ "Hi %name%, please create your new password below to complete the reset."|trans({'%name%': user.name}) }}</small></p>
+
+                    {{ form_start(form) }}
+                    <div class="mb-3">
+                        {{ form_row(form.password) }}
+                    </div>
+
+                    <div class="form-footer mb-3">
+                        <button type="submit" class="btn btn-primary w-100">
+                            {{ 'Change password'|trans }}
+                        </button>
+                    </div>
+                    {{ form_row(form.userId) }}
+                    {{ form_row(form._token) }}
+                    {{ form_end(form) }}
+                    {% endif %}
+                </div>
+            </div>
+        </div>
+    </div>
+{% endblock %}

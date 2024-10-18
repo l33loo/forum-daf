@@ -1,0 +1,47 @@
+{% extends 'base.html.twig' %}
+
+{% block body_class %}d-flex flex-column{% endblock %}
+
+{% block body%}
+    <div class="page page-center">
+        <div class="container container-tight py-2">
+            <div class="card card-md">
+                <div class="card-body">
+                    <h2 class="h2 text-center mb-4">{{ 'Forgot password'|trans }}</h2>
+
+                    {% if error|default(null) %}
+                        <div class="alert alert-danger" role="alert">
+                            {{ error.messageKey|trans(error.messageData, 'security') }}
+                        </div>
+                    {% endif %}
+
+                    {{ include("includes/flash-messages.html.twig") }}
+
+                    {{ form_start(form) }}
+                        <div class="mb-3">
+                            {{ form_row(form.email) }}
+                            <small>{{ "To reset your password, please provide the email address you used during registration."|trans }}</small>
+                        </div>
+
+                        <div class="form-footer mb-3">
+                            <button type="submit" class="btn btn-primary w-100">
+                                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="icon"><path stroke="none" d="M0 0h24v24H0z" fill="none"></path><path d="M3 7a2 2 0 0 1 2 -2h14a2 2 0 0 1 2 2v10a2 2 0 0 1 -2 2h-14a2 2 0 0 1 -2 -2v-10z"></path><path d="M3 7l9 6l9 -6"></path></svg>
+                                {{ 'Send reset link'|trans }}
+                            </button>
+                        </div>
+                    <small>{{ "Make sure your email address has been verified. If these conditions are met, you'll receive an email with a link to reset your password."|trans }}
+                    </small>
+                        {{ form_row(form._token) }}
+                    {{ form_end(form) }}
+                </div>
+            </div>
+
+            <div class="text-center text-secondary mt-3">
+                {{ "Forget it, %start_link%send me back%end_link%  to the login screen."|trans({
+                    '%start_link%': '<a href="'~path("login")~'">',
+                    '%end_link%': '</a>'
+                })|raw }}
+            </div>
+        </div>
+    </div>
+{% endblock %}

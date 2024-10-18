@@ -40,6 +40,4 @@ final readonly class ChangeUserPasswordHandler
         $this->dispatcher->dispatchEventsFrom($user->withPassword($hashedPassword));
         return $user;
     }
-
-
 }
