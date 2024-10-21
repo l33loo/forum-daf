@@ -18,7 +18,6 @@ use App\Application\User\UpdateUserHandler;
 use App\Domain\DomainException;
 use App\Domain\Exception\FailedSpecification;
 use App\Domain\User;
-use App\Domain\User\UserId;
 use App\Domain\User\UserRepository;
 use App\UserInterface\Web\User\Form\UpdateUserType;
 use Exception;
@@ -38,6 +37,9 @@ use Symfony\Contracts\Translation\TranslatorInterface;
 final class ProfileController extends AbstractController
 {
 
+    use UserAwareControllerTrait;
+
+
     public function __construct(
         private readonly UserRepository $users,
         private readonly UpdateUserHandler $handler,
@@ -52,7 +54,7 @@ final class ProfileController extends AbstractController
     #[IsGranted("IS_AUTHENTICATED_REMEMBERED")]
     public function handle(Request $request, Security $security, ?string $userId = null): Response
     {
-        $user = null == $userId ? $this->users->currentLoggedInUser() : $this->users->withId(new UserId($userId));
+        $user = $this->userFrom($security, $userId);
         $command = new UpdateUserCommand($user->userId(), $user->name(), $user->email());
         $form = $this->createForm(UpdateUserType::class, $command);
 
@@ -87,9 +89,9 @@ final class ProfileController extends AbstractController
 
     #[Route(path: "/user/profile/{userId}/resend-email-link", name:'resend-email-link')]
     #[IsGranted("IS_AUTHENTICATED_REMEMBERED")]
-    public function resendConfirmationEmail(SendEmailConfirmationHandler $handler, ?string $userId = null): Response
+    public function resendConfirmationEmail(SendEmailConfirmationHandler $handler, Security $security, ?string $userId = null): Response
     {
-        $user = null == $userId ? $this->users->currentLoggedInUser() : $this->users->withId(new UserId($userId));
+        $user = $this->userFrom($security, $userId);
         $command = new SendUpdateEmailConfirmationCommand($user->userId());
         $handler->handle($command);
         $this->addFlash(

@@ -33,6 +33,7 @@ use Symfony\Contracts\Translation\TranslatorInterface;
  */
 final class RemoveAccountController extends AbstractController
 {
+    use UserAwareControllerTrait;
 
     public function __construct(
         private readonly UserRepository $users,
@@ -56,9 +57,9 @@ final class RemoveAccountController extends AbstractController
      */
     #[Route(path: "/user/profile/{userId}/remove-account", name:'remove-account')]
     #[IsGranted("IS_AUTHENTICATED_FULLY")]
-    public function handle(Request $request, ?string $userId = null): Response
+    public function handle(Request $request, Security $security, ?string $userId = null): Response
     {
-        $user = null == $userId ? $this->users->currentLoggedInUser() : $this->users->withId(new UserId($userId));
+        $user = $this->userFrom($security, $userId);
         $active = "remove";
         $form = $this->createForm(RemoveUserAccountType::class, new RemoveUserAccountCommand($user->userId()));
 

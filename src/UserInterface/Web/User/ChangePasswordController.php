@@ -21,6 +21,7 @@ use App\UserInterface\Web\User\Form\ChangePasswordType;
 use Exception;
 use SensitiveParameter;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Symfony\Bundle\SecurityBundle\Security;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\PasswordHasher\Hasher\UserPasswordHasherInterface;
@@ -36,6 +37,8 @@ use Symfony\Contracts\Translation\TranslatorInterface;
 final class ChangePasswordController extends AbstractController
 {
 
+    use UserAwareControllerTrait;
+
     public function __construct(
         private readonly ChangeUserPasswordHandler $handler,
         private readonly UserRepository $users,
@@ -49,9 +52,9 @@ final class ChangePasswordController extends AbstractController
      */
     #[Route(path: "user/profile/{userId}/change-password", name: 'change-password')]
     #[IsGranted("IS_AUTHENTICATED_FULLY")]
-    public function handle(Request $request, ?string $userId = null): Response
+    public function handle(Request $request, Security $security, ?string $userId = null): Response
     {
-        $user = null == $userId ? $this->users->currentLoggedInUser() : $this->users->withId(new UserId($userId));
+        $user = $this->userFrom($security, $userId);
         $form = $this->createForm(ChangePasswordType::class, new ChangeUserPasswordCommand($user->userId(), ''));
         try {
             $form->handleRequest($request);
@@ -68,17 +71,17 @@ final class ChangePasswordController extends AbstractController
     private function processChangePassword(
         ChangeUserPasswordCommand $command,
         #[SensitiveParameter]
-        string $oldPassword,
+        ?string $oldPassword,
         User $user
     ): User {
-        $valid = $this->hasher->isPasswordValid($user, $oldPassword);
+        $valid = $this->isGranted(User::ROLE_ADMIN) || $this->hasher->isPasswordValid($user, $oldPassword);
         if (!$valid) {
             $this->addFlash("danger", $this->translator->trans("Your current password is incorrect."));
             return $user;
         }
 
         $user = $this->handler->handle($command);
-        $this->addFlash("success", $this->translator->trans("Your password has been changed successfully."));
+        $this->addFlash("success", $this->translator->trans("Password has been changed successfully."));
         return $user;
     }
 }

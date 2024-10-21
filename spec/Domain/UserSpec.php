@@ -17,6 +17,8 @@ use App\Domain\Event\User\UserHasChanged;
 use App\Domain\Event\User\UserHasChangedPassword;
 use App\Domain\Event\User\UserHasRegistered;
 use App\Domain\Event\User\UserWasCreated;
+use App\Domain\Event\User\UserWasDemotedFromAdmin;
+use App\Domain\Event\User\UserWasPromotedToAdmin;
 use App\Domain\User;
 use App\Domain\User\EmailConfirmationRequest;
 use PhpSpec\ObjectBehavior;
@@ -154,5 +156,25 @@ class UserSpec extends ObjectBehavior
         $events->shouldHaveCount(2);
         $events[0]->shouldBeAnInstanceOf(UserHasChanged::class);
         $events[1]->shouldBeAnInstanceOf(UserEmailHasChanged::class);
+    }
+
+    function it_can_be_promoted_to_admin()
+    {
+        $this->releaseEvents();
+        $this->promoteToAdmin()->shouldBe($this->getWrappedObject());
+        $this->getRoles()->shouldContain(User::ROLE_ADMIN);
+        $events = $this->releaseEvents();
+        $events->shouldHaveCount(1);
+        $events[0]->shouldBeAnInstanceOf(UserWasPromotedToAdmin::class);
+    }
+
+    function it_canbe_demoted_from_admin()
+    {
+        $this->releaseEvents();
+        $this->demoteFromAdmin()->shouldBe($this->getWrappedObject());
+        $this->getRoles()->shouldNotContain(User::ROLE_ADMIN);
+        $events = $this->releaseEvents();
+        $events->shouldHaveCount(1);
+        $events[0]->shouldBeAnInstanceOf(UserWasDemotedFromAdmin::class);
     }
 }
