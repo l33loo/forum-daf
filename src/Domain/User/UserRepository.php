@@ -65,4 +65,12 @@ interface UserRepository
      * @throws EntityNotFound|DomainException When no user is currently logged-in
      */
     public function currentLoggedInUser(): User;
+
+    /**
+     * Removes the provided user from the repository
+     *
+     * @param User $user
+     * @return User
+     */
+    public function remove(User $user): User;
 }

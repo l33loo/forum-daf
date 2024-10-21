@@ -163,4 +163,19 @@ final readonly class DoctrineUserRepository implements UserRepository, UserProvi
 
         throw new EntityNotFound("There are no current logged in user");
     }
+
+    /**
+     * @inheritDoc
+     */
+    public function remove(User $user): User
+    {
+        $this->entityManager->createQueryBuilder()
+            ->delete(User\ResetPasswordRequest::class, 'r')
+            ->where('r.user = :user')
+            ->setParameter('user', $user)
+            ->getQuery()->execute();
+
+        $this->entityManager->remove($user);
+        return $user;
+    }
 }

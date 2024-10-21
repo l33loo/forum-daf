@@ -1,0 +1,80 @@
+{% extends "user/profile-page-base.html.twig" %}
+
+{% block top_flash_messages %}{% endblock %}
+
+{% block profile_content %}
+    {{ form_start(form) }}
+    <div class="card-body">
+        <h2 class="mb-4">{{ 'Account'|trans }}</h2>
+        {{ form_errors(form) }}
+        {{ include("includes/flash-messages.html.twig") }}
+
+        <h3 class="card-title">
+            <svg  xmlns="http://www.w3.org/2000/svg"  width="24"  height="24"  viewBox="0 0 24 24"  fill="none"  stroke="currentColor"  stroke-width="2"  stroke-linecap="round"  stroke-linejoin="round"  class="icon icon-tabler icons-tabler-outline icon-tabler-trash"><path stroke="none" d="M0 0h24v24H0z" fill="none"/><path d="M4 7l16 0" /><path d="M10 11l0 6" /><path d="M14 11l0 6" /><path d="M5 7l1 12a2 2 0 0 0 2 2h8a2 2 0 0 0 2 -2l1 -12" /><path d="M9 7v-3a1 1 0 0 1 1 -1h4a1 1 0 0 1 1 1v3" /></svg>
+            &nbsp;
+            {{ 'Remove account'|trans }}
+        </h3>
+
+        <div class="alert alert-info" role="alert">
+            <div class="d-flex">
+                <div>
+                    <svg xmlns="http://www.w3.org/2000/svg" class="icon alert-icon" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+                        <path stroke="none" d="M0 0h24v24H0z" fill="none"></path>
+                        <circle cx="12" cy="12" r="9"></circle>
+                        <line x1="12" y1="8" x2="12.01" y2="8"></line>
+                        <polyline points="11 12 12 12 12 16 13 16"></polyline>
+                    </svg>
+                </div>
+                <div>
+                    <h4 class="alert-title">Please note:</h4>
+                    <div class="text-secondary">
+                        <p>{{ "Deleting your account will permanently remove all your personal information, including your profile and settings.
+                            However, your forum posts (questions and answers) will remain visible, but they will be attributed to an \"Unknown User\".
+                            Once your account is deleted, you will not be able to regain access to any data or restore your previous account."|trans }}</p>
+
+                        <p>{{ "If you choose to return to the forum, you are welcome to create a new account, but it will be treated as an
+                            entirely new account without any connection to your previous activity."|trans }}</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="mb-2">
+            {{ form_row(form.email) }}
+        </div>
+
+    </div>
+
+    <div class="card-footer bg-transparent mt-auto">
+        <div class="btn-list justify-content-end">
+            <button id="remove-btn" type="submit" class="btn btn-danger">
+                {{ "Remove account"|trans }}
+            </button>
+        </div>
+    </div>
+    {{ form_row(form.userId) }}
+    {{ form_row(form._token) }}
+    <script>
+        const email = document.getElementById("remove_user_account_email");
+        const button = document.getElementById('remove-btn');
+        const disableBtn = () => {
+            button.setAttribute("disabled", null);
+            button.classList.add('disabled');
+        };
+        const enableBtn = () => {
+            button.removeAttribute("disabled");
+            button.classList.remove('disabled');
+        }
+
+        email.addEventListener("keyup", () => {
+            console.log(email.value)
+            if (email.value !== "{{ user.email }}") {
+                disableBtn();
+                return;
+            }
+            enableBtn();
+        });
+        disableBtn();
+
+    </script>
+{% endblock %}

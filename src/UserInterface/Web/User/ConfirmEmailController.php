@@ -42,6 +42,7 @@ final class ConfirmEmailController extends AbstractController
         $token = $request->query->get('token');
         try {
             $user = $this->handler->handle(new ConfirmUserEmailCommand($token));
+            $security->logout(false);
             $this->addFlash("success", $this->translator->trans(
                 "Thank you %name%! Your email address has been confirmed. Your registration is now completed.",
                 ["%name%" => $user->name()]
@@ -49,8 +50,9 @@ final class ConfirmEmailController extends AbstractController
             $security->login($user, 'form_login');
         } catch (DomainException $exception) {
             $this->addFlash("danger", $exception->getMessage());
+            return $this->redirectToRoute('homepage');
         }
 
-        return $this->redirectToRoute('homepage');
+        return $this->redirectToRoute('user-profile', ['userId' => $user->userId()]);
     }
 }

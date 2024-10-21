@@ -66,7 +66,7 @@ final class RegisterController extends AbstractController
 
         $this->addFlash(
             'success',
-            $this->translator->trans('Welcome a board {name}! You have been registered.', ['name' => $user->name()])
+            $this->translator->trans('Welcome a board %name%! You have been registered.', ['%name%' => $user->name()])
         );
 
         return $this->redirectToRoute('homepage');
