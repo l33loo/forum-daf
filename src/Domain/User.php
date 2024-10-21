@@ -17,9 +17,9 @@ use App\Domain\Event\User\UserHasChanged;
 use App\Domain\Event\User\UserHasChangedPassword;
 use App\Domain\Event\User\UserHasRegistered;
 use App\Domain\Event\User\UserWasCreated;
-use App\Domain\Event\User\UserWasDemotedFromAdmin;
-use App\Domain\Event\User\UserWasPromotedToAdmin;
+use App\Domain\User\BanUserMethods;
 use App\Domain\User\Email;
+use App\Domain\User\PromoteUserMethods;
 use App\Domain\User\UserAuthenticationTrait;
 use App\Domain\User\UserConfirmationRequestsTrait;
 use App\Domain\User\UserId;
@@ -52,6 +52,8 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface, EventGe
     use EventGeneratorMethods;
     use UserConfirmationRequestsTrait;
     use UserAuthenticationTrait;
+    use BanUserMethods;
+    use PromoteUserMethods;
 
     public const ROLE_USER = 'ROLE_OAUTH2_USER';
     public const ROLE_VERIFIED_USER = 'ROLE_OAUTH2_VERIFIED_USER';
@@ -178,31 +180,6 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface, EventGe
         if (!$oldEmail->equals($updatedEmail)) {
             $this->recordThat(new UserEmailHasChanged($this->userId, $oldEmail, $updatedEmail));
         }
-        return $this;
-    }
-
-    /**
-     * Promotes the user to admin role
-     *
-     * @return self Returns an instance of the class with admin role added
-     */
-    public function promoteToAdmin(): self
-    {
-        $this->roles[] = self::ROLE_ADMIN;
-        $this->recordThat(new UserWasPromotedToAdmin($this->userId));
-        return $this;
-    }
-
-    /**
-     * Demotes the user from admin role
-     *
-     * @return self The updated user entity
-     */
-    public function demoteFromAdmin(): self
-    {
-        $roles = array_filter($this->getRoles(), fn ($role) => $role !== self::ROLE_ADMIN);
-        $this->roles = array_unique($roles);
-        $this->recordThat(new UserWasDemotedFromAdmin($this->userId));
         return $this;
     }
 }

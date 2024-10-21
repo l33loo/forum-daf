@@ -3,7 +3,9 @@
 {% block body %}
     <div class="page">
         {{ include("includes/page-header.html.twig") }}
-
+        {% if is_granted(constant('App\\Domain\\User::ROLE_ADMIN')) %}
+        {{ include("includes/admin-menu.html.twig") }}
+        {% endif %}
         <div class="page-wrapper">
             {% block title_wrapper %}
                 <div class="page-header">

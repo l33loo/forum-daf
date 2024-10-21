@@ -10,12 +10,12 @@
         {{ include("includes/flash-messages.html.twig") }}
 
         <h3 class="card-title">
-            <svg  xmlns="http://www.w3.org/2000/svg"  width="24"  height="24"  viewBox="0 0 24 24"  fill="none"  stroke="currentColor"  stroke-width="2"  stroke-linecap="round"  stroke-linejoin="round"  class="icon icon-tabler icons-tabler-outline icon-tabler-trash"><path stroke="none" d="M0 0h24v24H0z" fill="none"/><path d="M4 7l16 0" /><path d="M10 11l0 6" /><path d="M14 11l0 6" /><path d="M5 7l1 12a2 2 0 0 0 2 2h8a2 2 0 0 0 2 -2l1 -12" /><path d="M9 7v-3a1 1 0 0 1 1 -1h4a1 1 0 0 1 1 1v3" /></svg>
+            <svg  xmlns="http://www.w3.org/2000/svg"  width="24"  height="24"  viewBox="0 0 24 24"  fill="none"  stroke="currentColor"  stroke-width="2"  stroke-linecap="round"  stroke-linejoin="round"  class="icon icon-tabler icons-tabler-outline icon-tabler-ban"><path stroke="none" d="M0 0h24v24H0z" fill="none"/><path d="M12 12m-9 0a9 9 0 1 0 18 0a9 9 0 1 0 -18 0" /><path d="M5.7 5.7l12.6 12.6" /></svg>
             &nbsp;
-            {{ 'Remove account'|trans }}
+            {{ 'Ban %name% (%email%)'|trans({"%name%": user.name, "%email%": user.email }) }}
         </h3>
 
-        <div class="alert alert-info" role="alert">
+        <div class="alert alert-warning" role="alert">
             <div class="d-flex">
                 <div>
                     <svg xmlns="http://www.w3.org/2000/svg" class="icon alert-icon" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
@@ -26,37 +26,35 @@
                     </svg>
                 </div>
                 <div>
-                    <h4 class="alert-title">{{ "Please note:"|trans }}</h4>
+                    <h4 class="alert-title">{{ "Attention:"|trans }}</h4>
                     <div class="text-secondary">
-                        <p>{{ "Deleting your account will permanently remove all your personal information, including your profile and settings.
-                            However, your forum posts (questions and answers) will remain visible, but they will be attributed to an \"Unknown User\".
-                            Once your account is deleted, you will not be able to regain access to any data or restore your previous account."|trans }}</p>
-
-                        <p>{{ "If you choose to return to the forum, you are welcome to create a new account, but it will be treated as an
-                            entirely new account without any connection to your previous activity."|trans }}</p>
+                        <p>{{ "When banning a user, please provide a reason for the ban. This reason will be displayed to the user whenever "~
+                            "they attempt to log in with the banned email address. Keep in mind that once banned, the user will no longer be "~
+                            "able to access the site using that email address. It is important to provide a clear and valid reason, as it "~
+                            "will be shown to the user upon login attempts."|trans }}</p>
                     </div>
                 </div>
             </div>
         </div>
 
         <div class="mb-2">
-            {{ form_row(form.email) }}
+            {{ form_row(form.reason) }}
         </div>
 
     </div>
 
     <div class="card-footer bg-transparent mt-auto">
         <div class="btn-list justify-content-end">
-            <button id="remove-btn" type="submit" class="btn btn-danger">
-                {{ "Remove account"|trans }}
+            <button id="ban-btn" type="submit" class="btn btn-danger">
+                {{ "Ban user!"|trans }}
             </button>
         </div>
     </div>
     {{ form_row(form.userId) }}
     {{ form_row(form._token) }}
     <script>
-        const email = document.getElementById("remove_user_account_email");
-        const button = document.getElementById('remove-btn');
+        const email = document.getElementById("ban_user_reason");
+        const button = document.getElementById('ban-btn');
         const disableBtn = () => {
             button.setAttribute("disabled", null);
             button.classList.add('disabled');
@@ -68,11 +66,12 @@
 
         email.addEventListener("keyup", () => {
             console.log(email.value)
-            if (email.value !== "{{ user.email }}") {
-                disableBtn();
+            if (email.value !== "") {
+                enableBtn();
                 return;
             }
-            enableBtn();
+            disableBtn();
+
         });
         disableBtn();
 

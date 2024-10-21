@@ -16,6 +16,7 @@ use App\Domain\Event\User\UserEmailWasConfirmed;
 use App\Domain\Event\User\UserHasChanged;
 use App\Domain\Event\User\UserHasChangedPassword;
 use App\Domain\Event\User\UserHasRegistered;
+use App\Domain\Event\User\UserWasBanned;
 use App\Domain\Event\User\UserWasCreated;
 use App\Domain\Event\User\UserWasDemotedFromAdmin;
 use App\Domain\Event\User\UserWasPromotedToAdmin;
@@ -176,5 +177,17 @@ class UserSpec extends ObjectBehavior
         $events = $this->releaseEvents();
         $events->shouldHaveCount(1);
         $events[0]->shouldBeAnInstanceOf(UserWasDemotedFromAdmin::class);
+    }
+
+    function it_can_be_banned()
+    {
+        $this->releaseEvents();
+        $this->isBanned()->shouldBe(false);
+        $this->ban("Some reason")->shouldBe($this->getWrappedObject());
+        $this->banReason()->shouldBe("Some reason");
+        $this->isBanned()->shouldBe(true);
+        $events = $this->releaseEvents();
+        $events->shouldHaveCount(1);
+        $events[0]->shouldBeAnInstanceOf(UserWasBanned::class);
     }
 }
