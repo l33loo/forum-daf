@@ -13,6 +13,7 @@ namespace App\Application\Listeners;
 
 use App\Application\User\SendEmailConfirmationCommand;
 use App\Application\User\SendEmailConfirmationHandler;
+use App\Domain\DomainException;
 use App\Domain\Event\User\UserHasRegistered;
 use Symfony\Component\EventDispatcher\Attribute\AsEventListener;
 
@@ -29,6 +30,9 @@ final class SendEmailConfirmationOnUserRegistered
     {
     }
 
+    /**
+     * @throws DomainException
+     */
     public function onRegister(UserHasRegistered $event): void
     {
         $this->confirmationHandler->handle(new SendEmailConfirmationCommand($event->userIdentifier()));

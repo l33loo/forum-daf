@@ -32,7 +32,7 @@ interface UserRepository
     public function add(User $user): User;
 
     /**
-     * Sets the user with the given user ID
+     * Retrieves the user stored with the provided identifier
      *
      * @param UserId $userId The ID of the user to be set
      * @return User The user with the specified user ID

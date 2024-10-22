@@ -11,6 +11,7 @@ declare(strict_types=1);
 
 namespace App\Domain;
 
+use App\Domain\Event\Question\QuestionWasAccepted;
 use App\Domain\Post\PostId;
 use Doctrine\Common\Collections\Collection;
 use Slick\Event\Domain\EventGeneratorMethods;
@@ -35,6 +36,8 @@ abstract class Post implements EventGenerator
     private \DateTimeImmutable $publishedOn;
 
     private User $author;
+
+    private bool $accepted = false;
 
     public function __construct(User $author, string $body)
     {
@@ -90,5 +93,21 @@ abstract class Post implements EventGenerator
     public function author(): User
     {
         return $this->author;
+    }
+
+    /**
+     * Returns whether this question is accepted or not.
+     *
+     * @return bool
+     */
+    public function isAccepted(): bool
+    {
+        return $this->accepted;
+    }
+
+    public function accept(): self
+    {
+        $this->accepted = true;
+        return $this;
     }
 }

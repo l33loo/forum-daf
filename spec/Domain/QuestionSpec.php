@@ -9,6 +9,7 @@
 
 namespace spec\App\Domain;
 
+use App\Domain\Event\Question\QuestionWasAccepted;
 use App\Domain\Event\Question\QuestionWasPost;
 use App\Domain\Post;
 use App\Domain\Question;
@@ -76,4 +77,14 @@ class QuestionSpec extends ObjectBehavior
         $events[0]->shouldBeAnInstanceOf(QuestionWasPost::class);
     }
 
+    function it_can_be_accepted()
+    {
+        $this->releaseEvents();
+        $this->isAccepted()->shouldBe(false);
+        $this->accept()->shouldBe($this->getWrappedObject());
+        $this->isAccepted()->shouldBe(true);
+        $events = $this->releaseEvents();
+        $events->shouldHaveCount(1);
+        $events[0]->shouldBeAnInstanceOf(QuestionWasAccepted::class);
+    }
 }

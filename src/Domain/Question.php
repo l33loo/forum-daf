@@ -11,6 +11,7 @@ declare(strict_types=1);
 
 namespace App\Domain;
 
+use App\Domain\Event\Question\QuestionWasAccepted;
 use App\Domain\Event\Question\QuestionWasPost;
 use App\Domain\Question\QuestionId;
 
@@ -56,4 +57,13 @@ class Question extends Post
     {
         return $this->questionId;
     }
+
+    public function accept(): self
+    {
+         parent::accept();
+        $this->recordThat(new QuestionWasAccepted($this->questionId));
+         return $this;
+    }
+
+
 }
