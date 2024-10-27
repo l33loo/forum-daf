@@ -13,7 +13,11 @@ namespace App\Domain;
 
 use App\Domain\Event\Question\QuestionWasAccepted;
 use App\Domain\Post\PostId;
+use DateTimeImmutable;
 use Doctrine\Common\Collections\Collection;
+use Doctrine\ORM\Mapping\Column;
+use Doctrine\ORM\Mapping\ManyToOne;
+use Doctrine\ORM\Mapping\MappedSuperclass;
 use Slick\Event\Domain\EventGeneratorMethods;
 use Slick\Event\EventGenerator;
 
@@ -22,22 +26,33 @@ use Slick\Event\EventGenerator;
  *
  * @package App\Domain
  */
+#[MappedSuperclass]
 abstract class Post implements EventGenerator
 {
 
     use EventGeneratorMethods;
 
+    #[Column(type: 'PostId', unique: true)]
     private PostId $postId;
 
+    #[Column(type: "boolean", options: ["default" => false])]
     private bool $published = false;
 
+    #[Column(type: "text")]
     private string $body;
 
-    private \DateTimeImmutable $publishedOn;
+    #[Column(type: "datetime_immutable", nullable: true)]
+    private ?DateTimeImmutable $publishedOn = null;
 
+    #[ManyToOne(targetEntity: User::class)]
+    #[JoinColumn(name: 'user_id', referencedColumnName: 'id')]
     private User $author;
 
+    #[Column(type: "boolean", options: ["default" => false])]
     private bool $accepted = false;
+
+    #[Column(nullable: true)]
+    private ?string $rejectReason = null;
 
     public function __construct(User $author, string $body)
     {
@@ -78,9 +93,9 @@ abstract class Post implements EventGenerator
     /**
      * Post publishedOn
      *
-     * @return \DateTimeImmutable
+     * @return null|DateTimeImmutable
      */
-    public function publishedOn(): \DateTimeImmutable
+    public function publishedOn(): ?DateTimeImmutable
     {
         return $this->publishedOn;
     }
@@ -108,6 +123,29 @@ abstract class Post implements EventGenerator
     public function accept(): self
     {
         $this->accepted = true;
+        return $this;
+    }
+
+    /**
+     * Get the reason for rejection.
+     *
+     * @return string|null The reason for rejection, or null if not set
+     */
+    public function rejectReason(): ?string
+    {
+        return $this->rejectReason;
+    }
+
+    /**
+     * Reject the question with the given reason.
+     *
+     * @param string $reason The reason for rejection
+     * @return self This instance for a fluent interface
+     */
+    public function reject(string $reason): self
+    {
+        $this->rejectReason =$reason;
+        $this->accepted = false;
         return $this;
     }
 }

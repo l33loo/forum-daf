@@ -62,6 +62,9 @@ final class ProfileController extends AbstractController
             $form->handleRequest($request);
             if ($form->isSubmitted() && $form->isValid()) {
                 $user = $this->processUserUpdate($form->getData(), $security);
+                if ($this->isGranted(User::ROLE_ADMIN)) {
+                    return $this->redirectToRoute('users');
+                }
             }
         } catch (FailedSpecification) {
             $this->addFlash('danger', $this->translator->trans(
@@ -87,7 +90,7 @@ final class ProfileController extends AbstractController
         return $user;
     }
 
-    #[Route(path: "/user/profile/{userId}/resend-email-link", name:'resend-email-link')]
+#[Route(path: "/user/profile/{userId}/resend-email-link", name:'resend-email-link')]
     #[IsGranted("IS_AUTHENTICATED_REMEMBERED")]
     public function resendConfirmationEmail(SendEmailConfirmationHandler $handler, Security $security, ?string $userId = null): Response
     {

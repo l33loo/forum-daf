@@ -7,8 +7,8 @@ services:
       - ./:/var/www/app
     environment:
       - WEBROOT=public
-      - USE_XDEBUG=yes
-      - ENABLE_XDEBUG_FOR_MAC=yes
+      - USE_XDEBUG=no
+      - ENABLE_XDEBUG_FOR_MAC=no
       - ENABLE_OPCACHE=no
     depends_on:
       - database

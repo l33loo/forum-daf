@@ -1,0 +1,81 @@
+{% extends "page.html.twig" %}
+
+{% block page_title %}
+    <div class="d-flex w-100 gap-2">
+        <div class="flex-grow-1">
+            {{ "Registered users" }}
+            {{ include("includes/pagination-display.html.twig", {"pagination": users.pagination}) }}
+
+        </div>
+        <div>
+            <form>
+                <div class="input-icon">
+                    <input name="search" type="text" value="{{ search|default('') }}" class="form-control" placeholder="Search users…" />
+                    <span class="input-icon-addon">
+                      <svg xmlns="http://www.w3.org/2000/svg" class="icon" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+                        <path stroke="none" d="M0 0h24v24H0z" fill="none" />
+                        <circle cx="10" cy="10" r="7" />
+                        <line x1="21" y1="21" x2="15" y2="15" />
+                      </svg>
+                    </span>
+                </div>
+            </form>
+        </div>
+        <div>
+            <a href="{{ path("add-user") }}" class="btn btn-primary" role="button">
+                <svg  xmlns="http://www.w3.org/2000/svg"  width="24"  height="24"  viewBox="0 0 24 24"  fill="none"  stroke="currentColor"  stroke-width="2"  stroke-linecap="round"  stroke-linejoin="round"  class="icon icon-tabler icons-tabler-outline icon-tabler-plus"><path stroke="none" d="M0 0h24v24H0z" fill="none"/><path d="M12 5l0 14" /><path d="M5 12l14 0" /></svg>
+                {{ "Add user" }}
+            </a>
+        </div>
+    </div>
+{% endblock %}
+
+{% block content %}
+    <div class="card">
+        <div class="table-responsive">
+            <table class="table table-vcenter table-nowrap card-table">
+                <thead>
+                    <tr>
+                        <th>{{ "Name"|trans }}</th>
+                        <th class="w-1"></th>
+                        <th class="text-center">{{ "Role"|trans }}</th>
+                        <th class="w-1"></th>
+                    </tr>
+                </thead>
+                <tbody>
+                {% for u in users %}
+                    <tr>
+                        <td>
+                            <div class="d-flex py-1 align-items-center">
+                                <span class="avatar me-2" style="background-image: url({{ asset('static/user.png') }})"></span>
+                                <div class="flex-fill">
+                                    <div class="font-weight-medium">{{ u.name }}</div>
+                                    <div class="text-secondary"><a href="{{ path("user-profile", {"userId": u.userId}) }}" class="text-reset">{{ u.email }}</a></div>
+                                </div>
+                            </div>
+                        </td>
+                        <td>
+                            {% if u.banned %}
+                            <h3><span class="badge bg-warning">{{ "Banned"|trans }}</span></h3>
+                            {% endif %}
+                        </td>
+                        <td class="text-secondary text-center">
+                            {{ u.isAdmin ? "Admin"|trans : "User"|trans }}
+                        </td>
+                        <td>
+                            <a href="{{ path("user-profile", {"userId": u.userId}) }}">
+                                <svg  xmlns="http://www.w3.org/2000/svg"  width="24"  height="24"  viewBox="0 0 24 24"  fill="none"  stroke="currentColor"  stroke-width="2"  stroke-linecap="round"  stroke-linejoin="round"  class="icon icon-tabler icons-tabler-outline icon-tabler-pencil"><path stroke="none" d="M0 0h24v24H0z" fill="none"/><path d="M4 20h4l10.5 -10.5a2.828 2.828 0 1 0 -4 -4l-10.5 10.5v4" /><path d="M13.5 6.5l4 4" /></svg>
+                                {{ "Edit"|trans }}
+                            </a>
+                        </td>
+                    </tr>
+                {% endfor %}
+                </tbody>
+            </table>
+        </div>
+
+    </div>
+
+    {{ include("includes/pagination-links.html.twig", {"pagination": users.pagination }) }}
+
+{% endblock %}

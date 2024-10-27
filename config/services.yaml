@@ -34,3 +34,9 @@ services:
     App\UserInterface\Console\ConsoleTerminateEventListener:
         tags:
             - { name: kernel.event_listener, event: console.terminate, method: onTerminate }
+
+    ##
+    # Queries
+    ##
+    App\Application\User\Query\UserList:
+        class: App\Infrastructure\Doctrine\User\DoctrineUserList

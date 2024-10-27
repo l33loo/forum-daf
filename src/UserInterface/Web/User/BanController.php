@@ -63,6 +63,9 @@ final class BanController extends AbstractController
             'success',
             "User successfully banned. The next time they log in, the reason for the ban will be displayed, ".
             "and they will no longer have access to the site.");
+        if ($this->isGranted(User::ROLE_ADMIN)) {
+            return $this->redirectToRoute('users');
+        }
         return $this->redirectToRoute('homepage');
     }
 }

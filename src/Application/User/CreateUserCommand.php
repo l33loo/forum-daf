@@ -12,12 +12,15 @@ declare(strict_types=1);
 namespace App\Application\User;
 
 use App\Domain\User\Email;
+use Slick\JSONAPI\Object\SchemaDiscover\Attributes\AsResourceObject;
+use Slick\JSONAPI\Object\SchemaDiscover\Attributes\ResourceAttribute;
 
 /**
  * CreateUserCommand
  *
  * @package App\Application\User
  */
+#[AsResourceObject(type: 'users')]
 final readonly class CreateUserCommand
 {
 
@@ -28,7 +31,11 @@ final readonly class CreateUserCommand
      * @param Email $email The email object to be used.
      * @param string|null $name The optional name associated with the email.
      */
-    public function __construct(private Email $email, private ?string $name = null)
+    public function __construct(
+        #[ResourceAttribute(className: Email::class, required: true)]
+        private Email $email,
+        #[ResourceAttribute]
+        private ?string $name = null)
     {
     }
 

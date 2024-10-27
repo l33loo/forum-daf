@@ -11,12 +11,28 @@ declare(strict_types=1);
 
 namespace App\Application\Question;
 
+use App\Domain\Question\QuestionId;
+
 /**
  * VerifyQuestionCommand
  *
  * @package App\Application\Question
  */
-final class VerifyQuestionCommand
+final readonly class VerifyQuestionCommand
 {
 
+
+    public function __construct(private QuestionId $questionId)
+    {
+    }
+
+    /**
+     * VerifyQuestionCommand questionId
+     *
+     * @return QuestionId
+     */
+    public function questionId(): QuestionId
+    {
+        return $this->questionId;
+    }
 }

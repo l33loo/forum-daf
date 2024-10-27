@@ -13,12 +13,16 @@ namespace App\Application\User;
 
 use App\Domain\User\UserId;
 use SensitiveParameter;
+use Slick\JSONAPI\Object\SchemaDiscover\Attributes\AsResourceObject;
+use Slick\JSONAPI\Object\SchemaDiscover\Attributes\ResourceAttribute;
+use Slick\JSONAPI\Object\SchemaDiscover\Attributes\ResourceIdentifier;
 
 /**
  * ChangeUserPasswordCommand
  *
  * @package App\Application\User
  */
+#[AsResourceObject(type: "users")]
 final readonly class ChangeUserPasswordCommand
 {
 
@@ -30,8 +34,10 @@ final readonly class ChangeUserPasswordCommand
      * @param string $password The password for user authentication
      */
     public function __construct(
+        #[ResourceIdentifier(className: UserId::class)]
         private UserId $userId,
         #[SensitiveParameter]
+        #[ResourceAttribute(required: true)]
         private string $password
     ) {
     }

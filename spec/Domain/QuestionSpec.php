@@ -10,7 +10,8 @@
 namespace spec\App\Domain;
 
 use App\Domain\Event\Question\QuestionWasAccepted;
-use App\Domain\Event\Question\QuestionWasPost;
+use App\Domain\Event\Question\QuestionWasPosted;
+use App\Domain\Event\Question\QuestionWasRejected;
 use App\Domain\Post;
 use App\Domain\Question;
 use App\Domain\Question\QuestionId;
@@ -74,7 +75,7 @@ class QuestionSpec extends ObjectBehavior
         $this->shouldBeAnInstanceOf(EventGenerator::class);
         $events = $this->releaseEvents();
         $events->shouldHaveCount(1);
-        $events[0]->shouldBeAnInstanceOf(QuestionWasPost::class);
+        $events[0]->shouldBeAnInstanceOf(QuestionWasPosted::class);
     }
 
     function it_can_be_accepted()
@@ -86,5 +87,21 @@ class QuestionSpec extends ObjectBehavior
         $events = $this->releaseEvents();
         $events->shouldHaveCount(1);
         $events[0]->shouldBeAnInstanceOf(QuestionWasAccepted::class);
+    }
+
+    function it_can_be_rejected()
+    {
+        $this->accept();
+        $this->releaseEvents();
+        $this->isAccepted()->shouldBe(true);
+
+        $reason = "Offensive content";
+        $this->reject($reason)->shouldBe($this->getWrappedObject());
+        $this->isAccepted()->shouldBe(false);
+        $this->rejectReason()->shouldBe($reason);
+
+        $events = $this->releaseEvents();
+        $events->shouldHaveCount(1);
+        $events[0]->shouldBeAnInstanceOf(QuestionWasRejected::class);
     }
 }

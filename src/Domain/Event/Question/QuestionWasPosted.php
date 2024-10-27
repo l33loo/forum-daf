@@ -22,7 +22,7 @@ use Slick\Event\Event;
  *
  * @package App\Domain\Events\Question
  */
-final class QuestionWasPost extends AbstractEvent implements Event, JsonSerializable
+final class QuestionWasPosted extends AbstractEvent implements Event, JsonSerializable
 {
 
 

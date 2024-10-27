@@ -16,6 +16,8 @@
         {{ "Change password"|trans }}
     </a>
 </div>
+
+{% if not user.isBanned %}
 <h4 class="subheader">{{ 'Account operations'|trans }}</h4>
 <div class="list-group list-group-transparent">
     {% if app.user.userId.equals(user.userId)%}
@@ -35,3 +37,4 @@
     </a>
     {% endif %}
 </div>
+{% endif %}

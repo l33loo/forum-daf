@@ -41,6 +41,7 @@ final class AppExtension extends AbstractExtension
         return [
             new TwigFunction('route_is', [$this, 'routeIs']),
             new TwigFunction('path_starts_with', [$this, 'pathStartsWith']),
+            new TwigFunction('add_query_param', [$this, 'addQueryParam']),
         ];
     }
 
@@ -66,5 +67,11 @@ final class AppExtension extends AbstractExtension
         return str_starts_with($path, $needle);
     }
 
+    public function addQueryParam(string $param, string $value): string
+    {
+        $params = $this->requestStack->getCurrentRequest()->query->all();
+        $params[$param] = $value;
+        return http_build_query($params);
+    }
 
 }

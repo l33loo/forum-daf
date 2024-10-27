@@ -12,18 +12,24 @@ declare(strict_types=1);
 namespace App\Application\User;
 
 use App\Domain\User\UserId;
+use Slick\JSONAPI\Object\SchemaDiscover\Attributes\AsResourceObject;
+use Slick\JSONAPI\Object\SchemaDiscover\Attributes\ResourceAttribute;
+use Slick\JSONAPI\Object\SchemaDiscover\Attributes\ResourceIdentifier;
 
 /**
  * BanUserCommand
  *
  * @package App\Application\User
  */
+#[AsResourceObject(type: "users")]
 final readonly class BanUserCommand
 {
 
 
     public function __construct(
+        #[ResourceIdentifier(className: UserId::class)]
         private UserId $userId,
+        #[ResourceAttribute(required: true)]
         private string $reason
     ) {
     }

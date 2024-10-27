@@ -9,7 +9,7 @@
 
 namespace spec\App\Domain\Event\Question;
 
-use App\Domain\Event\Question\QuestionWasPost;
+use App\Domain\Event\Question\QuestionWasPosted;
 use App\Domain\Question\QuestionId;
 use App\Domain\User\UserId;
 use DateTimeImmutable;
@@ -22,7 +22,7 @@ use Slick\Event\Event;
  *
  * @package spec\App\Domain\Events\Question
  */
-class QuestionWasPostSpec extends ObjectBehavior
+class QuestionWasPostedSpec extends ObjectBehavior
 {
 
     private $questionId;
@@ -41,7 +41,7 @@ class QuestionWasPostSpec extends ObjectBehavior
 
     function it_is_initializable()
     {
-        $this->shouldHaveType(QuestionWasPost::class);
+        $this->shouldHaveType(QuestionWasPosted::class);
     }
 
     function it_has_a_questionId()

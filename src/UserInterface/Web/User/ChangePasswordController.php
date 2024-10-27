@@ -60,6 +60,9 @@ final class ChangePasswordController extends AbstractController
             $form->handleRequest($request);
             if ($form->isSubmitted() && $form->isValid()) {
                 $user = $this->processChangePassword($form->getData(), $form->get('oldPassword')->getData(), $user);
+                if ($this->isGranted(User::ROLE_ADMIN)) {
+                    return $this->redirectToRoute('users');
+                }
             }
         } catch (Exception $exception) {
             $this->addFlash('danger', $exception->getMessage());

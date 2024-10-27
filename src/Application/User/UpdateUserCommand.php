@@ -13,12 +13,16 @@ namespace App\Application\User;
 
 use App\Domain\User\Email;
 use App\Domain\User\UserId;
+use Slick\JSONAPI\Object\SchemaDiscover\Attributes\AsResourceObject;
+use Slick\JSONAPI\Object\SchemaDiscover\Attributes\ResourceAttribute;
+use Slick\JSONAPI\Object\SchemaDiscover\Attributes\ResourceIdentifier;
 
 /**
  * UpdateUserCommand
  *
  * @package App\Application\User
  */
+#[AsResourceObject(type: "users")]
 final readonly class UpdateUserCommand
 {
 
@@ -31,8 +35,11 @@ final readonly class UpdateUserCommand
      * @param Email $email
      */
     public function __construct(
+        #[ResourceIdentifier(className: UserId::class, required: true)]
         private UserId $userId,
+        #[ResourceAttribute]
         private string|null $name,
+        #[ResourceAttribute(className: Email::class, required: true)]
         private Email $email
     ) {
     }
