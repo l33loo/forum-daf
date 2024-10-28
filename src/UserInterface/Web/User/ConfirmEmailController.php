@@ -45,8 +45,8 @@ final class ConfirmEmailController extends AbstractController
             $security->logout(false);
             $security->login($user, 'form_login');
             $this->addFlash("success", $this->translator->trans(
-                "Thank you %name%! Your email address has been confirmed. Your account details are now completed.",
-                ["%name%" => $user->name()]
+                "Thank you {name}! Your email address has been confirmed. Your account details are now completed.",
+                ["name" => $user->name()]
             ));
         } catch (DomainException $exception) {
             $this->addFlash("danger", $exception->getMessage());

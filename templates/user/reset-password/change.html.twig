@@ -17,7 +17,7 @@
                     {% endif %}
 
                     {% if user %}
-                    <p><small>{{ "Hi %name%, please create your new password below to complete the reset."|trans({'%name%': user.name}) }}</small></p>
+                    <p><small>{{ "Hi {name}, please create your new password below to complete the reset."|trans({'{name}': user.name}) }}</small></p>
 
                     {{ form_start(form) }}
                     <div class="mb-3">

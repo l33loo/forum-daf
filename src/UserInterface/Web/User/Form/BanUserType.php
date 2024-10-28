@@ -40,7 +40,7 @@ final class BanUserType extends AbstractType implements DataMapperInterface
     {
         $builder
             ->add('reason', TextareaType::class, [
-                "label" => "Ban reason",
+                "label" => $this->translator->trans("Ban reason"),
                 "constraints" => new NotBlank(message: $this->translator->trans(
                     "The ban reason will be presented to the user when he tries to log in. It cannot be blank."
                 ))

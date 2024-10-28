@@ -1,6 +1,6 @@
 {% extends "page.html.twig" %}
 
-{% block page_title %}{% trans with {'%name%': user.name} %}%name%'s profile{% endtrans %}{% endblock %}
+{% block page_title %}{% trans with {'{name}': user.name} %}{name}'s profile{% endtrans %}{% endblock %}
 
 {% block content %}
     <div class="card">

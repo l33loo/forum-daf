@@ -45,7 +45,7 @@ final class UpdateUserType extends AbstractType implements DataMapperInterface
                 "constraints" => new NotBlank(message: $this->translator->trans("User name cannot be blank."))
             ])
             ->add('email', EmailType::class, [
-                "label" => "Email address",
+                "label" => $this->translator->trans("Email address"),
                 "constraints" => [
                     new NotBlank(message: $this->translator->trans("Email address is used for authentication. It cannot be blank.")),
                     new EmailValidator(message: $this->translator->trans("Invalid mail address."))

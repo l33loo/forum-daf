@@ -101,7 +101,7 @@ final class ResetPasswordController extends AbstractController
         /**  @param ChangeUserPasswordCommand $command */
         $command = $form->getData();
         $user = $this->changeUserPasswordHandler->handle($command);
-        $this->addFlash('success', $this->translator->trans('%name%, your password was successfully changed.', ['%name%' => $user->name()]));
+        $this->addFlash('success', $this->translator->trans('{name}, your password was successfully changed.', ['name' => $user->name()]));
         return $this->redirectToRoute('login');
     }
 }

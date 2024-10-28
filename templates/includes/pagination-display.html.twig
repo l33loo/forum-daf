@@ -1,10 +1,10 @@
 {% set displayed = pagination.offset + pagination.itemsPerPage %}
 <div style="line-height: 0.9;">
     <small class="text-secondary" style="font-size: 70%;">
-        {{ "%start%-%end% of %count% people"|trans({
-            "%start%": pagination.offset + 1,
-            "%end%": displayed < pagination.totalItems ? displayed : pagination.totalItems,
-            "%count%": pagination.totalItems,
+        {{ "{start}-{end} of {count} people"|trans({
+            "{start}": pagination.offset + 1,
+            "{end}": displayed < pagination.totalItems ? displayed : pagination.totalItems,
+            "{count}": pagination.totalItems,
         }) }}
     </small>
 </div>

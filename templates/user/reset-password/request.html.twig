@@ -37,9 +37,9 @@
             </div>
 
             <div class="text-center text-secondary mt-3">
-                {{ "Forget it, %start_link%send me back%end_link%  to the login screen."|trans({
-                    '%start_link%': '<a href="'~path("login")~'">',
-                    '%end_link%': '</a>'
+                {{ "Forget it, {start_link}send me back{end_link} to the login screen."|trans({
+                    '{start_link}': '<a href="'~path("login")~'">',
+                    '{end_link}': '</a>'
                 })|raw }}
             </div>
         </div>

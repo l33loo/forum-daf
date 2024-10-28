@@ -68,9 +68,9 @@ final class ProfileController extends AbstractController
             }
         } catch (FailedSpecification) {
             $this->addFlash('danger', $this->translator->trans(
-                "The email address '%email%' is already taken by other user. ".
+                "The email address {email} is already taken by other user. ".
                 "Please try a different email address.",
-                ['%email%' => $form->getData()->email()]
+                ['email' => $form->getData()->email()]
             ));
         } catch (Exception $exception) {
             $this->addFlash('danger', $exception->getMessage());

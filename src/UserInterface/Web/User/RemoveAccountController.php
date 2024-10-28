@@ -85,9 +85,9 @@ final class RemoveAccountController extends AbstractController
         $this->addFlash(
             'success',
             $this->translator->trans(
-                "%name%, your account has been successfully deleted. We're sorry to see you go, but you're always welcome to return ".
+                "{name}, your account has been successfully deleted. We're sorry to see you go, but you're always welcome to return ".
                 "and create a new account in the future. Thank you for being a part of our community!",
-                ["%name%" => $user->name()]
+                ["name" => $user->name()]
             )
         );
         return $this->redirectToRoute('homepage');

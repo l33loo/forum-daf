@@ -46,7 +46,7 @@ final class RemoveUserAccountType extends AbstractType implements DataMapperInte
         $user = $userId ? $this->users->withId($userId) : null;
         $builder
             ->add('email', EmailType::class, [
-                "label" => $this->translator->trans("Enter email address \"%email%\" to delete your account", ['%email%' => $user->email()]),
+                "label" => $this->translator->trans("Enter email address \"{email}\" to delete your account", ['email' => $user->email()]),
                 "attr" => [
                     "placeholder" => $user?->email(),
                 ],

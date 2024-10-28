@@ -1,0 +1,374 @@
+<?xml version="1.0" encoding="utf-8"?>
+<xliff xmlns="urn:oasis:names:tc:xliff:document:1.2" version="1.2">
+  <file source-language="en" target-language="en" datatype="plaintext" original="file.ext">
+    <header>
+      <tool tool-id="symfony" tool-name="Symfony"/>
+    </header>
+    <body>
+      <trans-unit id="jcSDccA" resname="User name">
+        <source>User name</source>
+        <target>User name</target>
+      </trans-unit>
+      <trans-unit id="3PkXx5O" resname="Email address">
+        <source>Email address</source>
+        <target>Email address</target>
+      </trans-unit>
+      <trans-unit id="MvebdRr" resname="Email address is used for authentication. It cannot be blank.">
+        <source>Email address is used for authentication. It cannot be blank.</source>
+        <target>Email address is used for authentication. It cannot be blank.</target>
+      </trans-unit>
+      <trans-unit id="N7Dmbzr" resname="Invalid mail address.">
+        <source>Invalid mail address.</source>
+        <target>Invalid mail address.</target>
+      </trans-unit>
+      <trans-unit id="TkJO8EZ" resname="Ban reason">
+        <source>Ban reason</source>
+        <target>Ban reason</target>
+      </trans-unit>
+      <trans-unit id="WSQQkC." resname="The ban reason will be presented to the user when he tries to log in. It cannot be blank.">
+        <source>The ban reason will be presented to the user when he tries to log in. It cannot be blank.</source>
+        <target>The ban reason will be presented to the user when he tries to log in. It cannot be blank.</target>
+      </trans-unit>
+      <trans-unit id="vQP_yG_" resname="User name cannot be blank.">
+        <source>User name cannot be blank.</source>
+        <target>User name cannot be blank.</target>
+      </trans-unit>
+      <trans-unit id="OsArTPA" resname="Enter email address &quot;{email}&quot; to delete your account">
+        <source>Enter email address "{email}" to delete your account</source>
+        <target>Enter email address "{email}" to delete your account</target>
+      </trans-unit>
+      <trans-unit id="aRzWddD" resname="Please enter the account email address to remove account.">
+        <source>Please enter the account email address to remove account.</source>
+        <target>Please enter the account email address to remove account.</target>
+      </trans-unit>
+      <trans-unit id="Ckgp6S6" resname="Email address will be used to identify your account. It cannot be blank.">
+        <source>Email address will be used to identify your account. It cannot be blank.</source>
+        <target>Email address will be used to identify your account. It cannot be blank.</target>
+      </trans-unit>
+      <trans-unit id="ukaFrcB" resname="Current password">
+        <source>Current password</source>
+        <target>Current password</target>
+      </trans-unit>
+      <trans-unit id="Zm.jZiK" resname="New password">
+        <source>New password</source>
+        <target>New password</target>
+      </trans-unit>
+      <trans-unit id="Z9CSKpk" resname="Repeat Password">
+        <source>Repeat Password</source>
+        <target>Repeat Password</target>
+      </trans-unit>
+      <trans-unit id="5acDJkz" resname="User was successfully added.">
+        <source>User was successfully added.</source>
+        <target>User was successfully added.</target>
+      </trans-unit>
+      <trans-unit id="1y.uzee" resname="Thank you {name}! Your email address has been confirmed. Your account details are now completed.">
+        <source>Thank you {name}! Your email address has been confirmed. Your account details are now completed.</source>
+        <target>Thank you {name}! Your email address has been confirmed. Your account details are now completed.</target>
+      </trans-unit>
+      <trans-unit id="1h8nE5r" resname="The email address {email} is already taken by other user. Please try a different email address.">
+        <source>The email address {email} is already taken by other user. Please try a different email address.</source>
+        <target>The email address {email} is already taken by other user. Please try a different email address.</target>
+      </trans-unit>
+      <trans-unit id="qqW4ZXu" resname="User details were successfully updated!">
+        <source>User details were successfully updated!</source>
+        <target>User details were successfully updated!</target>
+      </trans-unit>
+      <trans-unit id="n4cm2GX" resname="A new verification email has been sent to your inbox. Please check your email to complete the verification process.">
+        <source>A new verification email has been sent to your inbox. Please check your email to complete the verification process.</source>
+        <target>A new verification email has been sent to your inbox. Please check your email to complete the verification process.</target>
+      </trans-unit>
+      <trans-unit id="p7Z3Sqg" resname="If there is a user with the provided email address, a link to reset your password will be sent to you.">
+        <source>If there is a user with the provided email address, a link to reset your password will be sent to you.</source>
+        <target>If there is a user with the provided email address, a link to reset your password will be sent to you.</target>
+      </trans-unit>
+      <trans-unit id="2kSKxHY" resname="{name}, your password was successfully changed.">
+        <source>{name}, your password was successfully changed.</source>
+        <target>{name}, your password was successfully changed.</target>
+      </trans-unit>
+      <trans-unit id="CNLuYun" resname="Welcome a board {name}! You have been registered.">
+        <source>Welcome a board {name}! You have been registered.</source>
+        <target>Welcome a board {name}! You have been registered.</target>
+      </trans-unit>
+      <trans-unit id="LRhbZBl" resname="{name}, your account has been successfully deleted. We're sorry to see you go, but you're always welcome to return and create a new account in the future. Thank you for being a part of our community!">
+        <source>{name}, your account has been successfully deleted. We're sorry to see you go, but you're always welcome to return and create a new account in the future. Thank you for being a part of our community!</source>
+        <target>{name}, your account has been successfully deleted. We're sorry to see you go, but you're always welcome to return and create a new account in the future. Thank you for being a part of our community!</target>
+      </trans-unit>
+      <trans-unit id="2s2VvRx" resname="Your current password is incorrect.">
+        <source>Your current password is incorrect.</source>
+        <target>Your current password is incorrect.</target>
+      </trans-unit>
+      <trans-unit id="fRE_EB6" resname="Password has been changed successfully.">
+        <source>Password has been changed successfully.</source>
+        <target>Password has been changed successfully.</target>
+      </trans-unit>
+      <trans-unit id="1kgkuAA" resname="A user with email '{mail}' already exists">
+        <source>A user with email '{mail}' already exists</source>
+        <target>A user with email '{mail}' already exists</target>
+      </trans-unit>
+      <trans-unit id="WMexapq" resname="Validation token has expired. Please request a new email confirmation.">
+        <source>Validation token has expired. Please request a new email confirmation.</source>
+        <target>Validation token has expired. Please request a new email confirmation.</target>
+      </trans-unit>
+      <trans-unit id="t30rnWi" resname="Confirm Your Email Address - Forum DAF">
+        <source>Confirm Your Email Address - Forum DAF</source>
+        <target>Confirm Your Email Address - Forum DAF</target>
+      </trans-unit>
+      <trans-unit id="71LH2wl" resname="Reset Your Password - Forum DAF">
+        <source>Reset Your Password - Forum DAF</source>
+        <target>Reset Your Password - Forum DAF</target>
+      </trans-unit>
+      <trans-unit id="HjXJK7e" resname="Welcome to DAF forum">
+        <source>Welcome to DAF forum</source>
+        <target>Welcome to DAF forum</target>
+      </trans-unit>
+      <trans-unit id="Nb5G_iY" resname="Forum API project, driven by Symfony 7 and PHP 8.3, serves as the nucleus of learning, introducing students to the realms of DDD, Hexagonal Architecture, and CQRS.">
+        <source>Forum API project, driven by Symfony 7 and PHP 8.3, serves as the nucleus of learning, introducing students to the realms of DDD, Hexagonal Architecture, and CQRS.</source>
+        <target>Forum API project, driven by Symfony 7 and PHP 8.3, serves as the nucleus of learning, introducing students to the realms of DDD, Hexagonal Architecture, and CQRS.</target>
+      </trans-unit>
+      <trans-unit id="ExFLJqx" resname="Home">
+        <source>Home</source>
+        <target>Home</target>
+      </trans-unit>
+      <trans-unit id="BCGjfox" resname="Users">
+        <source>Users</source>
+        <target>Users</target>
+      </trans-unit>
+      <trans-unit id="4f3WEva" resname="Login">
+        <source>Login</source>
+        <target>Login</target>
+      </trans-unit>
+      <trans-unit id=".Ez4qyA" resname="Showing">
+        <source>Showing</source>
+        <target>Showing</target>
+      </trans-unit>
+      <trans-unit id="rn0RUOO" resname="entries.">
+        <source>entries.</source>
+        <target>entries.</target>
+      </trans-unit>
+      <trans-unit id="Q.qAA8h" resname="prev">
+        <source>prev</source>
+        <target>prev</target>
+      </trans-unit>
+      <trans-unit id="gK8E5bi" resname="next">
+        <source>next</source>
+        <target>next</target>
+      </trans-unit>
+      <trans-unit id="u2K27we" resname="{start}-{end} of {count} people">
+        <source>{start}-{end} of {count} people</source>
+        <target>{start}-{end} of {count} people</target>
+      </trans-unit>
+      <trans-unit id="6EtaWNj" resname="License">
+        <source>License</source>
+        <target>License</target>
+      </trans-unit>
+      <trans-unit id="PW7Z9ra" resname="All rights reserved">
+        <source>All rights reserved</source>
+        <target>All rights reserved</target>
+      </trans-unit>
+      <trans-unit id="5Y34z39" resname="Profile">
+        <source>Profile</source>
+        <target>Profile</target>
+      </trans-unit>
+      <trans-unit id="JKl2Twv" resname="Logout">
+        <source>Logout</source>
+        <target>Logout</target>
+      </trans-unit>
+      <trans-unit id="3IWOrb4" resname="Create new account">
+        <source>Create new account</source>
+        <target>Create new account</target>
+      </trans-unit>
+      <trans-unit id="9QMZdkf" resname="Already have an account?">
+        <source>Already have an account?</source>
+        <target>Already have an account?</target>
+      </trans-unit>
+      <trans-unit id="c9vLuwJ" resname="Banned account">
+        <source>Banned account</source>
+        <target>Banned account</target>
+      </trans-unit>
+      <trans-unit id="c8Q17zY" resname="{name}'s profile">
+        <source>{name}'s profile</source>
+        <target>{name}'s profile</target>
+      </trans-unit>
+      <trans-unit id="E0m6qW2" resname="Account details">
+        <source>Account details</source>
+        <target>Account details</target>
+      </trans-unit>
+      <trans-unit id="kPcFhRk" resname="Personal details">
+        <source>Personal details</source>
+        <target>Personal details</target>
+      </trans-unit>
+      <trans-unit id="EbzUhXX" resname="Change password">
+        <source>Change password</source>
+        <target>Change password</target>
+      </trans-unit>
+      <trans-unit id="tKyRuO5" resname="Account operations">
+        <source>Account operations</source>
+        <target>Account operations</target>
+      </trans-unit>
+      <trans-unit id="_o4uj7Z" resname="Remove account">
+        <source>Remove account</source>
+        <target>Remove account</target>
+      </trans-unit>
+      <trans-unit id="BQc0Ol1" resname="Ban user">
+        <source>Ban user</source>
+        <target>Ban user</target>
+      </trans-unit>
+      <trans-unit id="MMhd2aq" resname="Registered users">
+        <source>Registered users</source>
+        <target>Registered users</target>
+      </trans-unit>
+      <trans-unit id="gV2hf7k" resname="Search users…">
+        <source>Search users…</source>
+        <target>Search users…</target>
+      </trans-unit>
+      <trans-unit id="CjLtZbl" resname="Add user">
+        <source>Add user</source>
+        <target>Add user</target>
+      </trans-unit>
+      <trans-unit id="wbMeKOh" resname="Name">
+        <source>Name</source>
+        <target>Name</target>
+      </trans-unit>
+      <trans-unit id="wVFHuss" resname="Role">
+        <source>Role</source>
+        <target>Role</target>
+      </trans-unit>
+      <trans-unit id="737pkI." resname="Banned">
+        <source>Banned</source>
+        <target>Banned</target>
+      </trans-unit>
+      <trans-unit id="kIqhHtP" resname="Admin">
+        <source>Admin</source>
+        <target>Admin</target>
+      </trans-unit>
+      <trans-unit id="TkiKoB6" resname="User">
+        <source>User</source>
+        <target>User</target>
+      </trans-unit>
+      <trans-unit id="M.l1CPU" resname="Edit">
+        <source>Edit</source>
+        <target>Edit</target>
+      </trans-unit>
+      <trans-unit id="bwnneWY" resname="Login to your account">
+        <source>Login to your account</source>
+        <target>Login to your account</target>
+      </trans-unit>
+      <trans-unit id="GqmFSHc" resname="Password">
+        <source>Password</source>
+        <target>Password</target>
+      </trans-unit>
+      <trans-unit id="1Sw.h9m" resname="I forgot password">
+        <source>I forgot password</source>
+        <target>I forgot password</target>
+      </trans-unit>
+      <trans-unit id="iva2itA" resname="Remember me on this device">
+        <source>Remember me on this device</source>
+        <target>Remember me on this device</target>
+      </trans-unit>
+      <trans-unit id="PJdHCjh" resname="Don't have an account yet?">
+        <source>Don't have an account yet?</source>
+        <target>Don't have an account yet?</target>
+      </trans-unit>
+      <trans-unit id="fGfBzt6" resname="Register">
+        <source>Register</source>
+        <target>Register</target>
+      </trans-unit>
+      <trans-unit id="APxdqs0" resname="Account">
+        <source>Account</source>
+        <target>Account</target>
+      </trans-unit>
+      <trans-unit id="nvYLhk." resname="Please note:">
+        <source>Please note:</source>
+        <target>Please note:</target>
+      </trans-unit>
+      <trans-unit id="YcMY0QV" resname="Deleting your account will permanently remove all your personal information, including your profile and settings.&#10;                            However, your forum posts (questions and answers) will remain visible, but they will be attributed to an &quot;Unknown User&quot;.&#10;                            Once your account is deleted, you will not be able to regain access to any data or restore your previous account.">
+        <source>Deleting your account will permanently remove all your personal information, including your profile and settings.
+                            However, your forum posts (questions and answers) will remain visible, but they will be attributed to an "Unknown User".
+                            Once your account is deleted, you will not be able to regain access to any data or restore your previous account.</source>
+        <target>Deleting your account will permanently remove all your personal information, including your profile and settings.
+                            However, your forum posts (questions and answers) will remain visible, but they will be attributed to an "Unknown User".
+                            Once your account is deleted, you will not be able to regain access to any data or restore your previous account.</target>
+      </trans-unit>
+      <trans-unit id="MVpu0qj" resname="If you choose to return to the forum, you are welcome to create a new account, but it will be treated as an&#10;                            entirely new account without any connection to your previous activity.">
+        <source>If you choose to return to the forum, you are welcome to create a new account, but it will be treated as an
+                            entirely new account without any connection to your previous activity.</source>
+        <target>If you choose to return to the forum, you are welcome to create a new account, but it will be treated as an
+                            entirely new account without any connection to your previous activity.</target>
+      </trans-unit>
+      <trans-unit id="hQGAAGu" resname="Forgot password">
+        <source>Forgot password</source>
+        <target>Forgot password</target>
+      </trans-unit>
+      <trans-unit id="c59VSKI" resname="To reset your password, please provide the email address you used during registration.">
+        <source>To reset your password, please provide the email address you used during registration.</source>
+        <target>To reset your password, please provide the email address you used during registration.</target>
+      </trans-unit>
+      <trans-unit id="e38GkTl" resname="Send reset link">
+        <source>Send reset link</source>
+        <target>Send reset link</target>
+      </trans-unit>
+      <trans-unit id="6rx2oUx" resname="Make sure your email address has been verified. If these conditions are met, you'll receive an email with a link to reset your password.">
+        <source>Make sure your email address has been verified. If these conditions are met, you'll receive an email with a link to reset your password.</source>
+        <target>Make sure your email address has been verified. If these conditions are met, you'll receive an email with a link to reset your password.</target>
+      </trans-unit>
+      <trans-unit id="90KajIl" resname="Forget it, {start_link}send me back{end_link} to the login screen.">
+        <source>Forget it, {start_link}send me back{end_link} to the login screen.</source>
+        <target>Forget it, {start_link}send me back{end_link} to the login screen.</target>
+      </trans-unit>
+      <trans-unit id="PkQKY6T" resname="Change your password">
+        <source>Change your password</source>
+        <target>Change your password</target>
+      </trans-unit>
+      <trans-unit id="Kmj9Jrr" resname="Hi {name}, please create your new password below to complete the reset.">
+        <source>Hi {name}, please create your new password below to complete the reset.</source>
+        <target>Hi {name}, please create your new password below to complete the reset.</target>
+      </trans-unit>
+      <trans-unit id="L3wYuch" resname="Users list">
+        <source>Users list</source>
+        <target>Users list</target>
+      </trans-unit>
+      <trans-unit id="75CRsQF" resname="Change">
+        <source>Change</source>
+        <target>Change</target>
+      </trans-unit>
+      <trans-unit id="iYInzhl" resname="Ban {name} ({email})">
+        <source>Ban {name} ({email})</source>
+        <target>Ban {name} ({email})</target>
+      </trans-unit>
+      <trans-unit id="4lalfco" resname="Attention:">
+        <source>Attention:</source>
+        <target>Attention:</target>
+      </trans-unit>
+      <trans-unit id=".CTuEqs" resname="When banning a user, please provide a reason for the ban. This reason will be displayed to the user whenever&#10;they attempt to log in with the banned email address. Keep in mind that once banned, the user will no longer be&#10;able to access the site using that email address. It is important to provide a clear and valid reason, as it&#10;will be shown to the user upon login attempts.">
+        <source>When banning a user, please provide a reason for the ban. This reason will be displayed to the user whenever
+they attempt to log in with the banned email address. Keep in mind that once banned, the user will no longer be
+able to access the site using that email address. It is important to provide a clear and valid reason, as it
+will be shown to the user upon login attempts.</source>
+        <target>When banning a user, please provide a reason for the ban. This reason will be displayed to the user whenever
+they attempt to log in with the banned email address. Keep in mind that once banned, the user will no longer be
+able to access the site using that email address. It is important to provide a clear and valid reason, as it
+will be shown to the user upon login attempts.</target>
+      </trans-unit>
+      <trans-unit id="Atsp3Vk" resname="Ban user!">
+        <source>Ban user!</source>
+        <target>Ban user!</target>
+      </trans-unit>
+      <trans-unit id="g.WFjHQ" resname="Your email address has not been verified yet.">
+        <source>Your email address has not been verified yet.</source>
+        <target>Your email address has not been verified yet.</target>
+      </trans-unit>
+      <trans-unit id="anuBMUm" resname="Please check your inbox for the verification email. If you didn’t receive it, click the button below to resend the confirmation link.">
+        <source>Please check your inbox for the verification email. If you didn’t receive it, click the button below to resend the confirmation link.</source>
+        <target>Please check your inbox for the verification email. If you didn’t receive it, click the button below to resend the confirmation link.</target>
+      </trans-unit>
+      <trans-unit id="1wWwR2z" resname="Update">
+        <source>Update</source>
+        <target>Update</target>
+      </trans-unit>
+      <trans-unit id="se08WyO" resname="Forum DAF Licence">
+        <source>Forum DAF Licence</source>
+        <target>Forum DAF Licence</target>
+      </trans-unit>
+    </body>
+  </file>
+</xliff>

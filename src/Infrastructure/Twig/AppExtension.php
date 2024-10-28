@@ -13,6 +13,7 @@ namespace App\Infrastructure\Twig;
 
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\RequestStack;
+use Symfony\Component\Translation\LocaleSwitcher;
 use Twig\Extension\AbstractExtension;
 use Twig\TwigFunction;
 
@@ -29,8 +30,10 @@ final class AppExtension extends AbstractExtension
      *
      * @param Request $request
      */
-    public function __construct(private readonly RequestStack $requestStack)
-    {
+    public function __construct(
+        private readonly RequestStack $requestStack,
+        private readonly LocaleSwitcher $localeSwitcher,
+    ) {
     }
 
     /**
@@ -42,6 +45,7 @@ final class AppExtension extends AbstractExtension
             new TwigFunction('route_is', [$this, 'routeIs']),
             new TwigFunction('path_starts_with', [$this, 'pathStartsWith']),
             new TwigFunction('add_query_param', [$this, 'addQueryParam']),
+            new TwigFunction('current_locale', fn() => $this->localeSwitcher->getLocale()),
         ];
     }
 
