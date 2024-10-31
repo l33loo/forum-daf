@@ -12,6 +12,8 @@ declare(strict_types=1);
 namespace App\Domain;
 
 use App\Domain\Event\Question\QuestionWasAccepted;
+use App\Domain\Event\Question\QuestionWasPublished;
+use App\Domain\Event\Question\QuestionWasRejected;
 use App\Domain\Post\PostId;
 use DateTimeImmutable;
 use Doctrine\Common\Collections\Collection;
@@ -20,6 +22,8 @@ use Doctrine\ORM\Mapping\ManyToOne;
 use Doctrine\ORM\Mapping\MappedSuperclass;
 use Slick\Event\Domain\EventGeneratorMethods;
 use Slick\Event\EventGenerator;
+use Slick\JSONAPI\Object\SchemaDiscover\Attributes\Relationship;
+use Slick\JSONAPI\Object\SchemaDiscover\Attributes\ResourceAttribute;
 
 /**
  * Post
@@ -58,6 +62,7 @@ abstract class Post implements EventGenerator
     {
         $this->author = $author;
         $this->body = $body;
+        $this->postId = new PostId();
     }
 
     /**
@@ -75,7 +80,7 @@ abstract class Post implements EventGenerator
      *
      * @return bool
      */
-    public function published(): bool
+    public function isPublished(): bool
     {
         return $this->published;
     }
@@ -146,6 +151,13 @@ abstract class Post implements EventGenerator
     {
         $this->rejectReason =$reason;
         $this->accepted = false;
+        return $this;
+    }
+
+    public function publish(): self
+    {
+        $this->publishedOn = new DateTimeImmutable();
+        $this->published = true;
         return $this;
     }
 }

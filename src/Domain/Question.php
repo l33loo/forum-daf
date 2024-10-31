@@ -13,13 +13,18 @@ namespace App\Domain;
 
 use App\Domain\Event\Question\QuestionWasAccepted;
 use App\Domain\Event\Question\QuestionWasPosted;
+use App\Domain\Event\Question\QuestionWasPublished;
 use App\Domain\Event\Question\QuestionWasRejected;
 use App\Domain\Question\QuestionId;
+use App\Infrastructure\JsonApi\QuestionSchema;
 use Doctrine\ORM\Mapping\Column;
 use Doctrine\ORM\Mapping\Entity;
 use Doctrine\ORM\Mapping\GeneratedValue;
 use Doctrine\ORM\Mapping\Id;
 use Doctrine\ORM\Mapping\Table;
+use Slick\JSONAPI\Object\SchemaDiscover\Attributes\AsResourceObject;
+use Slick\JSONAPI\Object\SchemaDiscover\Attributes\ResourceAttribute;
+use Slick\JSONAPI\Object\SchemaDiscover\Attributes\ResourceIdentifier;
 
 /**
  * Question
@@ -28,6 +33,7 @@ use Doctrine\ORM\Mapping\Table;
  */
 #[Entity]
 #[Table(name: 'questions')]
+#[AsResourceObject(schemaClass: QuestionSchema::class)]
 class Question extends Post
 {
 
@@ -89,4 +95,13 @@ class Question extends Post
         $this->recordThat(new QuestionWasRejected($this->questionId, $reason));
         return $this;
     }
+
+    public function publish(): Question
+    {
+        parent::publish();
+        $this->recordThat(new QuestionWasPublished($this->questionId, $this->publishedOn()));
+        return $this;
+    }
+
+
 }

@@ -12,19 +12,26 @@ declare(strict_types=1);
 namespace App\Application\Question;
 
 use App\Domain\User\UserId;
+use Slick\JSONAPI\Object\SchemaDiscover\Attributes\AsResourceObject;
+use Slick\JSONAPI\Object\SchemaDiscover\Attributes\RelationshipIdentifier;
+use Slick\JSONAPI\Object\SchemaDiscover\Attributes\ResourceAttribute;
 
 /**
  * PostQuestionCommand
  *
  * @package App\Application\Question
  */
+#[AsResourceObject(type: "questions")]
 final readonly class PostQuestionCommand
 {
 
 
     public function __construct(
+        #[RelationshipIdentifier(name: 'author', className: UserId::class)]
         private UserId $userId,
+        #[ResourceAttribute(required: true)]
         private string $question,
+        #[ResourceAttribute(required: true)]
         private string $body,
     ) {
     }

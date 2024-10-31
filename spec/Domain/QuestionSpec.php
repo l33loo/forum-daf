@@ -11,6 +11,7 @@ namespace spec\App\Domain;
 
 use App\Domain\Event\Question\QuestionWasAccepted;
 use App\Domain\Event\Question\QuestionWasPosted;
+use App\Domain\Event\Question\QuestionWasPublished;
 use App\Domain\Event\Question\QuestionWasRejected;
 use App\Domain\Post;
 use App\Domain\Question;
@@ -103,5 +104,18 @@ class QuestionSpec extends ObjectBehavior
         $events = $this->releaseEvents();
         $events->shouldHaveCount(1);
         $events[0]->shouldBeAnInstanceOf(QuestionWasRejected::class);
+    }
+
+    function it_can_be_published()
+    {
+        $this->releaseEvents();
+        $this->isPublished()->shouldBe(false);
+        $this->publishedOn()->shouldBe(null);
+        $this->publish()->shouldBe($this->getWrappedObject());
+        $this->isPublished()->shouldBe(true);
+        $this->publishedOn()->shouldBeAnInstanceOf(\DateTimeImmutable::class);
+        $events = $this->releaseEvents();
+        $events->shouldHaveCount(1);
+        $events[0]->shouldBeAnInstanceOf(QuestionWasPublished::class);
     }
 }
