@@ -14,20 +14,30 @@ namespace App\Application\User\Query\Model;
 use App\Domain\User;
 use App\Domain\User\Email;
 use App\Domain\User\UserId;
+use Slick\JSONAPI\Object\SchemaDiscover\Attributes\AsResourceObject;
+use Slick\JSONAPI\Object\SchemaDiscover\Attributes\ResourceAttribute;
+use Slick\JSONAPI\Object\SchemaDiscover\Attributes\ResourceIdentifier;
 
 /**
  * UserModel
  *
  * @package App\Application\User\Query\Model
  */
+#[AsResourceObject(type: "users")]
 final readonly class UserModel
 {
 
+    #[ResourceIdentifier(className: UserId::class)]
     private UserId $userId;
+    #[ResourceAttribute]
     private ?string $name;
+    #[ResourceAttribute(className: Email::class)]
     private Email $email;
+    #[ResourceAttribute]
     private bool $banned;
+    #[ResourceAttribute]
     private ?string $banReason;
+    #[ResourceAttribute(name: "isAdmin")]
     private bool $admin;
 
     public function __construct(array $data)

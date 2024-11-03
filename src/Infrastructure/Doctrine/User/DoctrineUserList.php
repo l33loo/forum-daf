@@ -13,16 +13,19 @@ namespace App\Infrastructure\Doctrine\User;
 
 use App\Application\User\Query\Model\UserModel;
 use App\Application\User\Query\UserList;
+use App\Infrastructure\JsonApi\UserListSchema;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\DBAL\Connection;
 use Doctrine\DBAL\Query\QueryBuilder;
+use Slick\JSONAPI\Object\SchemaDiscover\Attributes\AsResourceCollection;
 
 /**
  * DoctrineUserList
  *
  * @package App\Infrastructure\Doctrine\User
  */
+#[AsResourceCollection(schemaClass: UserListSchema::class)]
 final class DoctrineUserList extends UserList
 {
 
