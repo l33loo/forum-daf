@@ -18,13 +18,13 @@ use Slick\JSONAPI\Object\SchemaDiscover\Attributes\AsResourceObject;
 class Tag
 {
 
-    public function __construct(private ?string $name)
+    public function __construct(private ?string $tag)
     {
 
     }
 
-    public function name(): ?string
+    public function tag(): ?string
     {
-        return $this->name;
+        return $this->tag;
     }
 }

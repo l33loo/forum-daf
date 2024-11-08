@@ -7,12 +7,12 @@ use PhpSpec\ObjectBehavior;
 
 class CreateTagCommandSpec extends ObjectBehavior
 {
-    private $name;
+    private $tag;
 
     function let()
     {
-        $this->name = "Tagname";
-        $this->beConstructedWith($this->name);
+        $this->tag = "aTag";
+        $this->beConstructedWith($this->tag);
     }
 
     function it_is_initializable()
@@ -20,8 +20,8 @@ class CreateTagCommandSpec extends ObjectBehavior
         $this->shouldHaveType(CreateTagCommand::class);
     }
 
-    function it_has_a_name()
+    function it_has_a_tag()
     {
-        $this->name()->shouldBe($this->name);
+        $this->tag()->shouldBe($this->tag);
     }
 }

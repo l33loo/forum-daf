@@ -9,12 +9,12 @@ use App\Domain\Tag;
 use PhpSpec\ObjectBehavior;
 class TagSpec extends ObjectBehavior
 {
-    private $name;
+    private $tag;
 
     function let(): void
     {
-        $this->name = 'Sometag';
-        $this->beConstructedWith($this->name);
+        $this->tag = 'Sometag';
+        $this->beConstructedWith($this->tag);
     }
 
     function it_is_initializable(): void
@@ -22,8 +22,8 @@ class TagSpec extends ObjectBehavior
         $this->shouldHaveType(Tag::class);
     }
 
-    function it_has_a_name(): void
+    function it_has_a_tag(): void
     {
-        $this->name()->shouldBe($this->name);
+        $this->tag()->shouldBe($this->tag);
     }
 }

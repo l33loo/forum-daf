@@ -10,12 +10,12 @@ final class CreateTagCommand
 {
     public function __construct(
         #[ResourceAttribute(required: true)]
-        private string $name
+        private string $tag
     ) {
     }
 
-    public function name(): string
+    public function tag(): string
     {
-        return $this->name;
+        return $this->tag;
     }
 }
