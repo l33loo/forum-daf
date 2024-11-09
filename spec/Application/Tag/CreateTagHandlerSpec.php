@@ -1,5 +1,5 @@
 <?php
-namespace spec\App\Application\Question;
+namespace spec\App\Application\Tag;
 
 use App\Domain\Tag;
 use PhpSpec\ObjectBehavior;
