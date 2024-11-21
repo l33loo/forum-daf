@@ -50,9 +50,19 @@ class Tag implements EventGenerator
         return $this->tag;
     }
 
+    public function tagId(): TagId
+    {
+        return $this->tagId;
+    }
+
     public function reject(string $reason): self
     {
         $this->recordThat(new TagWasRejected($this->tagId, $reason));
         return $this;
+    }
+
+    public function remove(): self
+    {
+        $this->recordThat(new TagWasDeleted($this->tagId));
     }
 }

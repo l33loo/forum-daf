@@ -15,7 +15,6 @@ use JsonSerializable;
 use PhpSpec\ObjectBehavior;
 use Slick\Event\Domain\AbstractEvent;
 use Slick\Event\Event;
-use Slick\Event\EventDispatcher;
 
 /**
  * TagWasRejectedSpec specs

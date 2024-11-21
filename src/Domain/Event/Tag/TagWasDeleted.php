@@ -12,28 +12,23 @@ declare(strict_types=1);
 namespace App\Domain\Event\Tag;
 
 use App\Domain\Tag\TagId;
-use JsonSerializable;
 use Slick\Event\Domain\AbstractEvent;
 use Slick\Event\Event;
 
 /**
- * TagWasRejected
+ * TagWasDeleted
  *
  * @package App\Domain\Event\Tag
  */
-final class TagWasRejected extends AbstractEvent implements Event, JsonSerializable
+final class TagWasDeleted extends AbstractEvent implements Event, \JsonSerializable
 {
     /**
-     * Creates a TagWasRejected
+     * Creates a TagWasDeleted
      *
      * @param TagId $tagId
-     * @param string $rejectReason
      */
-    public function __construct(
-        private readonly TagId $tagId,
-        private readonly string $rejectReason
-    ) {
-        parent::__construct();
+    public function __construct(private TagId $tagId)
+    {
     }
 
     public function tagId(): TagId
@@ -41,16 +36,10 @@ final class TagWasRejected extends AbstractEvent implements Event, JsonSerializa
         return $this->tagId;
     }
 
-    public function rejectReason(): string
-    {
-        return $this->rejectReason;
-    }
-
     public function jsonSerialize(): array
     {
         return [
-            'rejectReason' => $this->rejectReason,
-            'tagId' => $this->tagId,
+            'tagId' => $this->tagId
         ];
     }
 }
