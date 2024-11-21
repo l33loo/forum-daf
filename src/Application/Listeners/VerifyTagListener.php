@@ -11,6 +11,7 @@ declare(strict_types=1);
 
 namespace App\Application\Listeners;
 
+use App\Application\Tag\VerifyTagHandler;
 use App\Domain\Event\Tag\TagWasCreated;
 use Symfony\Component\EventDispatcher\Attribute\AsEventListener;
 

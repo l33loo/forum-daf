@@ -13,6 +13,7 @@ namespace App\Application\Tag;
 
 use App\Domain\DomainException;
 use App\Domain\Tag;
+use App\Domain\Tag\Specification\AcceptableTagSpecification;
 use App\Domain\Tag\TagRepository;
 use Slick\Event\EventDispatcher;
 use spec\App\Domain\Question\Specification\AcceptableQuestionSpecificationSpec;
