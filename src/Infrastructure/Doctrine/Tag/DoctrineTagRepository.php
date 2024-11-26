@@ -42,12 +42,25 @@ final readonly class DoctrineTagRepository implements TagRepository
      */
     public function withId(TagId $tagId): Tag
     {
-        $question = $this->entityManager->find(Tag::class, $tagId);
-        if ($question instanceof Tag) {
-            return $question;
+        $tag = $this->entityManager->find(Tag::class, $tagId);
+        if ($tag instanceof Tag) {
+            return $tag;
         }
 
         throw new EntityNotFound("Tag with id {$tagId} not found");
+    }
+
+    /**
+     * @inheritDoc
+     */
+    public function withTagText(string $tag): Tag
+    {
+        $tag = $this->entityManager->find(Tag::class, $tag);
+        if ($tag instanceof Tag) {
+            return $tag;
+        }
+
+        throw new EntityNotFound("Tag with text {$tag} not found");
     }
 
     /**
