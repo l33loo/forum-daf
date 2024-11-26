@@ -10,4 +10,4 @@ docker compose up -d --build
 docker compose run -it --rm php gosu www-data composer install
 
 # docker compose run -it --rm -v "$(pwd):/var/www/app" php gosu www-data vendor/bin/phpspec run -fdot
-# docker compose run -it php gosu www-data vendor/bin/phpspec run -fdot
+# docker compose run -it --rm php gosu www-data vendor/bin/phpspec run -fdot
