@@ -4,6 +4,7 @@ declare(strict_types = 1);
 
 namespace App\Domain;
 
+use App\Domain\Event\Tag\TagWasAccepted;
 use App\Domain\Event\Tag\TagWasCreated;
 use App\Domain\Event\Tag\TagWasRejected;
 use App\Domain\Tag\TagId;
@@ -53,6 +54,12 @@ class Tag implements EventGenerator
     public function tagId(): TagId
     {
         return $this->tagId;
+    }
+
+    public function accept(): self
+    {
+        $this->recordThat(new TagWasAccepted($this->tagId));
+        return $this;
     }
 
     public function reject(string $reason): self

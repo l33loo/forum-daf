@@ -32,7 +32,7 @@ class VerifyTagHandlerSpec extends ObjectBehavior
         $tags->withTagText($this->tag)->willReturn($tag);
 
         $acceptable->isSatisfiedBy($tag)->willReturn(true);
-//        $tag->accept()->willReturn($tag);
+        $tag->accept()->willReturn($tag);
         $tag->reject($this->reason)->willReturn($tag);
 
         $dispatcher->dispatchEventsFrom($tag)->willReturn([]);
