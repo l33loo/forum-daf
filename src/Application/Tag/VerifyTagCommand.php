@@ -11,7 +11,6 @@ declare(strict_types=1);
 
 namespace App\Application\Tag;
 
-use App\Domain\Question\QuestionId;
 use App\Domain\Tag\TagId;
 
 /**
