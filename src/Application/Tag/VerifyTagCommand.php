@@ -11,7 +11,7 @@ declare(strict_types=1);
 
 namespace App\Application\Tag;
 
-use App\Domain\Tag\TagId;
+use App\Domain\Tag;
 
 /**
  * VerifyTagCommand
@@ -20,16 +20,16 @@ use App\Domain\Tag\TagId;
  */
 final readonly class VerifyTagCommand
 {
-    public function __construct(private TagId $tagId)
+    public function __construct(private Tag $tag)
     {}
 
     /**
-     * VerifyTagCommand tagId
+     * VerifyTagCommand tag
      *
-     * @return TagId
+     * @return Tag
      */
-    public function tagId(): TagId
+    public function tag(): Tag
     {
-        return $this->tagId;
+        return $this->tag;
     }
 }
