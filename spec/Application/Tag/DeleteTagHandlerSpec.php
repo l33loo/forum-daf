@@ -50,5 +50,6 @@ class DeleteTagHandlerSpec extends ObjectBehavior
     ) {
         $command = new DeleteTagCommand($this->tagId);
         $this->handle($command)->shouldBe($tag);
+        $dispatcher->dispatchEventsFrom($tag)->shouldHaveBeenCalled();
     }
 }
