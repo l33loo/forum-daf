@@ -30,4 +30,22 @@ interface TagRepository
      * @throws DomainException|EntityNotFound When there are no tags with provided identifier
      */
     public function withId(TagId $tagId): Tag;
+
+    /**
+     * Get a tag by the tag text
+     *
+     * @param string $tag The tag text of the tag
+     * @return Tag The tag with the specified tag text
+     * @throws DomainException|EntityNotFound When there are no tags with provided identifier
+     */
+    public function withTagText(string $tag): Tag;
+
+    /**
+     * Delete a tag by its ID
+     *
+     * @param Tag $tag The tag to delete
+     * @return Tag The tag
+     * @throws DomainException|EntityNotFound When there are no tags with provided identifier
+     */
+    public function remove(Tag $tag): Tag;
 }

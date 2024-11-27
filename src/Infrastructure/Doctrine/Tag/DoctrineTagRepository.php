@@ -24,7 +24,6 @@ use Doctrine\ORM\EntityManagerInterface;
  */
 final readonly class DoctrineTagRepository implements TagRepository
 {
-
     public function __construct(private EntityManagerInterface $entityManager)
     {
     }
@@ -32,22 +31,45 @@ final readonly class DoctrineTagRepository implements TagRepository
     /**
      * @inheritDoc
      */
-    public function add(Tag $question): Tag
+    public function add(Tag $tag): Tag
     {
-        $this->entityManager->persist($question);
-        return $question;
+        $this->entityManager->persist($tag);
+        return $tag;
     }
 
     /**
      * @inheritDoc
      */
-    public function withId(TagId $questionId): Tag
+    public function withId(TagId $tagId): Tag
     {
-        $question = $this->entityManager->find(Tag::class, $questionId);
-        if ($question instanceof Tag) {
-            return $question;
+        $tag = $this->entityManager->find(Tag::class, $tagId);
+        if ($tag instanceof Tag) {
+            return $tag;
         }
 
-        throw new EntityNotFound("Tag with id {$questionId} not found");
+        throw new EntityNotFound("Tag with id {$tagId} not found");
+    }
+
+    /**
+     * @inheritDoc
+     */
+    public function withTagText(string $tag): Tag
+    {
+        $tag = $this->entityManager->find(Tag::class, $tag);
+        if ($tag instanceof Tag) {
+            return $tag;
+        }
+
+        throw new EntityNotFound("Tag with text {$tag} not found");
+    }
+
+    /**
+     * @inheritDoc
+     */
+    public function remove(Tag $tag): Tag
+    {
+        $this->entityManager->remove($tag);
+        $tag->recordThat(new TagWasDeleted($tag->tagId()));
+        return $tag;
     }
 }
