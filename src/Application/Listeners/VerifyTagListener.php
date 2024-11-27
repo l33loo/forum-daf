@@ -11,6 +11,7 @@ declare(strict_types=1);
 
 namespace App\Application\Listeners;
 
+use App\Application\Tag\VerifyTagCommand;
 use App\Application\Tag\VerifyTagHandler;
 use App\Domain\Event\Tag\TagWasCreated;
 use Symfony\Component\EventDispatcher\Attribute\AsEventListener;
@@ -29,7 +30,7 @@ final readonly class VerifyTagListener
     public function onTagCreated(TagWasCreated $event): void
     {
         $this->handler->handle(
-            new VerifyTagCommand($event->tagId())
+            new VerifyTagCommand($event->tag())
         );
     }
 }

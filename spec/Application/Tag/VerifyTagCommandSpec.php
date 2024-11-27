@@ -19,7 +19,7 @@ class VerifyTagCommandSpec extends ObjectBehavior
 
     function let()
     {
-        $this->tag = new Tag("hello");
+        $this->tag = "hello";
         $this->beConstructedWith($this->tag);
     }
 

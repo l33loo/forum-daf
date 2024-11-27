@@ -20,15 +20,15 @@ use App\Domain\Tag;
  */
 final readonly class VerifyTagCommand
 {
-    public function __construct(private Tag $tag)
+    public function __construct(private string $tag)
     {}
 
     /**
      * VerifyTagCommand tag
      *
-     * @return Tag
+     * @return string
      */
-    public function tag(): Tag
+    public function tag(): string
     {
         return $this->tag;
     }
