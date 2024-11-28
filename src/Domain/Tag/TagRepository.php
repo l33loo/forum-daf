@@ -48,4 +48,12 @@ interface TagRepository
      * @throws DomainException|EntityNotFound When there are no tags with provided identifier
      */
     public function remove(Tag $tag): Tag;
+
+    /**
+     * Edit an existing tag
+     *
+     * @param Tag $tag The edited tag
+     * @return Tag The edited tag
+     */
+    public function edit(Tag $tag): Tag;
 }

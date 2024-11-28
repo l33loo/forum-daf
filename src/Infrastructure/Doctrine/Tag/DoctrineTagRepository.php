@@ -69,7 +69,15 @@ final readonly class DoctrineTagRepository implements TagRepository
     public function remove(Tag $tag): Tag
     {
         $this->entityManager->remove($tag);
-        $tag->recordThat(new TagWasDeleted($tag->tagId()));
+        return $tag;
+    }
+
+    /**
+     * @inheritDoc
+     */
+    public function edit(Tag $tag): Tag
+    {
+        $this->entityManager->persist($tag);
         return $tag;
     }
 }
