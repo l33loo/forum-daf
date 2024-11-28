@@ -7,6 +7,7 @@ namespace App\Domain;
 use App\Domain\Event\Tag\TagWasAccepted;
 use App\Domain\Event\Tag\TagWasCreated;
 use App\Domain\Event\Tag\TagWasDeleted;
+use App\Domain\Event\Tag\TagWasEdited;
 use App\Domain\Event\Tag\TagWasRejected;
 use App\Domain\Tag\TagId;
 use Doctrine\ORM\Mapping\Column;
@@ -72,6 +73,13 @@ class Tag implements EventGenerator
     public function remove(): self
     {
         $this->recordThat(new TagWasDeleted($this->tagId));
+        return $this;
+    }
+
+    public function edit(string $newTag): self
+    {
+        $this->tag = $newTag;
+        $this->recordThat(new TagWasEdited($this->tagId, $newTag));
         return $this;
     }
 }

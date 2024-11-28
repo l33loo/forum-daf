@@ -1,6 +1,7 @@
 <?php
 namespace spec\App\Application\Tag;
 
+use App\Application\Tag\CreateTagCommand;
 use App\Application\Tag\CreateTagHandler;
 use App\Domain\Tag;
 use App\Domain\Tag\TagRepository;
@@ -12,8 +13,7 @@ class CreateTagHandlerSpec extends ObjectBehavior
 {
     function let(
         TagRepository $tags,
-        EventDispatcher $dispatcher,
-        Tag $tag
+        EventDispatcher $dispatcher
     )
     {
         $tags->add(Argument::type(Tag::class))->willReturnArgument();
@@ -24,5 +24,16 @@ class CreateTagHandlerSpec extends ObjectBehavior
     function it_is_initializable()
     {
         $this->shouldHaveType(CreateTagHandler::class);
+    }
+
+    function it_handles_create_tag(
+        TagRepository $tags,
+        EventDispatcher $dispatcher,
+    ) {
+        $command = new CreateTagCommand('foo');
+        $tag = $this->handle($command);
+        $tag->shouldBeAnInstanceOf(Tag::class);
+        $tags->add($tag)->shouldHaveBeenCalled();
+        $dispatcher->dispatchEventsFrom($tag)->shouldHaveBeenCalled();
     }
 }
