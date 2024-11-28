@@ -74,4 +74,11 @@ class Tag implements EventGenerator
         $this->recordThat(new TagWasDeleted($this->tagId));
         return $this;
     }
+
+    public function edit(string $newTag): self
+    {
+        $this->tag = $newTag;
+//        $this->recordThat(new TagWasEdited($this->tagId, $newTag));
+        return $this;
+    }
 }
