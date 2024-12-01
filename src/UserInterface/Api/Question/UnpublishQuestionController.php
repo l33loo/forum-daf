@@ -37,7 +37,7 @@ final class UnpublishQuestionController extends AbstractController
     /**
      * @throws DomainException
      */
-    #[Route(path: '/api/question/{questionId}', name: 'api-post-question', methods: ['PATCH'])]
+    #[Route(path: '/api/question/{questionId}', name: 'api-unpublish-question', methods: ['PATCH'])]
     #[IsGranted(User::ROLE_ADMIN)]
     public function handle(QuestionId $questionId): Response
     {
