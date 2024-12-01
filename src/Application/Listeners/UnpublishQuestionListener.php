@@ -13,7 +13,6 @@ namespace App\Application\Listeners;
 
 use App\Application\Question\UnpublishQuestionCommand;
 use App\Application\Question\UnpublishQuestionHandler;
-use App\Domain\Event\Question\QuestionWasAccepted;
 use App\Domain\Event\Question\QuestionWasRejected;
 use Symfony\Component\EventDispatcher\Attribute\AsEventListener;
 
@@ -22,7 +21,7 @@ use Symfony\Component\EventDispatcher\Attribute\AsEventListener;
  *
  * @package App\Application\Listeners
  */
-#[AsEventListener(event: QuestionWasAccepted::class, method: 'onQuestionWasRejected')]
+#[AsEventListener(event: QuestionWasRejected::class, method: 'onQuestionWasRejected')]
 final readonly class UnpublishQuestionListener
 {
 
