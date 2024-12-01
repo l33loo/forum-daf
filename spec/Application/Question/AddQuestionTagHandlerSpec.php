@@ -42,7 +42,7 @@ class AddQuestionTagHandlerSpec extends ObjectBehavior
         $this->tag = "hello";
         $tags->withTagText($this->tag)->willReturn($tag);
         $questions->withId($this->questionId)->willReturn($question);
-        $question->addTag(Argument::type(Tag::class))->wilLReturn($question);
+        $question->addTag(Argument::type(Tag::class))->willReturn($question);
 
         $dispatcher->dispatchEventsFrom($question)->willReturn([]);
 
