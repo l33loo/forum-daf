@@ -131,4 +131,14 @@ class QuestionSpec extends ObjectBehavior
         $events = $this->releaseEvents();
         $events->shouldHaveCount(1);
     }
+
+    function it_can_be_removed_a_tag() {
+        $this->releaseEvents();
+        $this->addTag($this->tag);
+        $this->tags()->shouldHaveCount(1);
+        $this->removeTag($this->tag);
+        $this->tags()->shouldHaveCount(0);
+        $events = $this->releaseEvents();
+        $events->shouldHaveCount(1);
+    }
 }

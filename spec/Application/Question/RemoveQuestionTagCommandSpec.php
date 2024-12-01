@@ -11,6 +11,7 @@ namespace spec\App\Application\Question;
 
 use App\Application\Question\RemoveQuestionTagCommand;
 use App\Domain\Question\QuestionId;
+use App\Domain\Tag;
 use PhpSpec\ObjectBehavior;
 
 /**
@@ -21,11 +22,13 @@ use PhpSpec\ObjectBehavior;
 class RemoveQuestionTagCommandSpec extends ObjectBehavior
 {
     private $questionId;
+    private $tag;
 
     function let() {
         $this->questionId = new QuestionId();
+        $this->tag = new Tag('hello');
 
-        $this->beConstructedWith($this->questionId);
+        $this->beConstructedWith($this->questionId, $this->tag);
     }
 
     function it_is_initializable()
@@ -36,5 +39,10 @@ class RemoveQuestionTagCommandSpec extends ObjectBehavior
     function it_has_a_question_id()
     {
         $this->questionId()->shouldBe($this->questionId);
+    }
+
+    function it_has_a_tag()
+    {
+        $this->tag()->shouldBe($this->tag);
     }
 }

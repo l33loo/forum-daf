@@ -12,9 +12,9 @@ declare(strict_types=1);
 namespace App\Application\Question;
 
 use App\Domain\DomainException;
-use App\Domain\Exception\EntityNotFound;
 use App\Domain\Question;
 use App\Domain\Question\QuestionRepository;
+use App\Domain\Tag\TagRepository;
 use Slick\Event\EventDispatcher;
 
 /**
@@ -42,7 +42,7 @@ final readonly class RemoveQuestionTagHandler
     public function handle(RemoveQuestionTagCommand $command): Question
     {
         $question = $this->questions->withId($command->questionId());
-        $this->dispatcher->dispatchEventsFrom($question->removeTag());
+        $this->dispatcher->dispatchEventsFrom($question->removeTag($command->tag()));
         return $question;
     }
 
