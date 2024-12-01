@@ -21,6 +21,8 @@ use Doctrine\ORM\Mapping\Column;
 use Doctrine\ORM\Mapping\Entity;
 use Doctrine\ORM\Mapping\GeneratedValue;
 use Doctrine\ORM\Mapping\Id;
+use Doctrine\ORM\Mapping\JoinColumn;
+use Doctrine\ORM\Mapping\ManyToOne;
 use Doctrine\ORM\Mapping\Table;
 use Slick\JSONAPI\Object\SchemaDiscover\Attributes\AsResourceObject;
 use Slick\JSONAPI\Object\SchemaDiscover\Attributes\ResourceAttribute;
@@ -41,6 +43,10 @@ class Question extends Post
     #[GeneratedValue(strategy: 'NONE')]
     #[Column(name: 'id', type: 'QuestionId')]
     private QuestionId $questionId;
+
+    #[ManyToOne(targetEntity: Tag::class)]
+    #[JoinColumn(name: 'tag_id', referencedColumnName: 'id')]
+    private ?Tag $tag = null;
 
     public function __construct(
         User $user,
@@ -103,5 +109,15 @@ class Question extends Post
         return $this;
     }
 
+    public function addTag(Tag $tag): self
+    {
+        $this->tag = $tag;
+//        $this->recordThat(new TagWasAdded($this->tag));
+        return $this;
+    }
 
+    public function tag(): ?Tag
+    {
+        return $this->tag;
+    }
 }

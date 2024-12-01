@@ -16,6 +16,7 @@ use App\Domain\Event\Question\QuestionWasRejected;
 use App\Domain\Post;
 use App\Domain\Question;
 use App\Domain\Question\QuestionId;
+use App\Domain\Tag;
 use App\Domain\User;
 use PhpSpec\ObjectBehavior;
 use Slick\Event\EventGenerator;
@@ -117,5 +118,16 @@ class QuestionSpec extends ObjectBehavior
         $events = $this->releaseEvents();
         $events->shouldHaveCount(1);
         $events[0]->shouldBeAnInstanceOf(QuestionWasPublished::class);
+    }
+
+    function it_can_be_added_a_tag(
+        Tag $tag
+    ) {
+        $this->releaseEvents();
+        $this->tag()->shouldBe(null);
+        $this->addTag($tag);
+        $this->tag()->shouldBe($tag);
+//        $events = $this->releaseEvents();
+//        $events->shouldHaveCount(1);
     }
 }
