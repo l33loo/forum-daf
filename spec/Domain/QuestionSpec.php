@@ -127,7 +127,7 @@ class QuestionSpec extends ObjectBehavior
         $this->tags()->shouldHaveCount(0);
         $this->addTag($this->tag)->shouldBe($this->getWrappedObject());
         $this->tags()->shouldHaveCount(1);
-        $this->tags()[(string)$this->tag->tagId()]->shouldBe($this->tag);
+        $this->tags()[0]->shouldBe($this->tag);
         $events = $this->releaseEvents();
         $events->shouldHaveCount(1);
     }

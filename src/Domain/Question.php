@@ -18,6 +18,8 @@ use App\Domain\Event\Question\QuestionWasRejected;
 use App\Domain\Event\Question\TagWasAdded;
 use App\Domain\Question\QuestionId;
 use App\Infrastructure\JsonApi\QuestionSchema;
+use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping\Column;
 use Doctrine\ORM\Mapping\Entity;
 use Doctrine\ORM\Mapping\GeneratedValue;
@@ -26,8 +28,6 @@ use Doctrine\ORM\Mapping\JoinColumn;
 use Doctrine\ORM\Mapping\ManyToOne;
 use Doctrine\ORM\Mapping\Table;
 use Slick\JSONAPI\Object\SchemaDiscover\Attributes\AsResourceObject;
-use Slick\JSONAPI\Object\SchemaDiscover\Attributes\ResourceAttribute;
-use Slick\JSONAPI\Object\SchemaDiscover\Attributes\ResourceIdentifier;
 
 /**
  * Question
@@ -47,7 +47,7 @@ class Question extends Post
 
     #[ManyToOne(targetEntity: Tag::class)]
     #[JoinColumn(name: 'tag_id', referencedColumnName: 'id')]
-    private array $tags = [];
+    private ?Collection $tags = null;
 
     public function __construct(
         User $user,
@@ -56,6 +56,7 @@ class Question extends Post
         string $body
     ) {
         $this->questionId = new QuestionId();
+        $this->tags = new ArrayCollection();
         parent::__construct($user, $body);
 
         $this->recordThat(new QuestionWasPosted(
@@ -112,19 +113,26 @@ class Question extends Post
 
     public function addTag(Tag $tag): self
     {
-        $this->tags[(string)$tag->tagId()] = $tag;
-        $this->recordThat(new TagWasAdded($this->questionId, $tag));
+        if (!$this->tags->contains($tag)) {
+            $tag->addQuestion($this);
+            $this->tags[] = $tag;
+            $this->recordThat(new TagWasAdded($this->questionId, $tag));
+        }
+
         return $this;
     }
 
-    public function tags(): array
+    public function tags(): Collection
     {
         return $this->tags;
     }
 
     public function removeTag(Tag $tag): self
     {
-        unset($this->tags[(string)$tag->tagId()]);
+        if ($this->tags->removeElement($tag)) {
+            $tag->removeQuestion($this);
+        }
+
         return $this;
     }
 }
