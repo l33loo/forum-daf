@@ -45,7 +45,7 @@ final class AddQuestionTagController extends AbstractController
         $question = $this->handler->handle($command);
         return $this->apiResponse(
             $question,
-            Response::HTTP_ACCEPTED,
+            Response::HTTP_NO_CONTENT,
             [
                 "location" => $this->generateUrl('api-read-question', ['questionId' => $question->question()])
             ]
