@@ -60,8 +60,10 @@ class TagWasAddedSpec extends ObjectBehavior
         $this->shouldBeAnInstanceOf(\JsonSerializable::class);
         $this->jsonSerialize()->shouldBe([
             'questionId' => $this->questionId,
-            'tagId' => $this->tag->tagId(),
-            'tag' => $this->tag->tag(),
+            'tag' => [
+                'tagId' => $this->tag->tagId(),
+                'tag' => $this->tag->tag(),
+            ],
         ]);
     }
 }

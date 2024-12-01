@@ -47,8 +47,10 @@ final class TagWasAdded extends AbstractEvent implements Event, \JsonSerializabl
     {
         return [
             'questionId' => $this->questionId,
-            'tagId' => $this->tag->tagId(),
-            'tag' => $this->tag->tag(),
+            'tag' => [
+                'tagId' => $this->tag->tagId(),
+                'tag' => $this->tag->tag(),
+            ],
         ];
     }
 }
