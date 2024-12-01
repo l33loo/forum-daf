@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace spec\App\Domain;
 
+use App\Domain\Event\Tag\TagWasAccepted;
 use App\Domain\Question;
 use App\Domain\Tag;
 use App\Domain\Event\Tag\TagWasCreated;
@@ -35,6 +36,38 @@ class TagSpec extends ObjectBehavior
     function it_has_a_tag(): void
     {
         $this->tag()->shouldBe($this->tag);
+    }
+
+    function it_can_be_accepted()
+    {
+        $this->releaseEvents();
+        $this->accept()->shouldBe($this->getWrappedObject());
+        $events = $this->releaseEvents();
+        $events->shouldHaveCount(1);
+    }
+
+    function it_can_be_rejected()
+    {
+        $this->releaseEvents();
+        $this->reject('reject reason')->shouldBe($this->getWrappedObject());
+        $events = $this->releaseEvents();
+        $events->shouldHaveCount(1);
+    }
+
+    function it_can_be_removed()
+    {
+        $this->releaseEvents();
+        $this->remove()->shouldBe($this->getWrappedObject());
+        $events = $this->releaseEvents();
+        $events->shouldHaveCount(1);
+    }
+
+    function it_can_be_edited()
+    {
+        $this->releaseEvents();
+        $this->edit('new')->shouldBe($this->getWrappedObject());
+        $events = $this->releaseEvents();
+        $events->shouldHaveCount(1);
     }
 
     function its_an_event_generator()
