@@ -13,7 +13,6 @@ namespace App\UserInterface\Api\Question;
 
 use App\Application\Question\AddQuestionTagCommand;
 use App\Application\Question\AddQuestionTagHandler;
-use App\Application\User\ChangeUserPasswordHandler;
 use App\Domain\DomainException;
 use App\Domain\Question\QuestionId;
 use App\Domain\User;

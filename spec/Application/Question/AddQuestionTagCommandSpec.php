@@ -10,11 +10,7 @@
 namespace spec\App\Application\Question;
 
 use App\Application\Question\AddQuestionTagCommand;
-use App\Domain\Question;
 use App\Domain\Question\QuestionId;
-use App\Domain\Question\QuestionRepository;
-use App\Domain\Tag;
-use App\Domain\Tag\TagRepository;
 use PhpSpec\ObjectBehavior;
 
 /**
