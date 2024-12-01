@@ -125,7 +125,7 @@ class QuestionSpec extends ObjectBehavior
     function it_can_be_added_a_tag() {
         $this->releaseEvents();
         $this->tags()->shouldHaveCount(0);
-        $this->addTag($this->tag);
+        $this->addTag($this->tag)->shouldBe($this->getWrappedObject());
         $this->tags()->shouldHaveCount(1);
         $this->tags()[(string)$this->tag->tagId()]->shouldBe($this->tag);
         $events = $this->releaseEvents();
@@ -136,7 +136,7 @@ class QuestionSpec extends ObjectBehavior
         $this->releaseEvents();
         $this->addTag($this->tag);
         $this->tags()->shouldHaveCount(1);
-        $this->removeTag($this->tag);
+        $this->removeTag($this->tag)->shouldBe($this->getWrappedObject());
         $this->tags()->shouldHaveCount(0);
         $events = $this->releaseEvents();
         $events->shouldHaveCount(1);
