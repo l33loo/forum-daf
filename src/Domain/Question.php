@@ -15,6 +15,7 @@ use App\Domain\Event\Question\QuestionWasAccepted;
 use App\Domain\Event\Question\QuestionWasPosted;
 use App\Domain\Event\Question\QuestionWasPublished;
 use App\Domain\Event\Question\QuestionWasRejected;
+use App\Domain\Event\Question\TagWasAdded;
 use App\Domain\Question\QuestionId;
 use App\Infrastructure\JsonApi\QuestionSchema;
 use Doctrine\ORM\Mapping\Column;
@@ -112,7 +113,7 @@ class Question extends Post
     public function addTag(Tag $tag): self
     {
         $this->tag = $tag;
-//        $this->recordThat(new TagWasAdded($this->tag));
+        $this->recordThat(new TagWasAdded($this->questionId, $this->tag));
         return $this;
     }
 

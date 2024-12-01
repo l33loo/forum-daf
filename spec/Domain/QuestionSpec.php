@@ -127,7 +127,7 @@ class QuestionSpec extends ObjectBehavior
         $this->tag()->shouldBe(null);
         $this->addTag($tag);
         $this->tag()->shouldBe($tag);
-//        $events = $this->releaseEvents();
-//        $events->shouldHaveCount(1);
+        $events = $this->releaseEvents();
+        $events->shouldHaveCount(1);
     }
 }
