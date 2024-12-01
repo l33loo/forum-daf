@@ -121,4 +121,10 @@ class Question extends Post
     {
         return $this->tag;
     }
+
+    public function removeTag(): self
+    {
+        $this->tag = null;
+        return $this;
+    }
 }
