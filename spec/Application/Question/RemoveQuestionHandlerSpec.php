@@ -9,12 +9,8 @@
 
 namespace spec\App\Application\Question;
 
-use App\Application\Question\PublishQuestionCommand;
-use App\Application\Question\PublishQuestionHandler;
 use App\Application\Question\RemoveQuestionCommand;
 use App\Application\Question\RemoveQuestionHandler;
-use App\Application\Question\UnpublishQuestionCommand;
-use App\Application\Question\UnpublishQuestionHandler;
 use App\Domain\Question;
 use App\Domain\Question\QuestionId;
 use App\Domain\Question\QuestionRepository;
