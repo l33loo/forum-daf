@@ -29,15 +29,19 @@ use Slick\Event\EventDispatcher;
 class RemoveQuestionTagHandlerSpec extends ObjectBehavior
 {
     private $questionId;
+    private $tag;
 
     function let(
         QuestionRepository $questions,
+        TagRepository $tags,
         EventDispatcher $dispatcher,
-        Question $question,
+        Question $question
     ) {
         $this->questionId = new QuestionId();
+        $this->tag = new Tag('hello');
+        $tags->withTagText($this->tag->tag())->willThrow(EntityNotFound::class);
         $questions->withId($this->questionId)->willReturn($question);
-        $question->removeTag()->willReturn($question);
+        $question->removeTag(Argument::type(Tag::class))->willReturn($question);
 
         $dispatcher->dispatchEventsFrom($question)->willReturn([]);
 
@@ -53,10 +57,10 @@ class RemoveQuestionTagHandlerSpec extends ObjectBehavior
         Question $question,
         EventDispatcher $dispatcher
     ) {
-        $command = new RemoveQuestionTagCommand($this->questionId);
+        $command = new RemoveQuestionTagCommand($this->questionId, $this->tag);
         $this->shouldNotThrow(EntityNotFound::class)->during('handle', [$command]);
         $this->handle($command)->shouldBe($question);
-        $question->removeTag()->shouldHaveBeenCalled();
+        $question->removeTag($this->tag)->shouldHaveBeenCalled();
         $dispatcher->dispatchEventsFrom($question)->shouldHaveBeenCalled();
     }
 }

@@ -9,7 +9,7 @@
 
 namespace spec\App\Domain\Event\Question;
 
-use App\Domain\Event\Question\TagWasAdded;
+use App\Domain\Event\Question\TagWasRemoved;
 use App\Domain\Question\QuestionId;
 use App\Domain\Tag;
 use PhpSpec\ObjectBehavior;
@@ -17,11 +17,11 @@ use Slick\Event\Domain\AbstractEvent;
 use Slick\Event\Event;
 
 /**
- * TagWasAddedSpec specs
+ * TagWasRemovedSpec specs
  *
  * @package spec\App\Domain\Event\Question
  */
-class TagWasAddedSpec extends ObjectBehavior
+class TagWasRemovedSpec extends ObjectBehavior
 {
     private $questionId;
     private $tag;
@@ -35,7 +35,7 @@ class TagWasAddedSpec extends ObjectBehavior
 
     function it_is_initializable()
     {
-        $this->shouldHaveType(TagWasAdded::class);
+        $this->shouldHaveType(TagWasRemoved::class);
     }
 
     function it_has_a_questionId()

@@ -31,11 +31,13 @@ class QuestionSpec extends ObjectBehavior
 
     private $question;
     private $body;
+    private $tag;
 
     function let(User $author)
     {
         $this->question = "Why?";
         $this->body = "Question body...";
+        $this->tag = new Tag("hello");
 
         $author->userId()->willReturn(new User\UserId());
 
@@ -120,13 +122,22 @@ class QuestionSpec extends ObjectBehavior
         $events[0]->shouldBeAnInstanceOf(QuestionWasPublished::class);
     }
 
-    function it_can_be_added_a_tag(
-        Tag $tag
-    ) {
+    function it_can_be_added_a_tag() {
         $this->releaseEvents();
-        $this->tag()->shouldBe(null);
-        $this->addTag($tag);
-        $this->tag()->shouldBe($tag);
+        $this->tags()->shouldHaveCount(0);
+        $this->addTag($this->tag)->shouldBe($this->getWrappedObject());
+        $this->tags()->shouldHaveCount(1);
+        $this->tags()[0]->shouldBe($this->tag);
+        $events = $this->releaseEvents();
+        $events->shouldHaveCount(1);
+    }
+
+    function it_can_be_removed_a_tag() {
+        $this->releaseEvents();
+        $this->addTag($this->tag);
+        $this->tags()->shouldHaveCount(1);
+        $this->removeTag($this->tag)->shouldBe($this->getWrappedObject());
+        $this->tags()->shouldHaveCount(0);
         $events = $this->releaseEvents();
         $events->shouldHaveCount(1);
     }

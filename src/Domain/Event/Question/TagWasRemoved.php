@@ -17,11 +17,11 @@ use Slick\Event\Domain\AbstractEvent;
 use Slick\Event\Event;
 
 /**
- * TagWasAdded
+ * TagWasRemoved
  *
  * @package App\Domain\Event\Question
  */
-final class TagWasAdded extends AbstractEvent implements Event, \JsonSerializable
+final class TagWasRemoved extends AbstractEvent implements Event, \JsonSerializable
 {
     public function __construct(
         private readonly QuestionId $questionId,

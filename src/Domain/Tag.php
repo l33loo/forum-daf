@@ -10,6 +10,8 @@ use App\Domain\Event\Tag\TagWasDeleted;
 use App\Domain\Event\Tag\TagWasEdited;
 use App\Domain\Event\Tag\TagWasRejected;
 use App\Domain\Tag\TagId;
+use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping\Column;
 use Doctrine\ORM\Mapping\Entity;
 use Doctrine\ORM\Mapping\GeneratedValue;
@@ -36,11 +38,14 @@ class Tag implements EventGenerator
     #[Column(name: 'id', type: 'TagId')]
     private TagId $tagId;
 
+    private ?Collection $questions = null;
+
     public function __construct(
         #[Column]
         private string $tag
     ) {
         $this->tagId = new TagId();
+        $this->questions = new ArrayCollection();
 
         $this->recordThat(new TagWasCreated(
             $this->tagId,
@@ -80,6 +85,27 @@ class Tag implements EventGenerator
     {
         $this->tag = $newTag;
         $this->recordThat(new TagWasEdited($this->tagId, $newTag));
+        return $this;
+    }
+
+    public function questions(): Collection
+    {
+        return $this->questions;
+    }
+
+    public function addQuestion(Question $question): self
+    {
+        if (!$this->questions->contains($question)) {
+            $this->questions[] = $question;
+        }
+
+        return $this;
+    }
+
+    public function removeQuestion(Question $question): self
+    {
+        $this->questions->removeElement($question);
+
         return $this;
     }
 }

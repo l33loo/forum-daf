@@ -11,8 +11,8 @@ declare(strict_types=1);
 
 namespace App\UserInterface\Api\Question;
 
-use App\Application\Question\AddQuestionTagCommand;
 use App\Application\Question\AddQuestionTagHandler;
+use App\Application\Question\RemoveQuestionTagCommand;
 use App\Domain\DomainException;
 use App\Domain\Question\QuestionId;
 use App\Domain\User;
@@ -27,7 +27,7 @@ use Symfony\Component\Security\Http\Attribute\IsGranted;
  *
  * @package App\UserInterface\Api\Question
  */
-final class AddQuestionTagController extends AbstractController
+final class RemoveQuestionTagController extends AbstractController
 {
     use ApiControllerMethods;
 
@@ -37,11 +37,11 @@ final class AddQuestionTagController extends AbstractController
     /**
      * @throws DomainException
      */
-    #[Route(path: '/api/question/{questionId}/add-tag', name: 'api-add-question-tag', methods: ['PATCH'])]
+    #[Route(path: '/api/question/{questionId}/remove-tag', name: 'api-remove-question-tag', methods: ['PATCH'])]
     #[IsGranted(User::ROLE_USER)]
     public function handle(QuestionId $questionId, string $tag): Response
     {
-        $command = $this->decodeTo(AddQuestionTagCommand::class);
+        $command = $this->decodeTo(RemoveQuestionTagCommand::class);
         $question = $this->handler->handle($command);
         return $this->apiResponse(
             $question,

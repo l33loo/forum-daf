@@ -3,6 +3,7 @@
 namespace spec\App\Application\Tag;
 
 use App\Application\Tag\CreateTagCommand;
+use App\Domain\Tag;
 use PhpSpec\ObjectBehavior;
 
 class CreateTagCommandSpec extends ObjectBehavior
@@ -11,7 +12,7 @@ class CreateTagCommandSpec extends ObjectBehavior
 
     function let()
     {
-        $this->tag = "aTag";
+        $this->tag = new Tag("aTag");
         $this->beConstructedWith($this->tag);
     }
 
