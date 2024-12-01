@@ -22,7 +22,7 @@ use Symfony\Component\EventDispatcher\Attribute\AsEventListener;
  * @package App\Application\Listeners
  */
 #[AsEventListener(event: TagWasRejected::class, method: 'onTagRejected')]
-final readonly class DeleteTagListener
+final readonly class DeleteRejectedTagListener
 {
     public function __construct(private DeleteTagHandler $handler)
     {}
