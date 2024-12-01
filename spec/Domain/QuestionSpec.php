@@ -141,4 +141,11 @@ class QuestionSpec extends ObjectBehavior
         $events = $this->releaseEvents();
         $events->shouldHaveCount(1);
     }
+
+    function it_can_be_changed() {
+        $this->releaseEvents();
+        $this->change('New question?', 'New body...')->shouldBe($this->getWrappedObject());
+        $events = $this->releaseEvents();
+        $events->shouldHaveCount(1);
+    }
 }

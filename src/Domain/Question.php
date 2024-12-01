@@ -135,4 +135,13 @@ class Question extends Post
 
         return $this;
     }
+
+    public function change(string $question, string $body): self
+    {
+        $this->question = $question;
+        $this->body = $body;
+        // TODO:
+//        $this->recordThat(new QuestionHasChanged($this->questionId));
+        return $this;
+    }
 }
