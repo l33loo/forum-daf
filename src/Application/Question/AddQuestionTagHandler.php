@@ -52,7 +52,6 @@ final readonly class AddQuestionTagHandler
         }
 
         $question = $this->questions->withId($command->questionId());
-        $question->addTag($tag);
         $this->dispatcher->dispatchEventsFrom($question->addTag($tag));
         return $question;
     }
