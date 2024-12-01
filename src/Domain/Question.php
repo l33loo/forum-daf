@@ -11,6 +11,7 @@ declare(strict_types=1);
 
 namespace App\Domain;
 
+use App\Domain\Event\Question\QuestionHasChanged;
 use App\Domain\Event\Question\QuestionWasAccepted;
 use App\Domain\Event\Question\QuestionWasPosted;
 use App\Domain\Event\Question\QuestionWasPublished;
@@ -140,8 +141,8 @@ class Question extends Post
     {
         $this->question = $question;
         $this->body = $body;
-        // TODO:
-//        $this->recordThat(new QuestionHasChanged($this->questionId));
+        $this->recordThat(new QuestionHasChanged($this->questionId));
+
         return $this;
     }
 }
