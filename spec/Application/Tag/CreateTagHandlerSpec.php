@@ -11,11 +11,13 @@ use Slick\Event\EventDispatcher;
 
 class CreateTagHandlerSpec extends ObjectBehavior
 {
+    private $tag;
     function let(
         TagRepository $tags,
         EventDispatcher $dispatcher
     )
     {
+        $this->tag = new Tag('foo');
         $tags->add(Argument::type(Tag::class))->willReturnArgument();
         $dispatcher->dispatchEventsFrom(Argument::type(Tag::class))->willReturn([]);
         $this->beConstructedWith($tags, $dispatcher);
@@ -30,9 +32,9 @@ class CreateTagHandlerSpec extends ObjectBehavior
         TagRepository $tags,
         EventDispatcher $dispatcher,
     ) {
-        $command = new CreateTagCommand('foo');
+        $command = new CreateTagCommand($this->tag);
         $tag = $this->handle($command);
-        $tag->shouldBeAnInstanceOf(Tag::class);
+        $tag->shouldBe($this->tag);
         $tags->add($tag)->shouldHaveBeenCalled();
         $dispatcher->dispatchEventsFrom($tag)->shouldHaveBeenCalled();
     }

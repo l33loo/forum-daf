@@ -31,7 +31,7 @@ final readonly class CreateTagHandler
      */
     public function handle(CreateTagCommand $command): Tag
     {
-        $tag = new Tag($command->tag());
+        $tag = $command->tag();
         $this->dispatcher->dispatchEventsFrom(
             $this->tags->add($tag)
         );
