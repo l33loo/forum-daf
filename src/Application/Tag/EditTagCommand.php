@@ -14,7 +14,7 @@ namespace App\Application\Tag;
 use App\Domain\Tag\TagId;
 use Slick\JSONAPI\Object\SchemaDiscover\Attributes\AsResourceObject;
 
-#[AsResourceObject('tags')]
+#[AsResourceObject(type: 'tags')]
 final class EditTagCommand
 {
     public function __construct(

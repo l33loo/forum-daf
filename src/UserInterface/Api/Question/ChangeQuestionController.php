@@ -11,8 +11,8 @@ declare(strict_types=1);
 
 namespace App\UserInterface\Api\Question;
 
-use App\Application\Question\AddQuestionTagCommand;
-use App\Application\Question\AddQuestionTagHandler;
+use App\Application\Question\ChangeQuestionCommand;
+use App\Application\Question\ChangeQuestionHandler;
 use App\Domain\DomainException;
 use App\Domain\Question\QuestionId;
 use App\Domain\User;
@@ -23,25 +23,25 @@ use Symfony\Component\Routing\Attribute\Route;
 use Symfony\Component\Security\Http\Attribute\IsGranted;
 
 /**
- * AddQuestionTagController
+ * ChangeQuestionController
  *
  * @package App\UserInterface\Api\Question
  */
-final class AddQuestionTagController extends AbstractController
+final class ChangeQuestionController extends AbstractController
 {
     use ApiControllerMethods;
 
-    public function __construct(private readonly AddQuestionTagHandler $handler)
+    public function __construct(private readonly ChangeQuestionHandler $handler)
     {}
 
     /**
      * @throws DomainException
      */
-    #[Route(path: '/api/question/{questionId}/add-tag', name: 'api-add-question-tag', methods: ['PATCH'])]
+    #[Route(path: '/api/question/{questionId}', name: 'api-change-question', methods: ['PATCH', 'PUT'])]
     #[IsGranted(User::ROLE_USER)]
-    public function handle(QuestionId $questionId, string $tag): Response
+    public function handle(QuestionId $questionId): Response
     {
-        $command = $this->decodeTo(AddQuestionTagCommand::class);
+        $command = $this->decodeTo(ChangeQuestionCommand::class);
         $question = $this->handler->handle($command);
         return $this->apiResponse(
             $question,

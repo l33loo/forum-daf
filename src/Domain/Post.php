@@ -43,7 +43,7 @@ abstract class Post implements EventGenerator
     private bool $published = false;
 
     #[Column(type: "text")]
-    private string $body;
+    protected string $body;
 
     #[Column(type: "datetime_immutable", nullable: true)]
     private ?DateTimeImmutable $publishedOn = null;

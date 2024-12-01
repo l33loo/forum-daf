@@ -11,6 +11,7 @@ declare(strict_types=1);
 
 namespace App\Domain;
 
+use App\Domain\Event\Question\QuestionHasChanged;
 use App\Domain\Event\Question\QuestionWasAccepted;
 use App\Domain\Event\Question\QuestionWasPosted;
 use App\Domain\Event\Question\QuestionWasPublished;
@@ -132,6 +133,15 @@ class Question extends Post
         if ($this->tags->removeElement($tag)) {
             $tag->removeQuestion($this);
         }
+
+        return $this;
+    }
+
+    public function change(string $question, string $body): self
+    {
+        $this->question = $question;
+        $this->body = $body;
+        $this->recordThat(new QuestionHasChanged($this->questionId));
 
         return $this;
     }
