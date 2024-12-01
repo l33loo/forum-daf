@@ -47,7 +47,7 @@ class Question extends Post
 
     #[ManyToOne(targetEntity: Tag::class)]
     #[JoinColumn(name: 'tag_id', referencedColumnName: 'id')]
-    private ?Tag $tag = null;
+    private array $tags = [];
 
     public function __construct(
         User $user,
@@ -112,19 +112,19 @@ class Question extends Post
 
     public function addTag(Tag $tag): self
     {
-        $this->tag = $tag;
-        $this->recordThat(new TagWasAdded($this->questionId, $this->tag));
+        $this->tags[(string)$tag->tagId()] = $tag;
+        $this->recordThat(new TagWasAdded($this->questionId, $tag));
         return $this;
     }
 
-    public function tag(): ?Tag
+    public function tags(): array
     {
-        return $this->tag;
+        return $this->tags;
     }
 
-    public function removeTag(): self
+    public function removeTag(Tag $tag): self
     {
-        $this->tag = null;
+        unset($this->tags[(string)$tag->tagId()]);
         return $this;
     }
 }
