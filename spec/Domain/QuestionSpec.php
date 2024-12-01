@@ -13,6 +13,7 @@ use App\Domain\Event\Question\QuestionWasAccepted;
 use App\Domain\Event\Question\QuestionWasPosted;
 use App\Domain\Event\Question\QuestionWasPublished;
 use App\Domain\Event\Question\QuestionWasRejected;
+use App\Domain\Event\Question\QuestionWasUnpublished;
 use App\Domain\Post;
 use App\Domain\Question;
 use App\Domain\Question\QuestionId;
@@ -20,6 +21,7 @@ use App\Domain\Tag;
 use App\Domain\User;
 use PhpSpec\ObjectBehavior;
 use Slick\Event\EventGenerator;
+use spec\App\Domain\Event\Question\QuestionWasUnpublishedSpec;
 
 /**
  * QuestionSpec specs
@@ -120,6 +122,18 @@ class QuestionSpec extends ObjectBehavior
         $events = $this->releaseEvents();
         $events->shouldHaveCount(1);
         $events[0]->shouldBeAnInstanceOf(QuestionWasPublished::class);
+    }
+
+    function it_can_be_unpublished()
+    {
+        $this->publish();
+        $this->releaseEvents();
+        $this->isPublished()->shouldBe(true);
+        $this->unpublish()->shouldBe($this->getWrappedObject());
+        $this->isPublished()->shouldBe(false);
+        $events = $this->releaseEvents();
+        $events->shouldHaveCount(1);
+        $events[0]->shouldBeAnInstanceOf(QuestionWasUnpublished::class);
     }
 
     function it_can_be_added_a_tag() {

@@ -160,4 +160,10 @@ abstract class Post implements EventGenerator
         $this->published = true;
         return $this;
     }
+
+    public function unpublish(): self
+    {
+        $this->published = false;
+        return $this;
+    }
 }

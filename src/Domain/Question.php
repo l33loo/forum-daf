@@ -16,6 +16,7 @@ use App\Domain\Event\Question\QuestionWasAccepted;
 use App\Domain\Event\Question\QuestionWasPosted;
 use App\Domain\Event\Question\QuestionWasPublished;
 use App\Domain\Event\Question\QuestionWasRejected;
+use App\Domain\Event\Question\QuestionWasUnpublished;
 use App\Domain\Event\Question\TagWasAdded;
 use App\Domain\Question\QuestionId;
 use App\Infrastructure\JsonApi\QuestionSchema;
@@ -109,6 +110,13 @@ class Question extends Post
     {
         parent::publish();
         $this->recordThat(new QuestionWasPublished($this->questionId, $this->publishedOn()));
+        return $this;
+    }
+
+    public function unpublish(): Question
+    {
+        parent::unpublish();
+        $this->recordThat(new QuestionWasUnpublished($this->questionId));
         return $this;
     }
 
