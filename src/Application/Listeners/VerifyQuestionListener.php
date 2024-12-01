@@ -13,6 +13,7 @@ namespace App\Application\Listeners;
 
 use App\Application\Question\VerifyQuestionCommand;
 use App\Application\Question\VerifyQuestionHandler;
+use App\Domain\Event\Question\QuestionHasChanged;
 use App\Domain\Event\Question\QuestionWasPosted;
 use Symfony\Component\EventDispatcher\Attribute\AsEventListener;
 
@@ -21,7 +22,8 @@ use Symfony\Component\EventDispatcher\Attribute\AsEventListener;
  *
  * @package App\Application\Listeners
  */
-#[AsEventListener(event: QuestionWasPosted::class, method: 'onQuestionPost')]
+#[AsEventListener(event: QuestionWasPosted::class, method: 'onQuestionPostedOrChanged')]
+#[AsEventListener(event: QuestionHasChanged::class, method: 'onQuestionPostedOrChanged')]
 final readonly class VerifyQuestionListener
 {
 
@@ -30,8 +32,7 @@ final readonly class VerifyQuestionListener
     {
     }
 
-
-    public function onQuestionPost(QuestionWasPosted $event): void
+    public function onQuestionPostedOrChanged(QuestionWasPosted|QuestionHasChanged $event): void
     {
         $this->handler->handle(
             new VerifyQuestionCommand($event->questionId())
