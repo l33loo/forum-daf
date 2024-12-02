@@ -31,7 +31,7 @@ final class QuestionHasChanged extends AbstractEvent implements Event, JsonSeria
     }
 
     /**
-     * QuestionWasAccepted questionId
+     * QuestionHasChanged questionId
      *
      * @return QuestionId
      */
