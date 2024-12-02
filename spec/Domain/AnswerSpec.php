@@ -14,6 +14,7 @@ use App\Domain\Event\Answer\AnswerWasAccepted;
 use App\Domain\Event\Answer\AnswerWasGiven;
 use App\Domain\Event\Answer\AnswerWasPublished;
 use App\Domain\Event\Answer\AnswerWasRejected;
+use App\Domain\Event\Answer\AnswerWasUnpublished;
 use App\Domain\Post;
 use App\Domain\User;
 use PhpSpec\ObjectBehavior;
@@ -105,18 +106,18 @@ class AnswerSpec extends ObjectBehavior
         $events[0]->shouldBeAnInstanceOf(AnswerWasPublished::class);
     }
 
-//    function it_can_be_unpublished()
-//    {
-//        $this->publish();
-//        $this->releaseEvents();
-//        $this->isPublished()->shouldBe(true);
-//        $this->unpublish()->shouldBe($this->getWrappedObject());
-//        $this->isPublished()->shouldBe(false);
-//        $events = $this->releaseEvents();
-//        $events->shouldHaveCount(1);
-//        $events[0]->shouldBeAnInstanceOf(AnswerWasUnpublished::class);
-//    }
-//
+    function it_can_be_unpublished()
+    {
+        $this->publish();
+        $this->releaseEvents();
+        $this->isPublished()->shouldBe(true);
+        $this->unpublish()->shouldBe($this->getWrappedObject());
+        $this->isPublished()->shouldBe(false);
+        $events = $this->releaseEvents();
+        $events->shouldHaveCount(1);
+        $events[0]->shouldBeAnInstanceOf(AnswerWasUnpublished::class);
+    }
+
 //    function it_can_be_changed() {
 //        $this->releaseEvents();
 //        $this->change('New body...')->shouldBe($this->getWrappedObject());

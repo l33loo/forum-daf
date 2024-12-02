@@ -19,6 +19,7 @@ use App\Domain\Event\Answer\AnswerWasGiven;
 use App\Domain\Answer\AnswerId;
 use App\Domain\Event\Answer\AnswerWasPublished;
 use App\Domain\Event\Answer\AnswerWasRejected;
+use App\Domain\Event\Answer\AnswerWasUnpublished;
 use App\Infrastructure\JsonApi\AnswerSchema;
 use Doctrine\ORM\Mapping\Column;
 use Doctrine\ORM\Mapping\Entity;
@@ -93,13 +94,13 @@ class Answer extends Post
         return $this;
     }
 
-//    public function unpublish(): Answer
-//    {
-//        parent::unpublish();
-//        $this->recordThat(new AnswerWasUnpublished($this->answerId));
-//        return $this;
-//    }
-//
+    public function unpublish(): Answer
+    {
+        parent::unpublish();
+        $this->recordThat(new AnswerWasUnpublished($this->answerId));
+        return $this;
+    }
+
 //    public function change(string $body): self
 //    {
 //        $this->body = $body;
