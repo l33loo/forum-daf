@@ -27,7 +27,7 @@ use Doctrine\ORM\Mapping\Entity;
 use Doctrine\ORM\Mapping\GeneratedValue;
 use Doctrine\ORM\Mapping\Id;
 use Doctrine\ORM\Mapping\JoinColumn;
-use Doctrine\ORM\Mapping\ManyToOne;
+use Doctrine\ORM\Mapping\ManyToMany;
 use Doctrine\ORM\Mapping\Table;
 use Slick\JSONAPI\Object\SchemaDiscover\Attributes\AsResourceObject;
 
@@ -47,7 +47,8 @@ class Question extends Post
     #[Column(name: 'id', type: 'QuestionId')]
     private QuestionId $questionId;
 
-    #[ManyToOne(targetEntity: Tag::class)]
+    // TODO: Fix
+    #[ManyToMany(targetEntity: Tag::class)]
     #[JoinColumn(name: 'tag_id', referencedColumnName: 'id')]
     private ?Collection $tags = null;
 
