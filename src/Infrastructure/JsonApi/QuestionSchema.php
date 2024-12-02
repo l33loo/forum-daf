@@ -54,6 +54,7 @@ final class QuestionSchema extends AbstractResourceSchema implements ResourceSch
      */
     public function attributes($object): ?array
     {
+        // TODO: tags?
         return [
             'question' => $object->question(),
             'body' => $object->body(),
