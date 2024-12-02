@@ -11,12 +11,9 @@ declare(strict_types=1);
 
 namespace App\Domain;
 
-//use App\Domain\Event\Answer\AnswerHasChanged;
 use App\Domain\Event\Answer\AnswerWasAccepted;
 use App\Domain\Event\Answer\AnswerWasChanged;
 use App\Domain\Event\Answer\AnswerWasGiven;
-//use App\Domain\Event\Answer\AnswerWasRejected;
-//use App\Domain\Event\Answer\AnswerWasUnpublished;
 use App\Domain\Answer\AnswerId;
 use App\Domain\Event\Answer\AnswerWasPublished;
 use App\Domain\Event\Answer\AnswerWasRejected;
