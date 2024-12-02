@@ -38,7 +38,7 @@ final class AddAnswerCommentController extends AbstractController
     /**
      * @throws DomainException
      */
-    #[Route(path: '/api/answer/{answerId}/add-tag', name: 'api-add-answer-tag', methods: ['PATCH'])]
+    #[Route(path: '/api/answer/{answerId}/add-comment', name: 'api-add-answer-comment', methods: ['POST'])]
     #[IsGranted(User::ROLE_VERIFIED_USER)]
     public function handle(AnswerId $answerId): Response
     {
