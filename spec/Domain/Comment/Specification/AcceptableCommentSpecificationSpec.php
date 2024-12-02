@@ -7,20 +7,20 @@
  * file that was distributed with this source code.
  */
 
-namespace spec\App\Domain\Answer\Specification;
+namespace spec\App\Domain\Comment\Specification;
 
 use App\Domain\ContentValidator;
-use App\Domain\Answer;
-use App\Domain\Answer\AnswerSpecification;
-use App\Domain\Answer\Specification\AcceptableAnswerSpecification;
+use App\Domain\Comment;
+use App\Domain\Comment\CommentSpecification;
+use App\Domain\Comment\Specification\AcceptableCommentSpecification;
 use PhpSpec\ObjectBehavior;
 
 /**
- * AcceptableAnswerSpecificationSpec specs
+ * AcceptableCommentSpecificationSpec specs
  *
- * @package spec\App\Domain\Answer\Specification
+ * @package spec\App\Domain\Comment\Specification
  */
-class AcceptableAnswerSpecificationSpec extends ObjectBehavior
+class AcceptableCommentSpecificationSpec extends ObjectBehavior
 {
 
     private $body;
@@ -32,26 +32,26 @@ class AcceptableAnswerSpecificationSpec extends ObjectBehavior
 
     function it_is_initializable()
     {
-        $this->shouldHaveType(AcceptableAnswerSpecification::class);
+        $this->shouldHaveType(AcceptableCommentSpecification::class);
     }
 
-    function its_an_answer_specification()
+    function its_a_comment_specification()
     {
-        $this->shouldBeAnInstanceOf(AnswerSpecification::class);
+        $this->shouldBeAnInstanceOf(CommentSpecification::class);
     }
 
     function it_fails_when_content_is_not_valid(
         ContentValidator $validator,
-        Answer $answer
+        Comment $comment
     ) {
         $this->body = "Some body";
-        $answer->body()->willReturn($this->body);
+        $comment->body()->willReturn($this->body);
         $reasonForRejection = "Inappropriate content";
 
         $validator->validateContent($this->body)->willReturn(false);
         $validator->reason()->willReturn($reasonForRejection);
 
-        $this->isSatisfiedBy($answer)->shouldReturn(false);
+        $this->isSatisfiedBy($comment)->shouldReturn(false);
         $this->reason()->shouldBe($reasonForRejection);
     }
 }

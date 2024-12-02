@@ -9,45 +9,39 @@
 
 namespace spec\App\Domain;
 
-use App\Domain\Answer;
 use App\Domain\Comment;
-use App\Domain\Event\Answer\AnswerWasAccepted;
-use App\Domain\Event\Answer\AnswerWasChanged;
-use App\Domain\Event\Answer\AnswerWasGiven;
-use App\Domain\Event\Answer\AnswerWasPublished;
-use App\Domain\Event\Answer\AnswerWasRejected;
-use App\Domain\Event\Answer\AnswerWasUnpublished;
+use App\Domain\Event\Comment\CommentWasAccepted;
+use App\Domain\Event\Comment\CommentWasChanged;
 use App\Domain\Event\Comment\CommentWasAdded;
+use App\Domain\Event\Comment\CommentWasPublished;
+use App\Domain\Event\Comment\CommentWasRejected;
+use App\Domain\Event\Comment\CommentWasUnpublished;
 use App\Domain\Post;
 use App\Domain\User;
-use Doctrine\Common\Collections\Collection;
 use PhpSpec\ObjectBehavior;
 use Slick\Event\EventGenerator;
 
 /**
- * AnswerSpec specs
+ * CommentSpec specs
  *
  * @package spec\App\Domain
  */
-class AnswerSpec extends ObjectBehavior
+class CommentSpec extends ObjectBehavior
 {
     private $body;
-    private $author;
 
-    function let(Comment $comment)
+    function let(User $author)
     {
-        $this->body = "Answer body...";
-        $this->author = new User(new User\Email('user@mail.com'));
-        $comment->commentId()->willReturn(new Comment\CommentId());
-        $comment->author()->willReturn($this->author);
-        $comment->body()->willReturn($this->body);
+        $this->body = "Comment body...";
 
-        $this->beConstructedWith($this->author, $this->body);
+        $author->userId()->willReturn(new User\UserId());
+
+        $this->beConstructedWith($author, $this->body);
     }
 
     function it_is_initializable()
     {
-        $this->shouldHaveType(Answer::class);
+        $this->shouldHaveType(Comment::class);
     }
 
     function its_a_post()
@@ -55,9 +49,9 @@ class AnswerSpec extends ObjectBehavior
         $this->shouldBeAnInstanceOf(Post::class);
     }
 
-    function it_has_author()
+    function it_has_author(User $author)
     {
-        $this->author()->shouldBe($this->author);
+        $this->author()->shouldBe($author);
     }
 
     function it_has_a_body()
@@ -70,7 +64,7 @@ class AnswerSpec extends ObjectBehavior
         $this->shouldBeAnInstanceOf(EventGenerator::class);
         $events = $this->releaseEvents();
         $events->shouldHaveCount(1);
-        $events[0]->shouldBeAnInstanceOf(AnswerWasGiven::class);
+        $events[0]->shouldBeAnInstanceOf(CommentWasAdded::class);
     }
 
     function it_can_be_accepted()
@@ -81,7 +75,7 @@ class AnswerSpec extends ObjectBehavior
         $this->isAccepted()->shouldBe(true);
         $events = $this->releaseEvents();
         $events->shouldHaveCount(1);
-        $events[0]->shouldBeAnInstanceOf(AnswerWasAccepted::class);
+        $events[0]->shouldBeAnInstanceOf(CommentWasAccepted::class);
     }
 
     function it_can_be_rejected()
@@ -97,7 +91,7 @@ class AnswerSpec extends ObjectBehavior
 
         $events = $this->releaseEvents();
         $events->shouldHaveCount(1);
-        $events[0]->shouldBeAnInstanceOf(AnswerWasRejected::class);
+        $events[0]->shouldBeAnInstanceOf(CommentWasRejected::class);
     }
 
     function it_can_be_published()
@@ -110,7 +104,7 @@ class AnswerSpec extends ObjectBehavior
         $this->publishedOn()->shouldBeAnInstanceOf(\DateTimeImmutable::class);
         $events = $this->releaseEvents();
         $events->shouldHaveCount(1);
-        $events[0]->shouldBeAnInstanceOf(AnswerWasPublished::class);
+        $events[0]->shouldBeAnInstanceOf(CommentWasPublished::class);
     }
 
     function it_can_be_unpublished()
@@ -122,30 +116,14 @@ class AnswerSpec extends ObjectBehavior
         $this->isPublished()->shouldBe(false);
         $events = $this->releaseEvents();
         $events->shouldHaveCount(1);
-        $events[0]->shouldBeAnInstanceOf(AnswerWasUnpublished::class);
+        $events[0]->shouldBeAnInstanceOf(CommentWasUnpublished::class);
     }
 
-    function it_can_be_changed()
-    {
+    function it_can_be_changed() {
         $this->releaseEvents();
         $this->change('New body...')->shouldBe($this->getWrappedObject());
         $events = $this->releaseEvents();
         $events->shouldHaveCount(1);
-        $events[0]->shouldBeAnInstanceOf(AnswerWasChanged::class);
-    }
-
-    function it_has_comments()
-    {
-        $this->comments()->shouldHaveType(Collection::class);
-    }
-
-    function it_can_be_added_a_comment(
-        Comment $comment
-    ) {
-        $this->releaseEvents();
-        $this->addComment($comment)->shouldBe($this->getWrappedObject());
-        $events = $this->releaseEvents();
-        $events->shouldHaveCount(1);
-        $events[0]->shouldBeAnInstanceOf(CommentWasAdded::class);
+        $events[0]->shouldBeAnInstanceOf(CommentWasChanged::class);
     }
 }
