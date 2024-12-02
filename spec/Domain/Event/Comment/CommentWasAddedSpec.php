@@ -11,6 +11,7 @@ namespace spec\App\Domain\Event\Comment;
 
 use App\Domain\Event\Comment\CommentWasAdded;
 use App\Domain\Comment\CommentId;
+use App\Domain\Post\PostId;
 use App\Domain\User\UserId;
 use DateTimeImmutable;
 use PhpSpec\ObjectBehavior;
@@ -24,17 +25,18 @@ use Slick\Event\Event;
  */
 class CommentWasAddedSpec extends ObjectBehavior
 {
-
+    private $postId;
     private $commentId;
-    private $userId;
+    private $authorId;
     private $body;
 
     function let()
     {
+        $this->postId = new PostId();
         $this->commentId = new CommentId();
-        $this->userId = new UserId();
+        $this->authorId = new UserId();
         $this->body = "Comment body...";
-        $this->beConstructedWith($this->commentId, $this->userId, $this->body);
+        $this->beConstructedWith($this->postId, $this->commentId, $this->authorId, $this->body);
     }
 
     function it_is_initializable()
@@ -42,14 +44,19 @@ class CommentWasAddedSpec extends ObjectBehavior
         $this->shouldHaveType(CommentWasAdded::class);
     }
 
+    function it_has_a_postId()
+    {
+        $this->postId()->shouldBe($this->postId);
+    }
+
     function it_has_a_commentId()
     {
         $this->commentId()->shouldBe($this->commentId);
     }
 
-    function it_has_a_userId()
+    function it_has_a_authorId()
     {
-        $this->userId()->shouldBe($this->userId);
+        $this->authorId()->shouldBe($this->authorId);
     }
 
     function it_has_a_body()
@@ -68,8 +75,9 @@ class CommentWasAddedSpec extends ObjectBehavior
     {
         $this->shouldBeAnInstanceOf(\JsonSerializable::class);
         $this->jsonSerialize()->shouldBe([
+            'postId' => $this->postId,
             'commentId' => $this->commentId,
-            'userId' => $this->userId,
+            'authorId' => $this->authorId,
             'body' => $this->body,
         ]);
     }

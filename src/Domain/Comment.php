@@ -44,17 +44,18 @@ class Comment extends Post
     private CommentId $commentId;
 
     public function __construct(
-        User $user,
+        User $author,
         #[Column]
         string $body
     ) {
         $this->commentId = new CommentId();
 
-        parent::__construct($user, $body);
+        parent::__construct($author, $body);
 
         $this->recordThat(new CommentWasAdded(
+            $this->postId,
             $this->commentId,
-            $user->userId(),
+            $author->userId(),
             $body
         ));
     }

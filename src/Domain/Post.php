@@ -37,7 +37,7 @@ abstract class Post implements EventGenerator
     use EventGeneratorMethods;
 
     #[Column(type: 'PostId', unique: true)]
-    private PostId $postId;
+    protected PostId $postId;
 
     #[Column(type: "boolean", options: ["default" => false])]
     private bool $published = false;

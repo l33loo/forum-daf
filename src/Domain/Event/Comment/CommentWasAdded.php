@@ -12,6 +12,7 @@ declare(strict_types=1);
 namespace App\Domain\Event\Comment;
 
 use App\Domain\Comment\CommentId;
+use App\Domain\Post\PostId;
 use App\Domain\User\UserId;
 use JsonSerializable;
 use Slick\Event\Domain\AbstractEvent;
@@ -29,16 +30,28 @@ final class CommentWasAdded extends AbstractEvent implements Event, JsonSerializ
     /**
      * Creates a CommentWasAdded
      *
+     * @param PostId $postId The ID of the post (question or answer).
      * @param CommentId $commentId The ID of the comment.
-     * @param UserId $userId The ID of the user who posted the comment.
+     * @param UserId $authorId The ID of the author who posted the comment.
      * @param string $body The body text of the comment.
      */
     public function __construct(
+        private readonly PostId $postId,
         private readonly CommentId $commentId,
-        private readonly UserId $userId,
+        private readonly UserId $authorId,
         private readonly string $body
     ) {
         parent::__construct();
+    }
+
+    /**
+     * CommentWasAdded postId
+     *
+     * @return PostId
+     */
+    public function postId(): PostId
+    {
+        return $this->postId;
     }
 
     /**
@@ -52,13 +65,13 @@ final class CommentWasAdded extends AbstractEvent implements Event, JsonSerializ
     }
 
     /**
-     * CommentWasAdded userId
+     * CommentWasAdded authorId
      *
      * @return UserId
      */
-    public function userId(): UserId
+    public function authorId(): UserId
     {
-        return $this->userId;
+        return $this->authorId;
     }
 
     /**
@@ -78,8 +91,9 @@ final class CommentWasAdded extends AbstractEvent implements Event, JsonSerializ
     public function jsonSerialize(): array
     {
         return [
+            'postId' => $this->postId,
             'commentId' => $this->commentId,
-            'userId' => $this->userId,
+            'authorId' => $this->authorId,
             'body' => $this->body,
         ];
     }

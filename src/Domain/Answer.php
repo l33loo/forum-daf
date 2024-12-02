@@ -18,6 +18,7 @@ use App\Domain\Answer\AnswerId;
 use App\Domain\Event\Answer\AnswerWasPublished;
 use App\Domain\Event\Answer\AnswerWasRejected;
 use App\Domain\Event\Answer\AnswerWasUnpublished;
+use App\Domain\Event\Comment\CommentWasAdded;
 use App\Infrastructure\JsonApi\AnswerSchema;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
@@ -119,5 +120,13 @@ class Answer extends Post
     public function comments(): Collection
     {
         return $this->comments;
+    }
+
+    public function addComment(Comment $comment): self
+    {
+        $this->comments->add($comment);
+        $this->recordThat(new CommentWasAdded($this->postId, $comment->commentId(), $comment->author()->userId(), $comment->body()));
+
+        return $this;
     }
 }

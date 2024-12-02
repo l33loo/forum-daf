@@ -12,6 +12,7 @@ declare(strict_types=1);
 namespace App\Application\Answer;
 
 use App\Domain\Answer\AnswerId;
+use App\Domain\User\UserId;
 
 /**
  * AddAnswerCommentCommand
@@ -22,17 +23,23 @@ final class AddAnswerCommentCommand
 {
     public function __construct(
         private AnswerId $answerId,
-        private string $comment
+        private string $body,
+        private UserId $authorId
     ) {
     }
 
-    public function answerId()
+    public function answerId(): AnswerId
     {
         return $this->answerId;
     }
 
-    public function comment()
+    public function body(): string
     {
-        return $this->comment;
+        return $this->body;
+    }
+
+    public function authorId(): UserId
+    {
+        return $this->authorId;
     }
 }

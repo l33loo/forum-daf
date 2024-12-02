@@ -10,12 +10,14 @@
 namespace spec\App\Domain;
 
 use App\Domain\Answer;
+use App\Domain\Comment;
 use App\Domain\Event\Answer\AnswerWasAccepted;
 use App\Domain\Event\Answer\AnswerWasChanged;
 use App\Domain\Event\Answer\AnswerWasGiven;
 use App\Domain\Event\Answer\AnswerWasPublished;
 use App\Domain\Event\Answer\AnswerWasRejected;
 use App\Domain\Event\Answer\AnswerWasUnpublished;
+use App\Domain\Event\Comment\CommentWasAdded;
 use App\Domain\Post;
 use App\Domain\User;
 use Doctrine\Common\Collections\Collection;
@@ -30,14 +32,17 @@ use Slick\Event\EventGenerator;
 class AnswerSpec extends ObjectBehavior
 {
     private $body;
+    private $author;
 
-    function let(User $author)
+    function let(Comment $comment)
     {
         $this->body = "Answer body...";
+        $this->author = new User(new User\Email('user@mail.com'));
+        $comment->commentId()->willReturn(new Comment\CommentId());
+        $comment->author()->willReturn($this->author);
+        $comment->body()->willReturn($this->body);
 
-        $author->userId()->willReturn(new User\UserId());
-
-        $this->beConstructedWith($author, $this->body);
+        $this->beConstructedWith($this->author, $this->body);
     }
 
     function it_is_initializable()
@@ -50,9 +55,9 @@ class AnswerSpec extends ObjectBehavior
         $this->shouldBeAnInstanceOf(Post::class);
     }
 
-    function it_has_author(User $author)
+    function it_has_author()
     {
-        $this->author()->shouldBe($author);
+        $this->author()->shouldBe($this->author);
     }
 
     function it_has_a_body()
@@ -132,5 +137,15 @@ class AnswerSpec extends ObjectBehavior
     function it_has_comments()
     {
         $this->comments()->shouldHaveType(Collection::class);
+    }
+
+    function it_can_be_added_a_comment(
+        Comment $comment
+    ) {
+        $this->releaseEvents();
+        $this->addComment($comment)->shouldBe($this->getWrappedObject());
+        $events = $this->releaseEvents();
+        $events->shouldHaveCount(1);
+        $events[0]->shouldBeAnInstanceOf(CommentWasAdded::class);
     }
 }
