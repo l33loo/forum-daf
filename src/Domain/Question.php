@@ -18,6 +18,7 @@ use App\Domain\Event\Question\QuestionWasPublished;
 use App\Domain\Event\Question\QuestionWasRejected;
 use App\Domain\Event\Question\QuestionWasUnpublished;
 use App\Domain\Event\Question\TagWasAdded;
+use App\Domain\Event\Question\TagWasRemoved;
 use App\Domain\Question\QuestionId;
 use App\Infrastructure\JsonApi\QuestionSchema;
 use Doctrine\Common\Collections\ArrayCollection;
@@ -141,6 +142,7 @@ class Question extends Post
     {
         if ($this->tags->removeElement($tag)) {
             $tag->removeQuestion($this);
+            $this->recordThat(new TagWasRemoved($this->questionId, $tag));
         }
 
         return $this;

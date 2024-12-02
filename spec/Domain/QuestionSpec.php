@@ -9,11 +9,14 @@
 
 namespace spec\App\Domain;
 
+use App\Domain\Event\Question\QuestionHasChanged;
 use App\Domain\Event\Question\QuestionWasAccepted;
 use App\Domain\Event\Question\QuestionWasPosted;
 use App\Domain\Event\Question\QuestionWasPublished;
 use App\Domain\Event\Question\QuestionWasRejected;
 use App\Domain\Event\Question\QuestionWasUnpublished;
+use App\Domain\Event\Question\TagWasAdded;
+use App\Domain\Event\Question\TagWasRemoved;
 use App\Domain\Post;
 use App\Domain\Question;
 use App\Domain\Question\QuestionId;
@@ -21,7 +24,6 @@ use App\Domain\Tag;
 use App\Domain\User;
 use PhpSpec\ObjectBehavior;
 use Slick\Event\EventGenerator;
-use spec\App\Domain\Event\Question\QuestionWasUnpublishedSpec;
 
 /**
  * QuestionSpec specs
@@ -144,16 +146,18 @@ class QuestionSpec extends ObjectBehavior
         $this->tags()[0]->shouldBe($this->tag);
         $events = $this->releaseEvents();
         $events->shouldHaveCount(1);
+        $events[0]->shouldBeAnInstanceOf(TagWasAdded::class);
     }
 
     function it_can_be_removed_a_tag() {
-        $this->releaseEvents();
         $this->addTag($this->tag);
+        $this->releaseEvents();
         $this->tags()->shouldHaveCount(1);
         $this->removeTag($this->tag)->shouldBe($this->getWrappedObject());
         $this->tags()->shouldHaveCount(0);
         $events = $this->releaseEvents();
         $events->shouldHaveCount(1);
+        $events[0]->shouldBeAnInstanceOf(TagWasRemoved::class);
     }
 
     function it_can_be_changed() {
@@ -161,5 +165,6 @@ class QuestionSpec extends ObjectBehavior
         $this->change('New question?', 'New body...')->shouldBe($this->getWrappedObject());
         $events = $this->releaseEvents();
         $events->shouldHaveCount(1);
+        $events[0]->shouldBeAnInstanceOf(QuestionHasChanged::class);
     }
 }
