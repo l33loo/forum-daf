@@ -24,7 +24,6 @@ class AcceptableAnswerSpecificationSpec extends ObjectBehavior
 {
 
     private $body;
-    private $answer;
 
     function let(ContentValidator $validator)
     {
@@ -36,7 +35,7 @@ class AcceptableAnswerSpecificationSpec extends ObjectBehavior
         $this->shouldHaveType(AcceptableAnswerSpecification::class);
     }
 
-    function its_a_answer_specification()
+    function its_an_answer_specification()
     {
         $this->shouldBeAnInstanceOf(AnswerSpecification::class);
     }
@@ -46,7 +45,6 @@ class AcceptableAnswerSpecificationSpec extends ObjectBehavior
         Answer $answer
     ) {
         $this->body = "Some body";
-        $this->answer = 'A title?';
         $answer->body()->willReturn($this->body);
         $reasonForRejection = "Inappropriate content";
 
