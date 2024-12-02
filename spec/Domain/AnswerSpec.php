@@ -18,6 +18,7 @@ use App\Domain\Event\Answer\AnswerWasRejected;
 use App\Domain\Event\Answer\AnswerWasUnpublished;
 use App\Domain\Post;
 use App\Domain\User;
+use Doctrine\Common\Collections\Collection;
 use PhpSpec\ObjectBehavior;
 use Slick\Event\EventGenerator;
 
@@ -119,11 +120,17 @@ class AnswerSpec extends ObjectBehavior
         $events[0]->shouldBeAnInstanceOf(AnswerWasUnpublished::class);
     }
 
-    function it_can_be_changed() {
+    function it_can_be_changed()
+    {
         $this->releaseEvents();
         $this->change('New body...')->shouldBe($this->getWrappedObject());
         $events = $this->releaseEvents();
         $events->shouldHaveCount(1);
         $events[0]->shouldBeAnInstanceOf(AnswerWasChanged::class);
+    }
+
+    function it_has_comments()
+    {
+        $this->comments()->shouldHaveType(Collection::class);
     }
 }
