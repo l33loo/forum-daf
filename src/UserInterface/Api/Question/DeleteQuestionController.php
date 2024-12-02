@@ -11,8 +11,8 @@ declare(strict_types=1);
 
 namespace App\UserInterface\Api\Question;
 
-use App\Application\Question\UnpublishQuestionCommand;
-use App\Application\Question\UnpublishQuestionHandler;
+use App\Application\Question\RemoveQuestionCommand;
+use App\Application\Question\RemoveQuestionHandler;
 use App\Domain\DomainException;
 use App\Domain\Question\QuestionId;
 use App\Domain\User;
@@ -23,30 +23,31 @@ use Symfony\Component\Routing\Attribute\Route;
 use Symfony\Component\Security\Http\Attribute\IsGranted;
 
 /**
- * UnpublishQuestionController
+ * DeleteQuestionController
  *
  * @package App\UserInterface\Api\Question
  */
-final class UnpublishQuestionController extends AbstractController
+final class DeleteQuestionController extends AbstractController
 {
     use ApiControllerMethods;
 
-    public function __construct(private readonly UnpublishQuestionHandler $handler)
+    public function __construct(private readonly RemoveQuestionHandler $handler)
     {}
 
     /**
      * @throws DomainException
      */
-    #[Route(path: '/api/question/{questionId}', name: 'api-unpublish-question', methods: ['PATCH'])]
-    #[IsGranted(User::ROLE_ADMIN)]
+    #[Route(path: '/api/question/{questionId}', name: 'api-delete-question', methods: ['DELETE'])]
+    #[IsGranted(User::ROLE_USER)]
     public function handle(QuestionId $questionId): Response
     {
-        $command = $this->decodeTo(UnpublishQuestionCommand::class);
+        $command = $this->decodeTo(RemoveQuestionCommand::class);
         $question = $this->handler->handle($command);
         return $this->apiResponse(
             $question,
             Response::HTTP_NO_CONTENT,
             [
+                // TODO: fix this
                 "location" => $this->generateUrl('api-read-question', ['questionId' => $question->question()])
             ]
         );

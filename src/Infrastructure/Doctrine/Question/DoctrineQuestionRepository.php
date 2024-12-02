@@ -50,4 +50,14 @@ final readonly class DoctrineQuestionRepository implements QuestionRepository
 
         throw new EntityNotFound("Question with id {$questionId} not found");
     }
+
+    /**
+     * @inheritDoc
+     */
+    public function delete(Question $question): Question
+    {
+        $this->entityManager->remove($question);
+        $this->entityManager->flush();
+        return $question;
+    }
 }

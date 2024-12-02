@@ -39,4 +39,12 @@ interface QuestionRepository
      * @throws DomainException|EntityNotFound When there are no questions with provided identifier
      */
     public function withId(QuestionId $questionId): Question;
+
+    /**
+     * Delete a question from the repository
+     *
+     * @param Question $question The question to be deleted
+     * @return Question The deleted question
+     */
+    public function delete(Question $question): Question;
 }
