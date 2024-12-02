@@ -13,6 +13,7 @@ namespace App\Domain;
 
 //use App\Domain\Event\Answer\AnswerHasChanged;
 use App\Domain\Event\Answer\AnswerWasAccepted;
+use App\Domain\Event\Answer\AnswerWasChanged;
 use App\Domain\Event\Answer\AnswerWasGiven;
 //use App\Domain\Event\Answer\AnswerWasRejected;
 //use App\Domain\Event\Answer\AnswerWasUnpublished;
@@ -101,11 +102,11 @@ class Answer extends Post
         return $this;
     }
 
-//    public function change(string $body): self
-//    {
-//        $this->body = $body;
-//        $this->recordThat(new AnswerHasChanged($this->answerId));
-//
-//        return $this;
-//    }
+    public function change(string $body): self
+    {
+        $this->body = $body;
+        $this->recordThat(new AnswerWasChanged($this->answerId));
+
+        return $this;
+    }
 }

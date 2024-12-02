@@ -11,6 +11,7 @@ namespace spec\App\Domain;
 
 use App\Domain\Answer;
 use App\Domain\Event\Answer\AnswerWasAccepted;
+use App\Domain\Event\Answer\AnswerWasChanged;
 use App\Domain\Event\Answer\AnswerWasGiven;
 use App\Domain\Event\Answer\AnswerWasPublished;
 use App\Domain\Event\Answer\AnswerWasRejected;
@@ -118,10 +119,11 @@ class AnswerSpec extends ObjectBehavior
         $events[0]->shouldBeAnInstanceOf(AnswerWasUnpublished::class);
     }
 
-//    function it_can_be_changed() {
-//        $this->releaseEvents();
-//        $this->change('New body...')->shouldBe($this->getWrappedObject());
-//        $events = $this->releaseEvents();
-//        $events->shouldHaveCount(1);
-//    }
+    function it_can_be_changed() {
+        $this->releaseEvents();
+        $this->change('New body...')->shouldBe($this->getWrappedObject());
+        $events = $this->releaseEvents();
+        $events->shouldHaveCount(1);
+        $events[0]->shouldBeAnInstanceOf(AnswerWasChanged::class);
+    }
 }
