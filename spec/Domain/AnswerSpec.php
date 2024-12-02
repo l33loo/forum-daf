@@ -12,6 +12,7 @@ namespace spec\App\Domain;
 use App\Domain\Answer;
 use App\Domain\Event\Answer\AnswerWasAccepted;
 use App\Domain\Event\Answer\AnswerWasGiven;
+use App\Domain\Event\Answer\AnswerWasRejected;
 use App\Domain\Post;
 use App\Domain\User;
 use PhpSpec\ObjectBehavior;
@@ -74,22 +75,22 @@ class AnswerSpec extends ObjectBehavior
         $events[0]->shouldBeAnInstanceOf(AnswerWasAccepted::class);
     }
 
-//    function it_can_be_rejected()
-//    {
-//        $this->accept();
-//        $this->releaseEvents();
-//        $this->isAccepted()->shouldBe(true);
-//
-//        $reason = "Offensive content";
-//        $this->reject($reason)->shouldBe($this->getWrappedObject());
-//        $this->isAccepted()->shouldBe(false);
-//        $this->rejectReason()->shouldBe($reason);
-//
-//        $events = $this->releaseEvents();
-//        $events->shouldHaveCount(1);
-//        $events[0]->shouldBeAnInstanceOf(AnswerWasRejected::class);
-//    }
-//
+    function it_can_be_rejected()
+    {
+        $this->accept();
+        $this->releaseEvents();
+        $this->isAccepted()->shouldBe(true);
+
+        $reason = "Offensive content";
+        $this->reject($reason)->shouldBe($this->getWrappedObject());
+        $this->isAccepted()->shouldBe(false);
+        $this->rejectReason()->shouldBe($reason);
+
+        $events = $this->releaseEvents();
+        $events->shouldHaveCount(1);
+        $events[0]->shouldBeAnInstanceOf(AnswerWasRejected::class);
+    }
+
 //    function it_can_be_published()
 //    {
 //        $this->releaseEvents();

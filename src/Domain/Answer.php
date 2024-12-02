@@ -19,6 +19,7 @@ use App\Domain\Event\Answer\AnswerWasGiven;
 //use App\Domain\Event\Answer\AnswerWasRejected;
 //use App\Domain\Event\Answer\AnswerWasUnpublished;
 use App\Domain\Answer\AnswerId;
+use App\Domain\Event\Answer\AnswerWasRejected;
 use App\Infrastructure\JsonApi\AnswerSchema;
 use Doctrine\ORM\Mapping\Column;
 use Doctrine\ORM\Mapping\Entity;
@@ -76,16 +77,16 @@ class Answer extends Post
         return $this;
     }
 
-//    /**
-//     * @inheritDoc
-//     */
-//    public function reject(string $reason): self
-//    {
-//        parent::reject($reason);
-//        $this->recordThat(new AnswerWasRejected($this->answerId, $reason));
-//        return $this;
-//    }
-//
+    /**
+     * @inheritDoc
+     */
+    public function reject(string $reason): self
+    {
+        parent::reject($reason);
+        $this->recordThat(new AnswerWasRejected($this->answerId, $reason));
+        return $this;
+    }
+
 //    public function publish(): Answer
 //    {
 //        parent::publish();
