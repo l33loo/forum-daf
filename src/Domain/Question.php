@@ -18,6 +18,7 @@ use App\Domain\Event\Question\QuestionWasPublished;
 use App\Domain\Event\Question\QuestionWasRejected;
 use App\Domain\Event\Question\QuestionWasUnpublished;
 use App\Domain\Event\Question\TagWasAdded;
+use App\Domain\Event\Question\TagWasRemoved;
 use App\Domain\Question\QuestionId;
 use App\Infrastructure\JsonApi\QuestionSchema;
 use Doctrine\Common\Collections\ArrayCollection;
@@ -27,7 +28,7 @@ use Doctrine\ORM\Mapping\Entity;
 use Doctrine\ORM\Mapping\GeneratedValue;
 use Doctrine\ORM\Mapping\Id;
 use Doctrine\ORM\Mapping\JoinColumn;
-use Doctrine\ORM\Mapping\ManyToOne;
+use Doctrine\ORM\Mapping\ManyToMany;
 use Doctrine\ORM\Mapping\Table;
 use Slick\JSONAPI\Object\SchemaDiscover\Attributes\AsResourceObject;
 
@@ -47,7 +48,8 @@ class Question extends Post
     #[Column(name: 'id', type: 'QuestionId')]
     private QuestionId $questionId;
 
-    #[ManyToOne(targetEntity: Tag::class)]
+    // TODO: Fix
+    #[ManyToMany(targetEntity: Tag::class)]
     #[JoinColumn(name: 'tag_id', referencedColumnName: 'id')]
     private ?Collection $tags = null;
 
@@ -140,6 +142,7 @@ class Question extends Post
     {
         if ($this->tags->removeElement($tag)) {
             $tag->removeQuestion($this);
+            $this->recordThat(new TagWasRemoved($this->questionId, $tag));
         }
 
         return $this;

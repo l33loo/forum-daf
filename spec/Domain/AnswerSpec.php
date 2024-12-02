@@ -9,48 +9,39 @@
 
 namespace spec\App\Domain;
 
-use App\Domain\Event\Question\QuestionHasChanged;
-use App\Domain\Event\Question\QuestionWasAccepted;
-use App\Domain\Event\Question\QuestionWasPosted;
-use App\Domain\Event\Question\QuestionWasPublished;
-use App\Domain\Event\Question\QuestionWasRejected;
-use App\Domain\Event\Question\QuestionWasUnpublished;
-use App\Domain\Event\Question\TagWasAdded;
-use App\Domain\Event\Question\TagWasRemoved;
+use App\Domain\Answer;
+use App\Domain\Event\Answer\AnswerWasAccepted;
+use App\Domain\Event\Answer\AnswerWasChanged;
+use App\Domain\Event\Answer\AnswerWasGiven;
+use App\Domain\Event\Answer\AnswerWasPublished;
+use App\Domain\Event\Answer\AnswerWasRejected;
+use App\Domain\Event\Answer\AnswerWasUnpublished;
 use App\Domain\Post;
-use App\Domain\Question;
-use App\Domain\Question\QuestionId;
-use App\Domain\Tag;
 use App\Domain\User;
 use PhpSpec\ObjectBehavior;
 use Slick\Event\EventGenerator;
 
 /**
- * QuestionSpec specs
+ * AnswerSpec specs
  *
  * @package spec\App\Domain
  */
-class QuestionSpec extends ObjectBehavior
+class AnswerSpec extends ObjectBehavior
 {
-
-    private $question;
     private $body;
-    private $tag;
 
     function let(User $author)
     {
-        $this->question = "Why?";
-        $this->body = "Question body...";
-        $this->tag = new Tag("hello");
+        $this->body = "Answer body...";
 
         $author->userId()->willReturn(new User\UserId());
 
-        $this->beConstructedWith($author, $this->question, $this->body);
+        $this->beConstructedWith($author, $this->body);
     }
 
     function it_is_initializable()
     {
-        $this->shouldHaveType(Question::class);
+        $this->shouldHaveType(Answer::class);
     }
 
     function its_a_post()
@@ -68,22 +59,12 @@ class QuestionSpec extends ObjectBehavior
         $this->body()->shouldBe($this->body);
     }
 
-    function it_has_a_question()
-    {
-        $this->question()->shouldBe($this->question);
-    }
-
-    function it_has_a_question_id()
-    {
-        $this->questionId()->shouldBeAnInstanceOf(QuestionId::class);
-    }
-
     function its_an_event_generator()
     {
         $this->shouldBeAnInstanceOf(EventGenerator::class);
         $events = $this->releaseEvents();
         $events->shouldHaveCount(1);
-        $events[0]->shouldBeAnInstanceOf(QuestionWasPosted::class);
+        $events[0]->shouldBeAnInstanceOf(AnswerWasGiven::class);
     }
 
     function it_can_be_accepted()
@@ -94,7 +75,7 @@ class QuestionSpec extends ObjectBehavior
         $this->isAccepted()->shouldBe(true);
         $events = $this->releaseEvents();
         $events->shouldHaveCount(1);
-        $events[0]->shouldBeAnInstanceOf(QuestionWasAccepted::class);
+        $events[0]->shouldBeAnInstanceOf(AnswerWasAccepted::class);
     }
 
     function it_can_be_rejected()
@@ -110,7 +91,7 @@ class QuestionSpec extends ObjectBehavior
 
         $events = $this->releaseEvents();
         $events->shouldHaveCount(1);
-        $events[0]->shouldBeAnInstanceOf(QuestionWasRejected::class);
+        $events[0]->shouldBeAnInstanceOf(AnswerWasRejected::class);
     }
 
     function it_can_be_published()
@@ -123,7 +104,7 @@ class QuestionSpec extends ObjectBehavior
         $this->publishedOn()->shouldBeAnInstanceOf(\DateTimeImmutable::class);
         $events = $this->releaseEvents();
         $events->shouldHaveCount(1);
-        $events[0]->shouldBeAnInstanceOf(QuestionWasPublished::class);
+        $events[0]->shouldBeAnInstanceOf(AnswerWasPublished::class);
     }
 
     function it_can_be_unpublished()
@@ -135,36 +116,14 @@ class QuestionSpec extends ObjectBehavior
         $this->isPublished()->shouldBe(false);
         $events = $this->releaseEvents();
         $events->shouldHaveCount(1);
-        $events[0]->shouldBeAnInstanceOf(QuestionWasUnpublished::class);
-    }
-
-    function it_can_be_added_a_tag() {
-        $this->releaseEvents();
-        $this->tags()->shouldHaveCount(0);
-        $this->addTag($this->tag)->shouldBe($this->getWrappedObject());
-        $this->tags()->shouldHaveCount(1);
-        $this->tags()[0]->shouldBe($this->tag);
-        $events = $this->releaseEvents();
-        $events->shouldHaveCount(1);
-        $events[0]->shouldBeAnInstanceOf(TagWasAdded::class);
-    }
-
-    function it_can_be_removed_a_tag() {
-        $this->addTag($this->tag);
-        $this->releaseEvents();
-        $this->tags()->shouldHaveCount(1);
-        $this->removeTag($this->tag)->shouldBe($this->getWrappedObject());
-        $this->tags()->shouldHaveCount(0);
-        $events = $this->releaseEvents();
-        $events->shouldHaveCount(1);
-        $events[0]->shouldBeAnInstanceOf(TagWasRemoved::class);
+        $events[0]->shouldBeAnInstanceOf(AnswerWasUnpublished::class);
     }
 
     function it_can_be_changed() {
         $this->releaseEvents();
-        $this->change('New question?', 'New body...')->shouldBe($this->getWrappedObject());
+        $this->change('New body...')->shouldBe($this->getWrappedObject());
         $events = $this->releaseEvents();
         $events->shouldHaveCount(1);
-        $events[0]->shouldBeAnInstanceOf(QuestionHasChanged::class);
+        $events[0]->shouldBeAnInstanceOf(AnswerWasChanged::class);
     }
 }

@@ -11,16 +11,16 @@ declare(strict_types=1);
 
 namespace App\Infrastructure\JsonApi;
 
-use App\Domain\Question;
+use App\Domain\Answer;
 use Slick\JSONAPI\Object\AbstractResourceSchema;
 use Slick\JSONAPI\Object\ResourceSchema;
 
 /**
- * QuestionSchema
+ * AnswerSchema
  *
  * @package App\Infrastructure\JsonApi
  */
-final class QuestionSchema extends AbstractResourceSchema implements ResourceSchema
+final class AnswerSchema extends AbstractResourceSchema implements ResourceSchema
 {
     /**
      * @inheritDoc
@@ -36,27 +36,26 @@ final class QuestionSchema extends AbstractResourceSchema implements ResourceSch
      */
     public function type($object): string
     {
-        return "questions";
+        return "answers";
     }
 
     /**
      * @inheritDoc
-     * @param Question $object
+     * @param Answer $object
      */
     public function identifier($object): ?string
     {
-        return (string) $object->questionId();
+        return (string) $object->answerId();
     }
 
     /**
      * @inheritDoc
-     * @param Question $object
+     * @param Answer $object
      */
     public function attributes($object): ?array
     {
-        // TODO: tags?
+        // TODO: votes?
         return [
-            'question' => $object->question(),
             'body' => $object->body(),
             'postId' => (string) $object->postId(),
             'published' => $object->isPublished(),
@@ -68,7 +67,7 @@ final class QuestionSchema extends AbstractResourceSchema implements ResourceSch
 
     /**
      * @inheritDoc
-     * @param Question $object
+     * @param Answer $object
      */
     public function relationships($object): ?array
     {
@@ -78,6 +77,4 @@ final class QuestionSchema extends AbstractResourceSchema implements ResourceSch
             ]
         ];
     }
-
-
 }

@@ -9,35 +9,35 @@
 
 declare(strict_types=1);
 
-namespace App\Domain\Event\Question;
+namespace App\Domain\Event\Answer;
 
-use App\Domain\Question\QuestionId;
+use App\Domain\Answer\AnswerId;
 use JsonSerializable;
 use Slick\Event\Domain\AbstractEvent;
 use Slick\Event\Event;
 
 /**
- * QuestionHasChanged
+ * AnswerWasChanged
  *
- * @package App\Domain\Event\Question
+ * @package App\Domain\Event\Answer
  */
-final class QuestionHasChanged extends AbstractEvent implements Event, JsonSerializable
+final class AnswerWasChanged extends AbstractEvent implements Event, JsonSerializable
 {
 
 
-    public function __construct(private readonly QuestionId $questionId)
+    public function __construct(private readonly AnswerId $answerId)
     {
         parent::__construct();
     }
 
     /**
-     * QuestionHasChanged questionId
+     * AnswerWasChanged answerId
      *
-     * @return QuestionId
+     * @return AnswerId
      */
-    public function questionId(): QuestionId
+    public function answerId(): AnswerId
     {
-        return $this->questionId;
+        return $this->answerId;
     }
 
     /**
@@ -46,7 +46,7 @@ final class QuestionHasChanged extends AbstractEvent implements Event, JsonSeria
     public function jsonSerialize(): array
     {
         return [
-            'questionId' => $this->questionId
+            'answerId' => $this->answerId
         ];
     }
 }
