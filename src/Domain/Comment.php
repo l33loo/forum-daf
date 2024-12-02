@@ -41,38 +41,38 @@ class Comment extends Post
     #[Id]
     #[GeneratedValue(strategy: 'NONE')]
     #[Column(name: 'id', type: 'CommentId')]
-    private CommentId $commentIdId;
+    private CommentId $commentId;
 
     public function __construct(
         User $user,
         #[Column]
         string $body
     ) {
-        $this->commentIdId = new CommentId();
+        $this->commentId = new CommentId();
 
         parent::__construct($user, $body);
 
         $this->recordThat(new CommentWasAdded(
-            $this->commentIdId,
+            $this->commentId,
             $user->userId(),
             $body
         ));
     }
 
     /**
-     * Comment $this->commentIdId
+     * Comment $this->commentId
      *
      * @return CommentId
      */
-    public function commentIdId(): CommentId
+    public function commentId(): CommentId
     {
-        return $this->commentIdId;
+        return $this->commentId;
     }
 
     public function accept(): self
     {
         parent::accept();
-        $this->recordThat(new CommentWasAccepted($this->commentIdId));
+        $this->recordThat(new CommentWasAccepted($this->commentId));
         return $this;
     }
 
@@ -82,28 +82,28 @@ class Comment extends Post
     public function reject(string $reason): self
     {
         parent::reject($reason);
-        $this->recordThat(new CommentWasRejected($this->commentIdId, $reason));
+        $this->recordThat(new CommentWasRejected($this->commentId, $reason));
         return $this;
     }
 
     public function publish(): Comment
     {
         parent::publish();
-        $this->recordThat(new CommentWasPublished($this->commentIdId, $this->publishedOn()));
+        $this->recordThat(new CommentWasPublished($this->commentId, $this->publishedOn()));
         return $this;
     }
 
     public function unpublish(): Comment
     {
         parent::unpublish();
-        $this->recordThat(new CommentWasUnpublished($this->commentIdId));
+        $this->recordThat(new CommentWasUnpublished($this->commentId));
         return $this;
     }
 
     public function change(string $body): self
     {
         $this->body = $body;
-        $this->recordThat(new CommentWasChanged($this->commentIdId));
+        $this->recordThat(new CommentWasChanged($this->commentId));
 
         return $this;
     }
