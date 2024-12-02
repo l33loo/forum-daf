@@ -12,7 +12,7 @@ namespace spec\App\Domain;
 use App\Domain\Comment;
 use App\Domain\Event\Comment\CommentWasAccepted;
 use App\Domain\Event\Comment\CommentWasChanged;
-use App\Domain\Event\Comment\CommentWasGiven;
+use App\Domain\Event\Comment\CommentWasAdded;
 use App\Domain\Event\Comment\CommentWasPublished;
 use App\Domain\Event\Comment\CommentWasRejected;
 use App\Domain\Event\Comment\CommentWasUnpublished;
