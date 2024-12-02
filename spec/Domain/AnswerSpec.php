@@ -12,6 +12,7 @@ namespace spec\App\Domain;
 use App\Domain\Answer;
 use App\Domain\Event\Answer\AnswerWasAccepted;
 use App\Domain\Event\Answer\AnswerWasGiven;
+use App\Domain\Event\Answer\AnswerWasPublished;
 use App\Domain\Event\Answer\AnswerWasRejected;
 use App\Domain\Post;
 use App\Domain\User;
@@ -91,19 +92,19 @@ class AnswerSpec extends ObjectBehavior
         $events[0]->shouldBeAnInstanceOf(AnswerWasRejected::class);
     }
 
-//    function it_can_be_published()
-//    {
-//        $this->releaseEvents();
-//        $this->isPublished()->shouldBe(false);
-//        $this->publishedOn()->shouldBe(null);
-//        $this->publish()->shouldBe($this->getWrappedObject());
-//        $this->isPublished()->shouldBe(true);
-//        $this->publishedOn()->shouldBeAnInstanceOf(\DateTimeImmutable::class);
-//        $events = $this->releaseEvents();
-//        $events->shouldHaveCount(1);
-//        $events[0]->shouldBeAnInstanceOf(AnswerWasPublished::class);
-//    }
-//
+    function it_can_be_published()
+    {
+        $this->releaseEvents();
+        $this->isPublished()->shouldBe(false);
+        $this->publishedOn()->shouldBe(null);
+        $this->publish()->shouldBe($this->getWrappedObject());
+        $this->isPublished()->shouldBe(true);
+        $this->publishedOn()->shouldBeAnInstanceOf(\DateTimeImmutable::class);
+        $events = $this->releaseEvents();
+        $events->shouldHaveCount(1);
+        $events[0]->shouldBeAnInstanceOf(AnswerWasPublished::class);
+    }
+
 //    function it_can_be_unpublished()
 //    {
 //        $this->publish();

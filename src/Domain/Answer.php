@@ -14,11 +14,10 @@ namespace App\Domain;
 //use App\Domain\Event\Answer\AnswerHasChanged;
 use App\Domain\Event\Answer\AnswerWasAccepted;
 use App\Domain\Event\Answer\AnswerWasGiven;
-//use App\Domain\Event\Answer\AnswerWasPosted;
-//use App\Domain\Event\Answer\AnswerWasPublished;
 //use App\Domain\Event\Answer\AnswerWasRejected;
 //use App\Domain\Event\Answer\AnswerWasUnpublished;
 use App\Domain\Answer\AnswerId;
+use App\Domain\Event\Answer\AnswerWasPublished;
 use App\Domain\Event\Answer\AnswerWasRejected;
 use App\Infrastructure\JsonApi\AnswerSchema;
 use Doctrine\ORM\Mapping\Column;
@@ -87,13 +86,13 @@ class Answer extends Post
         return $this;
     }
 
-//    public function publish(): Answer
-//    {
-//        parent::publish();
-//        $this->recordThat(new AnswerWasPublished($this->answerId, $this->publishedOn()));
-//        return $this;
-//    }
-//
+    public function publish(): Answer
+    {
+        parent::publish();
+        $this->recordThat(new AnswerWasPublished($this->answerId, $this->publishedOn()));
+        return $this;
+    }
+
 //    public function unpublish(): Answer
 //    {
 //        parent::unpublish();
