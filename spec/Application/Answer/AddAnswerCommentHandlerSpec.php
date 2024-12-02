@@ -17,6 +17,7 @@ use App\Domain\Answer\AnswerId;
 use App\Domain\Answer\AnswerRepository;
 use App\Domain\Comment;
 use App\Domain\Comment\CommentRepository;
+use App\Domain\Post\PostId;
 use App\Domain\User;
 use App\Domain\User\UserId;
 use App\Domain\User\UserRepository;
@@ -32,6 +33,7 @@ use Slick\Event\EventDispatcher;
 class AddAnswerCommentHandlerSpec extends ObjectBehavior
 {
     private $answerId;
+    private $postId;
     private $body;
     private $authorId;
 
@@ -43,6 +45,7 @@ class AddAnswerCommentHandlerSpec extends ObjectBehavior
         User $author
     ) {
         $this->answerId = new AnswerId();
+        $this->postId = new PostId();
         $this->body = "hello";
         $this->authorId = new UserId();
         $answers->withId($this->answerId)->willReturn($answer);
@@ -64,7 +67,7 @@ class AddAnswerCommentHandlerSpec extends ObjectBehavior
         Answer $answer,
         EventDispatcher $dispatcher
     ) {
-        $command = new AddAnswerCommentCommand($this->answerId, $this->body, $this->authorId);
+        $command = new AddAnswerCommentCommand($this->answerId, $this->postId, $this->body, $this->authorId);
         $this->handle($command)->shouldBe($answer);
         $answer->addComment(Argument::type(Comment::class))->shouldHaveBeenCalled();
         $dispatcher->dispatchEventsFrom($answer)->shouldHaveBeenCalled();

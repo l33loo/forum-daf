@@ -11,6 +11,7 @@ namespace spec\App\Application\Answer;
 
 use App\Application\Answer\AddAnswerCommentCommand;
 use App\Domain\Answer\AnswerId;
+use App\Domain\Post\PostId;
 use App\Domain\User\UserId;
 use PhpSpec\ObjectBehavior;
 
@@ -22,15 +23,17 @@ use PhpSpec\ObjectBehavior;
 class AddAnswerCommentCommandSpec extends ObjectBehavior
 {
     private $answerId;
+    private $postId;
     private $body;
     private $authorId;
 
     function let() {
         $this->answerId = new AnswerId();
+        $this->postId = new PostId();
         $this->body = "Hello";
         $this->authorId = new UserId();
 
-        $this->beConstructedWith($this->answerId, $this->body, $this->authorId);
+        $this->beConstructedWith($this->answerId, $this->postId, $this->body, $this->authorId);
     }
 
     function it_is_initializable()
@@ -38,9 +41,14 @@ class AddAnswerCommentCommandSpec extends ObjectBehavior
         $this->shouldHaveType(AddAnswerCommentCommand::class);
     }
 
-    function it_has_a_answer_id()
+    function it_has_a_answerId()
     {
         $this->answerId()->shouldBe($this->answerId);
+    }
+
+    function it_has_a_postId()
+    {
+        $this->postId()->shouldBe($this->postId);
     }
 
     function it_has_a_body()
