@@ -9,6 +9,8 @@
 
 namespace spec\App\Domain;
 
+use App\Domain\Comment;
+use App\Domain\Event\Comment\CommentWasAdded;
 use App\Domain\Event\Question\QuestionHasChanged;
 use App\Domain\Event\Question\QuestionWasAccepted;
 use App\Domain\Event\Question\QuestionWasPosted;
@@ -22,6 +24,7 @@ use App\Domain\Question;
 use App\Domain\Question\QuestionId;
 use App\Domain\Tag;
 use App\Domain\User;
+use Doctrine\Common\Collections\Collection;
 use PhpSpec\ObjectBehavior;
 use Slick\Event\EventGenerator;
 
@@ -37,11 +40,14 @@ class QuestionSpec extends ObjectBehavior
     private $body;
     private $tag;
 
-    function let(User $author)
+    function let(User $author, Comment $comment)
     {
         $this->question = "Why?";
         $this->body = "Question body...";
         $this->tag = new Tag("hello");
+        $comment->commentId()->willReturn(new Comment\CommentId());
+        $comment->author()->willReturn($author);
+        $comment->body()->willReturn($this->body);
 
         $author->userId()->willReturn(new User\UserId());
 
@@ -166,5 +172,20 @@ class QuestionSpec extends ObjectBehavior
         $events = $this->releaseEvents();
         $events->shouldHaveCount(1);
         $events[0]->shouldBeAnInstanceOf(QuestionHasChanged::class);
+    }
+
+    function it_has_comments()
+    {
+        $this->comments()->shouldHaveType(Collection::class);
+    }
+
+    function it_can_be_added_a_comment(
+        Comment $comment
+    ) {
+        $this->releaseEvents();
+        $this->addComment($comment)->shouldBe($this->getWrappedObject());
+        $events = $this->releaseEvents();
+        $events->shouldHaveCount(1);
+        $events[0]->shouldBeAnInstanceOf(CommentWasAdded::class);
     }
 }

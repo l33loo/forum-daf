@@ -42,6 +42,7 @@ use Slick\JSONAPI\Object\SchemaDiscover\Attributes\AsResourceObject;
 #[AsResourceObject(schemaClass: QuestionSchema::class)]
 class Question extends Post
 {
+    use CommentTrait;
 
     #[Id]
     #[GeneratedValue(strategy: 'NONE')]
@@ -55,12 +56,15 @@ class Question extends Post
 
     public function __construct(
         User $user,
+        // TODO: Check
         #[Column]
         private string $question,
         string $body
     ) {
         $this->questionId = new QuestionId();
         $this->tags = new ArrayCollection();
+        $this->comments = new ArrayCollection();
+
         parent::__construct($user, $body);
 
         $this->recordThat(new QuestionWasPosted(
