@@ -12,7 +12,7 @@ declare(strict_types=1);
 namespace App\Domain;
 
 //use App\Domain\Event\Answer\AnswerHasChanged;
-//use App\Domain\Event\Answer\AnswerWasAccepted;
+use App\Domain\Event\Answer\AnswerWasAccepted;
 use App\Domain\Event\Answer\AnswerWasGiven;
 //use App\Domain\Event\Answer\AnswerWasPosted;
 //use App\Domain\Event\Answer\AnswerWasPublished;
@@ -59,23 +59,23 @@ class Answer extends Post
         ));
     }
 
-//    /**
-//     * Answer answerId
-//     *
-//     * @return AnswerId
-//     */
-//    public function answerId(): AnswerId
-//    {
-//        return $this->answerId;
-//    }
-//
-//    public function accept(): self
-//    {
-//        parent::accept();
-//        $this->recordThat(new AnswerWasAccepted($this->answerId));
-//        return $this;
-//    }
-//
+    /**
+     * Answer answerId
+     *
+     * @return AnswerId
+     */
+    public function answerId(): AnswerId
+    {
+        return $this->answerId;
+    }
+
+    public function accept(): self
+    {
+        parent::accept();
+        $this->recordThat(new AnswerWasAccepted($this->answerId));
+        return $this;
+    }
+
 //    /**
 //     * @inheritDoc
 //     */

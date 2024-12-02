@@ -10,6 +10,7 @@
 namespace spec\App\Domain;
 
 use App\Domain\Answer;
+use App\Domain\Event\Answer\AnswerWasAccepted;
 use App\Domain\Event\Answer\AnswerWasGiven;
 use App\Domain\Post;
 use App\Domain\User;
@@ -62,17 +63,17 @@ class AnswerSpec extends ObjectBehavior
         $events[0]->shouldBeAnInstanceOf(AnswerWasGiven::class);
     }
 
-//    function it_can_be_accepted()
-//    {
-//        $this->releaseEvents();
-//        $this->isAccepted()->shouldBe(false);
-//        $this->accept()->shouldBe($this->getWrappedObject());
-//        $this->isAccepted()->shouldBe(true);
-//        $events = $this->releaseEvents();
-//        $events->shouldHaveCount(1);
-//        $events[0]->shouldBeAnInstanceOf(AnswerWasAccepted::class);
-//    }
-//
+    function it_can_be_accepted()
+    {
+        $this->releaseEvents();
+        $this->isAccepted()->shouldBe(false);
+        $this->accept()->shouldBe($this->getWrappedObject());
+        $this->isAccepted()->shouldBe(true);
+        $events = $this->releaseEvents();
+        $events->shouldHaveCount(1);
+        $events[0]->shouldBeAnInstanceOf(AnswerWasAccepted::class);
+    }
+
 //    function it_can_be_rejected()
 //    {
 //        $this->accept();
