@@ -18,6 +18,7 @@ use App\Domain\Comment\CommentId;
 use App\Domain\Event\Comment\CommentWasPublished;
 use App\Domain\Event\Comment\CommentWasRejected;
 use App\Domain\Event\Comment\CommentWasUnpublished;
+// TODO: ?
 use App\Infrastructure\JsonApi\CommentSchema;
 use Doctrine\ORM\Mapping\Column;
 use Doctrine\ORM\Mapping\Entity;
