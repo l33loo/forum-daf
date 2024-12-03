@@ -14,6 +14,7 @@ namespace App\Application\Answer;
 use App\Domain\DomainException;
 use App\Domain\Answer;
 use App\Domain\Answer\AnswerRepository;
+use App\Domain\Question\QuestionRepository;
 use App\Domain\User\UserRepository;
 use Slick\Event\EventDispatcher;
 
@@ -29,6 +30,7 @@ final readonly class GiveAnswerHandler
     public function __construct(
         private UserRepository $users,
         private AnswerRepository $answers,
+        private QuestionRepository $questions,
         private EventDispatcher $dispatcher
     ) {
     }
@@ -44,6 +46,8 @@ final readonly class GiveAnswerHandler
     {
         $user = $this->users->withId($command->userId());
         $answer = new Answer($user, $command->body());
+        $question = $this->questions->withId($command->questionId());
+        $question->addAnswer($answer);
         $this->dispatcher->dispatchEventsFrom(
             $this->answers->add($answer)
         );

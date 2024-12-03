@@ -11,6 +11,7 @@ declare(strict_types=1);
 
 namespace App\Domain;
 
+use App\Domain\Event\Answer\AnswerWasGiven;
 use App\Domain\Event\Question\QuestionHasChanged;
 use App\Domain\Event\Question\QuestionWasAccepted;
 use App\Domain\Event\Question\QuestionWasPosted;
@@ -168,6 +169,24 @@ class Question extends Post
         $this->question = $question;
         $this->body = $body;
         $this->recordThat(new QuestionHasChanged($this->questionId));
+
+        return $this;
+    }
+
+    public function answers(): Collection
+    {
+        return $this->answers;
+    }
+
+    public function addAnswer(Answer $answer): self
+    {
+        $this->answers->add($answer);
+        // TODO: Add question id
+        $this->recordThat(new AnswerWasGiven(
+            $answer->answerId(),
+            $answer->author()->userId(),
+            $answer->body())
+        );
 
         return $this;
     }

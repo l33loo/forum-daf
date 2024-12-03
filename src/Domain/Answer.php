@@ -57,12 +57,6 @@ class Answer extends Post
         $this->comments = new ArrayCollection();
 
         parent::__construct($user, $body);
-
-        $this->recordThat(new AnswerWasGiven(
-            $this->answerId,
-            $user->userId(),
-            $body
-        ));
     }
 
     /**

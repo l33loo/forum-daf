@@ -9,7 +9,9 @@
 
 namespace spec\App\Domain;
 
+use App\Domain\Answer;
 use App\Domain\Comment;
+use App\Domain\Event\Answer\AnswerWasGiven;
 use App\Domain\Event\Comment\CommentWasAdded;
 use App\Domain\Event\Question\QuestionHasChanged;
 use App\Domain\Event\Question\QuestionWasAccepted;
@@ -40,7 +42,7 @@ class QuestionSpec extends ObjectBehavior
     private $body;
     private $tag;
 
-    function let(User $author, Comment $comment)
+    function let(User $author, Comment $comment, Answer $answer)
     {
         $this->question = "Why?";
         $this->body = "Question body...";
@@ -48,6 +50,10 @@ class QuestionSpec extends ObjectBehavior
         $comment->commentId()->willReturn(new Comment\CommentId());
         $comment->author()->willReturn($author);
         $comment->body()->willReturn($this->body);
+
+        $answer->answerId()->willReturn(new Answer\AnswerId());
+        $answer->author()->willReturn($author);
+        $answer->body()->willReturn('Answer body...');
 
         $author->userId()->willReturn(new User\UserId());
 
@@ -187,5 +193,21 @@ class QuestionSpec extends ObjectBehavior
         $events = $this->releaseEvents();
         $events->shouldHaveCount(1);
         $events[0]->shouldBeAnInstanceOf(CommentWasAdded::class);
+    }
+
+    function it_has_answers()
+    {
+        $this->answers()->shouldHaveType(Collection::class);
+    }
+
+    function it_can_be_added_an_answer(
+        Answer $answer
+    )
+    {
+        $this->releaseEvents();
+        $this->addAnswer($answer)->shouldBe($this->getWrappedObject());
+        $events = $this->releaseEvents();
+        $events->shouldHaveCount(1);
+        $events[0]->shouldBeAnInstanceOf(AnswerWasGiven::class);
     }
 }
