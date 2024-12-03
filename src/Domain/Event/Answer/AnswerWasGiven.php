@@ -11,7 +11,9 @@ declare(strict_types=1);
 
 namespace App\Domain\Event\Answer;
 
+use App\Domain\Answer;
 use App\Domain\Answer\AnswerId;
+use App\Domain\Question\QuestionId;
 use App\Domain\User\UserId;
 use JsonSerializable;
 use Slick\Event\Domain\AbstractEvent;
@@ -31,11 +33,13 @@ final class AnswerWasGiven extends AbstractEvent implements Event, JsonSerializa
      *
      * @param AnswerId $answerId The ID of the answer.
      * @param UserId $userId The ID of the user who posted the answer.
+     * @param QuestionId $questionId The ID of the user who posted the answer.
      * @param string $body The body text of the answer.
      */
     public function __construct(
         private readonly AnswerId $answerId,
         private readonly UserId $userId,
+        private readonly QuestionId $questionId,
         private readonly string $body
     ) {
         parent::__construct();
@@ -49,6 +53,16 @@ final class AnswerWasGiven extends AbstractEvent implements Event, JsonSerializa
     public function answerId(): AnswerId
     {
         return $this->answerId;
+    }
+
+    /**
+     * AnswerWasGiven questionId
+     *
+     * @return QuestionId
+     */
+    public function questionId(): QuestionId
+    {
+        return $this->questionId;
     }
 
     /**

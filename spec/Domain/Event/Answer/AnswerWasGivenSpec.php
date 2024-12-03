@@ -11,6 +11,7 @@ namespace spec\App\Domain\Event\Answer;
 
 use App\Domain\Event\Answer\AnswerWasGiven;
 use App\Domain\Answer\AnswerId;
+use App\Domain\Question\QuestionId;
 use App\Domain\User\UserId;
 use DateTimeImmutable;
 use PhpSpec\ObjectBehavior;
@@ -27,14 +28,16 @@ class AnswerWasGivenSpec extends ObjectBehavior
 
     private $answerId;
     private $userId;
+    private $questionId;
     private $body;
 
     function let()
     {
         $this->answerId = new AnswerId();
         $this->userId = new UserId();
+        $this->questionId = new QuestionId();
         $this->body = "Answer body...";
-        $this->beConstructedWith($this->answerId, $this->userId, $this->body);
+        $this->beConstructedWith($this->answerId, $this->userId, $this->questionId, $this->body);
     }
 
     function it_is_initializable()
@@ -50,6 +53,11 @@ class AnswerWasGivenSpec extends ObjectBehavior
     function it_has_a_userId()
     {
         $this->userId()->shouldBe($this->userId);
+    }
+
+    function it_has_a_questionId()
+    {
+        $this->questionId()->shouldBe($this->questionId);
     }
 
     function it_has_a_body()

@@ -181,10 +181,11 @@ class Question extends Post
     public function addAnswer(Answer $answer): self
     {
         $this->answers->add($answer);
-        // TODO: Add question id
+
         $this->recordThat(new AnswerWasGiven(
             $answer->answerId(),
             $answer->author()->userId(),
+            $this->questionId,
             $answer->body())
         );
 
