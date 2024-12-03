@@ -14,7 +14,7 @@ namespace App\Application\Listeners;
 use App\Application\Answer\VerifyAnswerCommand;
 use App\Application\Answer\VerifyAnswerHandler;
 use App\Domain\Event\Answer\AnswerWasChanged;
-use App\Domain\Event\Answer\AnswerWasGiven;
+use App\Domain\Event\Question\AnswerWasGiven;
 use Symfony\Component\EventDispatcher\Attribute\AsEventListener;
 
 /**

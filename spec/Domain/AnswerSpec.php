@@ -13,7 +13,6 @@ use App\Domain\Answer;
 use App\Domain\Comment;
 use App\Domain\Event\Answer\AnswerWasAccepted;
 use App\Domain\Event\Answer\AnswerWasChanged;
-use App\Domain\Event\Answer\AnswerWasGiven;
 use App\Domain\Event\Answer\AnswerWasPublished;
 use App\Domain\Event\Answer\AnswerWasRejected;
 use App\Domain\Event\Answer\AnswerWasUnpublished;

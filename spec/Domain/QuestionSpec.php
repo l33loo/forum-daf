@@ -11,8 +11,8 @@ namespace spec\App\Domain;
 
 use App\Domain\Answer;
 use App\Domain\Comment;
-use App\Domain\Event\Answer\AnswerWasGiven;
 use App\Domain\Event\Comment\CommentWasAdded;
+use App\Domain\Event\Question\AnswerWasGiven;
 use App\Domain\Event\Question\QuestionHasChanged;
 use App\Domain\Event\Question\QuestionWasAccepted;
 use App\Domain\Event\Question\QuestionWasPosted;

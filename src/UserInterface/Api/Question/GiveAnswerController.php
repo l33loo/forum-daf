@@ -9,10 +9,10 @@
 
 declare(strict_types=1);
 
-namespace App\UserInterface\Api\Answer;
+namespace App\UserInterface\Api\Question;
 
-use App\Application\Answer\GiveAnswerCommand;
-use App\Application\Answer\GiveAnswerHandler;
+use App\Application\Question\GiveAnswerCommand;
+use App\Application\Question\GiveAnswerHandler;
 use App\Domain\DomainException;
 use App\Domain\User;
 use App\UserInterface\Api\ApiControllerMethods;

@@ -9,9 +9,8 @@
 
 declare(strict_types=1);
 
-namespace App\Domain\Event\Answer;
+namespace App\Domain\Event\Question;
 
-use App\Domain\Answer;
 use App\Domain\Answer\AnswerId;
 use App\Domain\Question\QuestionId;
 use App\Domain\User\UserId;

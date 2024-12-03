@@ -9,11 +9,11 @@
 
 declare(strict_types=1);
 
-namespace App\Application\Answer;
+namespace App\Application\Question;
 
-use App\Domain\DomainException;
 use App\Domain\Answer;
 use App\Domain\Answer\AnswerRepository;
+use App\Domain\DomainException;
 use App\Domain\Question\QuestionRepository;
 use App\Domain\User\UserRepository;
 use Slick\Event\EventDispatcher;
@@ -21,7 +21,7 @@ use Slick\Event\EventDispatcher;
 /**
  * GiveAnswerHandler
  *
- * @package App\Application\Answer
+ * @package App\Application\Question
  */
 final readonly class GiveAnswerHandler
 {

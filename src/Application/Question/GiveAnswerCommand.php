@@ -9,7 +9,7 @@
 
 declare(strict_types=1);
 
-namespace App\Application\Answer;
+namespace App\Application\Question;
 
 use App\Domain\Question\QuestionId;
 use App\Domain\User\UserId;
@@ -20,7 +20,7 @@ use Slick\JSONAPI\Object\SchemaDiscover\Attributes\ResourceAttribute;
 /**
  * GiveAnswerCommand
  *
- * @package App\Application\Answer
+ * @package App\Application\Question
  */
 #[AsResourceObject(type: "answers")]
 final readonly class GiveAnswerCommand

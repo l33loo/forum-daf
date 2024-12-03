@@ -11,7 +11,7 @@ declare(strict_types=1);
 
 namespace App\Domain;
 
-use App\Domain\Event\Answer\AnswerWasGiven;
+use App\Domain\Event\Question\AnswerWasGiven;
 use App\Domain\Event\Question\QuestionHasChanged;
 use App\Domain\Event\Question\QuestionWasAccepted;
 use App\Domain\Event\Question\QuestionWasPosted;
@@ -21,7 +21,6 @@ use App\Domain\Event\Question\QuestionWasUnpublished;
 use App\Domain\Event\Question\TagWasAdded;
 use App\Domain\Event\Question\TagWasRemoved;
 use App\Domain\Question\QuestionId;
-use App\Domain\User\EmailConfirmationRequest;
 use App\Infrastructure\JsonApi\QuestionSchema;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;

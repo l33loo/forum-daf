@@ -7,9 +7,9 @@
  * file that was distributed with this source code.
  */
 
-namespace spec\App\Application\Answer;
+namespace spec\App\Application\Question;
 
-use App\Application\Answer\GiveAnswerCommand;
+use App\Application\Question\GiveAnswerCommand;
 use App\Domain\Question\QuestionId;
 use App\Domain\User;
 use PhpSpec\ObjectBehavior;
@@ -17,7 +17,7 @@ use PhpSpec\ObjectBehavior;
 /**
  * GiveAnswerCommandSpec specs
  *
- * @package spec\App\Application\Answer
+ * @package spec\App\Application\Question
  */
 class GiveAnswerCommandSpec extends ObjectBehavior
 {

@@ -7,12 +7,11 @@
  * file that was distributed with this source code.
  */
 
-namespace spec\App\Application\Answer;
+namespace spec\App\Application\Question;
 
-use App\Application\Answer\GiveAnswerCommand;
-use App\Application\Answer\GiveAnswerHandler;
+use App\Application\Question\GiveAnswerCommand;
+use App\Application\Question\GiveAnswerHandler;
 use App\Domain\Answer;
-use App\Domain\Answer\AnswerId;
 use App\Domain\Answer\AnswerRepository;
 use App\Domain\Question;
 use App\Domain\Question\QuestionId;
@@ -27,7 +26,7 @@ use Slick\Event\EventDispatcher;
 /**
  * GiveAnswerHandlerSpec specs
  *
- * @package spec\App\Application\Answer
+ * @package spec\App\Application\Question
  */
 class GiveAnswerHandlerSpec extends ObjectBehavior
 {

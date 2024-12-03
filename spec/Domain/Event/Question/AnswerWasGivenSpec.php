@@ -7,10 +7,10 @@
  * file that was distributed with this source code.
  */
 
-namespace spec\App\Domain\Event\Answer;
+namespace spec\App\Domain\Event\Question;
 
-use App\Domain\Event\Answer\AnswerWasGiven;
 use App\Domain\Answer\AnswerId;
+use App\Domain\Event\Question\AnswerWasGiven;
 use App\Domain\Question\QuestionId;
 use App\Domain\User\UserId;
 use DateTimeImmutable;
