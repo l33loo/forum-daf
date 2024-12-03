@@ -16,8 +16,8 @@ use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping\OneToMany;
 
 trait CommentTrait {
-    // TODO: check
-    #[OneToMany(targetEntity: Comment::class, mappedBy: 'comment', cascade: ['all'], orphanRemoval: true)]
+    // TODO: complete
+//    #[OneToMany(targetEntity: Comment::class, mappedBy: 'comment', cascade: ['all'], orphanRemoval: true)]
     private ?Collection $comments = null;
 
     public function comments(): Collection
