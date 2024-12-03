@@ -24,6 +24,7 @@ use Doctrine\ORM\Mapping\Column;
 use Doctrine\ORM\Mapping\Entity;
 use Doctrine\ORM\Mapping\GeneratedValue;
 use Doctrine\ORM\Mapping\Id;
+use Doctrine\ORM\Mapping\ManyToOne;
 use Doctrine\ORM\Mapping\Table;
 use Slick\JSONAPI\Object\SchemaDiscover\Attributes\AsResourceObject;
 
@@ -43,6 +44,9 @@ class Answer extends Post
     #[GeneratedValue(strategy: 'NONE')]
     #[Column(name: 'id', type: 'AnswerId')]
     private AnswerId $answerId;
+
+    #[ManyToOne(targetEntity: Question::class, inversedBy: 'answers')]
+    private Question $question;
 
     public function __construct(
         User $user,

@@ -20,6 +20,7 @@ use App\Domain\Event\Question\QuestionWasUnpublished;
 use App\Domain\Event\Question\TagWasAdded;
 use App\Domain\Event\Question\TagWasRemoved;
 use App\Domain\Question\QuestionId;
+use App\Domain\User\EmailConfirmationRequest;
 use App\Infrastructure\JsonApi\QuestionSchema;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
@@ -29,6 +30,7 @@ use Doctrine\ORM\Mapping\GeneratedValue;
 use Doctrine\ORM\Mapping\Id;
 use Doctrine\ORM\Mapping\JoinColumn;
 use Doctrine\ORM\Mapping\ManyToMany;
+use Doctrine\ORM\Mapping\OneToMany;
 use Doctrine\ORM\Mapping\Table;
 use Slick\JSONAPI\Object\SchemaDiscover\Attributes\AsResourceObject;
 
@@ -54,6 +56,14 @@ class Question extends Post
     #[JoinColumn(name: 'tag_id', referencedColumnName: 'id')]
     private ?Collection $tags = null;
 
+    // TODO: addAnswer
+    #[OneToMany(targetEntity: Answer::class, mappedBy: 'question', cascade: ['all'], orphanRemoval: true)]
+    private ?Collection $answers = null;
+
+    // TODO: addComment
+//    #[OneToMany(targetEntity: Comment::class, mappedBy: 'question', cascade: ['all'], orphanRemoval: true)]
+//    private ?Collection $comments = null;
+
     public function __construct(
         User $user,
         // TODO: Check
@@ -64,6 +74,7 @@ class Question extends Post
         $this->questionId = new QuestionId();
         $this->tags = new ArrayCollection();
         $this->comments = new ArrayCollection();
+        $this->answers = new ArrayCollection();
 
         parent::__construct($user, $body);
 
