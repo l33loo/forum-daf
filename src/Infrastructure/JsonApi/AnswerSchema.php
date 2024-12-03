@@ -73,7 +73,10 @@ final class AnswerSchema extends AbstractResourceSchema implements ResourceSchem
         return [
             'author' => [
                 'data' => $object->author(),
-            ]
+            ],
+            'question' => [
+                'data' => $object->question(),
+            ],
         ];
     }
 }

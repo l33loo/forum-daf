@@ -51,10 +51,12 @@ class Answer extends Post
     public function __construct(
         User $user,
         #[Column]
-        string $body
+        string $body,
+        Question $question
     ) {
         $this->answerId = new AnswerId();
         $this->comments = new ArrayCollection();
+        $this->question = $question;
 
         parent::__construct($user, $body);
     }
@@ -106,5 +108,10 @@ class Answer extends Post
         $this->recordThat(new AnswerWasChanged($this->answerId));
 
         return $this;
+    }
+
+    public function question(): Question
+    {
+        return $this->question;
     }
 }

@@ -19,6 +19,7 @@ use App\Domain\Event\Answer\AnswerWasRejected;
 use App\Domain\Event\Answer\AnswerWasUnpublished;
 use App\Domain\Event\Comment\CommentWasAdded;
 use App\Domain\Post;
+use App\Domain\Question;
 use App\Domain\User;
 use Doctrine\Common\Collections\Collection;
 use PhpSpec\ObjectBehavior;
@@ -34,7 +35,7 @@ class AnswerSpec extends ObjectBehavior
     private $body;
     private $author;
 
-    function let(Comment $comment)
+    function let(Comment $comment, Question $question)
     {
         $this->body = "Answer body...";
         $this->author = new User(new User\Email('user@mail.com'));
@@ -42,7 +43,7 @@ class AnswerSpec extends ObjectBehavior
         $comment->author()->willReturn($this->author);
         $comment->body()->willReturn($this->body);
 
-        $this->beConstructedWith($this->author, $this->body);
+        $this->beConstructedWith($this->author, $this->body, $question);
     }
 
     function it_is_initializable()
@@ -144,5 +145,10 @@ class AnswerSpec extends ObjectBehavior
         $events = $this->releaseEvents();
         $events->shouldHaveCount(1);
         $events[0]->shouldBeAnInstanceOf(CommentWasAdded::class);
+    }
+
+    function it_has_a_question()
+    {
+        $this->question()->shouldHaveType(Question::class);
     }
 }

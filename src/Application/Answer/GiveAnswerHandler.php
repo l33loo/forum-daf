@@ -45,7 +45,8 @@ final readonly class GiveAnswerHandler
     public function handle(GiveAnswerCommand $command): Answer
     {
         $user = $this->users->withId($command->userId());
-        $answer = new Answer($user, $command->body());
+        $question = $this->questions->withId($command->questionId());
+        $answer = new Answer($user, $command->body(), $question);
         $question = $this->questions->withId($command->questionId());
         $question->addAnswer($answer);
         $this->dispatcher->dispatchEventsFrom(

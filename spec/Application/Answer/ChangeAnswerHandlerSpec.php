@@ -15,6 +15,8 @@ use App\Application\Answer\ChangeAnswerCommand;
 use App\Application\Answer\ChangeAnswerHandler;
 use App\Domain\Answer;
 use App\Domain\Answer\AnswerRepository;
+use App\Domain\Question;
+use App\Domain\Question\QuestionId;
 use App\Domain\User;
 use App\Domain\User\Email;
 use PhpSpec\ObjectBehavior;
@@ -29,13 +31,15 @@ use Slick\Event\EventDispatcher;
 class ChangeAnswerHandlerSpec extends ObjectBehavior
 {
     private Answer $answer;
+    private Question $question;
 
     function let(
         AnswerRepository $answers,
         EventDispatcher $dispatcher
     ) {
         $user = new User(new Email('user@email.com'));
-        $this->answer = new Answer($user, "Body...");
+        $this->question = new Question($user, 'Question?', 'Question body...');
+        $this->answer = new Answer($user, "Body...", $this->question);
         $answers->withId($this->answer->answerId())->willReturn($this->answer);
         $dispatcher->dispatchEventsFrom(Argument::type(Answer::class))->willReturn([]);
 
