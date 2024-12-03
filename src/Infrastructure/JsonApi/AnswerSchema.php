@@ -54,7 +54,6 @@ final class AnswerSchema extends AbstractResourceSchema implements ResourceSchem
      */
     public function attributes($object): ?array
     {
-        // TODO: votes?
         return [
             'body' => $object->body(),
             'postId' => (string) $object->postId(),
