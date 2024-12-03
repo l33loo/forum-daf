@@ -18,16 +18,12 @@ use App\Domain\Answer\AnswerId;
 use App\Domain\Event\Answer\AnswerWasPublished;
 use App\Domain\Event\Answer\AnswerWasRejected;
 use App\Domain\Event\Answer\AnswerWasUnpublished;
-use App\Domain\Event\Comment\CommentWasAdded;
 use App\Infrastructure\JsonApi\AnswerSchema;
 use Doctrine\Common\Collections\ArrayCollection;
-use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping\Column;
 use Doctrine\ORM\Mapping\Entity;
 use Doctrine\ORM\Mapping\GeneratedValue;
 use Doctrine\ORM\Mapping\Id;
-use Doctrine\ORM\Mapping\JoinColumn;
-use Doctrine\ORM\Mapping\OneToMany;
 use Doctrine\ORM\Mapping\Table;
 use Slick\JSONAPI\Object\SchemaDiscover\Attributes\AsResourceObject;
 
@@ -41,15 +37,12 @@ use Slick\JSONAPI\Object\SchemaDiscover\Attributes\AsResourceObject;
 #[AsResourceObject(schemaClass: AnswerSchema::class)]
 class Answer extends Post
 {
+    use CommentTrait;
 
     #[Id]
     #[GeneratedValue(strategy: 'NONE')]
     #[Column(name: 'id', type: 'AnswerId')]
     private AnswerId $answerId;
-
-    #[OneToMany(targetEntity: Comment::class)]
-    #[JoinColumn(name: 'comment_id', referencedColumnName: 'id')]
-    private ?Collection $comments = null;
 
     public function __construct(
         User $user,
@@ -113,19 +106,6 @@ class Answer extends Post
     {
         $this->body = $body;
         $this->recordThat(new AnswerWasChanged($this->answerId));
-
-        return $this;
-    }
-
-    public function comments(): Collection
-    {
-        return $this->comments;
-    }
-
-    public function addComment(Comment $comment): self
-    {
-        $this->comments->add($comment);
-        $this->recordThat(new CommentWasAdded($this->postId, $comment->commentId(), $comment->author()->userId(), $comment->body()));
 
         return $this;
     }
