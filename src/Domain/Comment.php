@@ -33,8 +33,8 @@ use Slick\JSONAPI\Object\SchemaDiscover\Attributes\AsResourceObject;
  * @package App\Domain
  */
 #[Entity]
-#[Table(name: '$this->commentIds')]
-#[AsResourceObject(schemaClass: CommentSchema::class)]
+#[Table(name: 'comments')]
+#[AsResourceObject(schemaClass: CommentSchema::class)] // TODO
 class Comment extends Post
 {
 
