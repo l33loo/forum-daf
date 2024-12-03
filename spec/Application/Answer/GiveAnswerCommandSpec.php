@@ -10,6 +10,7 @@
 namespace spec\App\Application\Answer;
 
 use App\Application\Answer\GiveAnswerCommand;
+use App\Domain\Question\QuestionId;
 use App\Domain\User;
 use PhpSpec\ObjectBehavior;
 
@@ -22,13 +23,15 @@ class GiveAnswerCommandSpec extends ObjectBehavior
 {
     private $body;
     private $userId;
+    private $questionId;
 
     function let()
     {
         $this->body = 'It is...';
         $this->userId = new User\UserId();
+        $this->questionId = new QuestionId();
 
-        $this->beConstructedWith($this->userId, $this->body);
+        $this->beConstructedWith($this->userId, $this->questionId, $this->body);
     }
 
     function it_is_initializable()
@@ -46,4 +49,8 @@ class GiveAnswerCommandSpec extends ObjectBehavior
         $this->body()->shouldBe($this->body);
     }
 
+    function it_has_a_questionId()
+    {
+        $this->questionId()->shouldBe($this->questionId);
+    }
 }

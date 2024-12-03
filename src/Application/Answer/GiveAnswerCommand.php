@@ -11,6 +11,7 @@ declare(strict_types=1);
 
 namespace App\Application\Answer;
 
+use App\Domain\Question\QuestionId;
 use App\Domain\User\UserId;
 use Slick\JSONAPI\Object\SchemaDiscover\Attributes\AsResourceObject;
 use Slick\JSONAPI\Object\SchemaDiscover\Attributes\RelationshipIdentifier;
@@ -29,6 +30,8 @@ final readonly class GiveAnswerCommand
     public function __construct(
         #[RelationshipIdentifier(name: 'author', className: UserId::class)]
         private UserId $userId,
+        #[RelationshipIdentifier(name: 'questionId', className: QuestionId::class)]
+        private QuestionId $questionId,
         #[ResourceAttribute(required: true)]
         private string $body,
     ) {
@@ -62,5 +65,10 @@ final readonly class GiveAnswerCommand
     public function body(): string
     {
         return $this->body;
+    }
+
+    public function questionId(): QuestionId
+    {
+        return $this->questionId;
     }
 }
