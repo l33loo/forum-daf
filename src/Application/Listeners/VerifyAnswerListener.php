@@ -22,8 +22,8 @@ use Symfony\Component\EventDispatcher\Attribute\AsEventListener;
  *
  * @package App\Application\Listeners
  */
-#[AsEventListener(event: AnswerWasGiven::class, method: 'onAnswerPostedOrChanged')]
-#[AsEventListener(event: AnswerWasChanged::class, method: 'onAnswerPostedOrChanged')]
+#[AsEventListener(event: AnswerWasGiven::class, method: 'onAnswerGivenOrChanged')]
+#[AsEventListener(event: AnswerWasChanged::class, method: 'onAnswerGivenOrChanged')]
 final readonly class VerifyAnswerListener
 {
 
@@ -32,7 +32,7 @@ final readonly class VerifyAnswerListener
     {
     }
 
-    public function onAnswerPostedOrChanged(AnswerWasGiven|AnswerWasChanged $event): void
+    public function onAnswerGivenOrChanged(AnswerWasGiven|AnswerWasChanged $event): void
     {
         $this->handler->handle(
             new VerifyAnswerCommand($event->answerId())
