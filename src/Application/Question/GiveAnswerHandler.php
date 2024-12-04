@@ -47,7 +47,6 @@ final readonly class GiveAnswerHandler
         $user = $this->users->withId($command->userId());
         $question = $this->questions->withId($command->questionId());
         $answer = new Answer($user, $command->body(), $question);
-        $question = $this->questions->withId($command->questionId());
         $question->addAnswer($answer);
         $this->dispatcher->dispatchEventsFrom(
             $this->answers->add($answer)
