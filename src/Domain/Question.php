@@ -57,10 +57,6 @@ class Question extends Post
     #[OneToMany(targetEntity: Answer::class, mappedBy: 'question', cascade: ['all'], orphanRemoval: true)]
     private ?Collection $answers = null;
 
-    // TODO: addComment
-//    #[OneToMany(targetEntity: Comment::class, mappedBy: 'question', cascade: ['all'], orphanRemoval: true)]
-//    private ?Collection $comments = null;
-
     public function __construct(
         User $user,
         // TODO: Check
