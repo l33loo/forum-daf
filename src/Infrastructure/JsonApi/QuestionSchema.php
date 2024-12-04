@@ -12,6 +12,7 @@ declare(strict_types=1);
 namespace App\Infrastructure\JsonApi;
 
 use App\Domain\Question;
+use App\Domain\Tag;
 use Slick\JSONAPI\Object\AbstractResourceSchema;
 use Slick\JSONAPI\Object\ResourceSchema;
 
@@ -54,7 +55,6 @@ final class QuestionSchema extends AbstractResourceSchema implements ResourceSch
      */
     public function attributes($object): ?array
     {
-        // TODO: tags?
         return [
             'question' => $object->question(),
             'body' => $object->body(),
@@ -75,7 +75,10 @@ final class QuestionSchema extends AbstractResourceSchema implements ResourceSch
         return [
             'author' => [
                 'data' => $object->author(),
-            ]
+            ],
+            'tags' => [
+                'data' => $object->tags(),
+            ],
         ];
     }
 

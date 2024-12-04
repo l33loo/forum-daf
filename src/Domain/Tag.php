@@ -10,12 +10,14 @@ use App\Domain\Event\Tag\TagWasDeleted;
 use App\Domain\Event\Tag\TagWasEdited;
 use App\Domain\Event\Tag\TagWasRejected;
 use App\Domain\Tag\TagId;
+use App\Infrastructure\JsonApi\TagSchema;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping\Column;
 use Doctrine\ORM\Mapping\Entity;
 use Doctrine\ORM\Mapping\GeneratedValue;
 use Doctrine\ORM\Mapping\Id;
+use Doctrine\ORM\Mapping\ManyToMany;
 use Doctrine\ORM\Mapping\Table;
 use Slick\Event\EventGenerator;
 use Slick\Event\Domain\EventGeneratorMethods;
@@ -28,7 +30,7 @@ use Slick\JSONAPI\Object\SchemaDiscover\Attributes\AsResourceObject;
  */
 #[Entity]
 #[Table(name: 'tags')]
-#[AsResourceObject(type: 'tags')]
+#[AsResourceObject(schemaClass: TagSchema::class)]
 class Tag implements EventGenerator
 {
     use EventGeneratorMethods;
@@ -38,6 +40,7 @@ class Tag implements EventGenerator
     #[Column(name: 'id', type: 'TagId')]
     private TagId $tagId;
 
+    #[ManyToMany(targetEntity: Question::class, mappedBy: 'tags')]
     private ?Collection $questions = null;
 
     public function __construct(
