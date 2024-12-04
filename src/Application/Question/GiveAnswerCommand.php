@@ -30,7 +30,7 @@ final readonly class GiveAnswerCommand
     public function __construct(
         #[RelationshipIdentifier(name: 'author', className: UserId::class)]
         private UserId $userId,
-        #[RelationshipIdentifier(name: 'questionId', className: QuestionId::class)]
+        #[RelationshipIdentifier(name: 'question', className: QuestionId::class)]
         private QuestionId $questionId,
         #[ResourceAttribute(required: true)]
         private string $body,
@@ -48,16 +48,6 @@ final readonly class GiveAnswerCommand
     }
 
     /**
-     * GiveAnswerCommand answer
-     *
-     * @return string
-     */
-    public function answer(): string
-    {
-        return $this->answer;
-    }
-
-    /**
      * GiveAnswerCommand body
      *
      * @return string
@@ -67,6 +57,11 @@ final readonly class GiveAnswerCommand
         return $this->body;
     }
 
+    /**
+     * GiveAnswerCommand questionId
+     *
+     * @return QuestionId
+     */
     public function questionId(): QuestionId
     {
         return $this->questionId;
