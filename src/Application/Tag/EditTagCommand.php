@@ -13,21 +13,25 @@ namespace App\Application\Tag;
 
 use App\Domain\Tag\TagId;
 use Slick\JSONAPI\Object\SchemaDiscover\Attributes\AsResourceObject;
+use Slick\JSONAPI\Object\SchemaDiscover\Attributes\ResourceAttribute;
+use Slick\JSONAPI\Object\SchemaDiscover\Attributes\ResourceIdentifier;
 
 #[AsResourceObject(type: 'tags')]
 final class EditTagCommand
 {
     public function __construct(
-        private TagId $tagId,
-        private string $tag
+        #[ResourceIdentifier(className: TagId::class, required: true)]
+        private readonly TagId $tagId,
+        #[ResourceAttribute(required: true)]
+        private readonly string $tag
     ) {}
 
-    public function tagId()
+    public function tagId(): TagId
     {
         return $this->tagId;
     }
 
-    public function tag()
+    public function tag(): string
     {
         return $this->tag;
     }

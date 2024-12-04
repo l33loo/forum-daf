@@ -32,7 +32,7 @@ final class EditTagController extends AbstractController
     public function __construct(private readonly EditTagHandler $handler)
     {}
 
-    #[Route(path: '/api/tag/{tagId}', name: 'api-edit-tag', methods: ['PATCH', 'POST'])]
+    #[Route(path: '/api/tag/{tagId}', name: 'api-edit-tag', methods: ['PUT'])]
     #[IsGranted(User::ROLE_ADMIN)]
     public function handle(string $tagId): Response
     {
