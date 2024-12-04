@@ -39,13 +39,13 @@ final class ChangeQuestionController extends AbstractController
      */
     #[Route(path: '/api/question/{questionId}', name: 'api-change-question', methods: ['PATCH', 'PUT'])]
     #[IsGranted(User::ROLE_USER)]
-    public function handle(QuestionId $questionId): Response
+    public function handle(string $questionId): Response
     {
         $command = $this->decodeTo(ChangeQuestionCommand::class);
         $question = $this->handler->handle($command);
         return $this->apiResponse(
             $question,
-            Response::HTTP_NO_CONTENT,
+            Response::HTTP_OK,
             [
                 "location" => $this->generateUrl('api-read-question', ['questionId' => $question->question()])
             ]
