@@ -33,7 +33,7 @@ final class GiveAnswerController extends AbstractController
     /**
      * @throws DomainException
      */
-    #[Route(path: '/api/answer', name: 'api-post-answer', methods: ['POST'])]
+    #[Route(path: '/api/answer', name: 'api-give-answer', methods: ['POST'])]
     #[IsGranted(User::ROLE_USER)]
     public function handle(GiveAnswerHandler $handler): Response
     {
