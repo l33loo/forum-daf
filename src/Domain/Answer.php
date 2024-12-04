@@ -49,7 +49,6 @@ class Answer extends Post
 
     public function __construct(
         User $user,
-        #[Column]
         string $body,
         Question $question
     ) {
