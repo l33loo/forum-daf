@@ -12,16 +12,21 @@ declare(strict_types=1);
 namespace App\Application\Question;
 
 use App\Domain\Question\QuestionId;
+use Slick\JSONAPI\Object\SchemaDiscover\Attributes\AsResourceObject;
+use Slick\JSONAPI\Object\SchemaDiscover\Attributes\ResourceIdentifier;
 
 /**
  * RemoveQuestionCommand
  *
  * @package App\Application\Question
  */
+#[AsResourceObject(type: "questions")]
 final readonly class RemoveQuestionCommand
 {
-    public function __construct(private QuestionId $questionId)
-    {
+    public function __construct(
+        #[ResourceIdentifier(className: QuestionId::class, required: true)]
+        private QuestionId $questionId
+    ) {
     }
 
     /**

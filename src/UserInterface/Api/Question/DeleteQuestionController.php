@@ -39,17 +39,13 @@ final class DeleteQuestionController extends AbstractController
      */
     #[Route(path: '/api/question/{questionId}', name: 'api-delete-question', methods: ['DELETE'])]
     #[IsGranted(User::ROLE_USER)]
-    public function handle(QuestionId $questionId): Response
+    public function handle(string $questionId): Response
     {
         $command = $this->decodeTo(RemoveQuestionCommand::class);
         $question = $this->handler->handle($command);
         return $this->apiResponse(
             $question,
-            Response::HTTP_NO_CONTENT,
-            [
-                // TODO: fix this
-                "location" => $this->generateUrl('api-read-question', ['questionId' => $question->question()])
-            ]
+            Response::HTTP_NO_CONTENT
         );
     }
 }
