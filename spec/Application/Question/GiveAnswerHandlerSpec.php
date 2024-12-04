@@ -56,7 +56,7 @@ class GiveAnswerHandlerSpec extends ObjectBehavior
 
         $answers->add(Argument::type(Answer::class))->willReturnArgument();
 
-        $dispatcher->dispatchEventsFrom(Argument::type(Answer::class))->willReturn([]);
+        $dispatcher->dispatchEventsFrom(Argument::type(Question::class))->willReturn([]);
 
         $this->beConstructedWith($users, $answers, $questions, $dispatcher);
     }
@@ -76,6 +76,6 @@ class GiveAnswerHandlerSpec extends ObjectBehavior
         $answer->shouldBeAnInstanceOf(Answer::class);
         $answers->add($answer)->shouldHaveBeenCalled();
         $question->addAnswer($answer)->shouldHaveBeenCalled();
-        $dispatcher->dispatchEventsFrom($answer)->shouldHaveBeenCalled();
+        $dispatcher->dispatchEventsFrom($question)->shouldHaveBeenCalled();
     }
 }
