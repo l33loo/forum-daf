@@ -55,8 +55,7 @@ class Question extends Post
     #[ManyToMany(targetEntity: Tag::class)]
     #[JoinColumn(name: 'tag_id', referencedColumnName: 'id')]
     private ?Collection $tags = null;
-
-    // TODO: addAnswer
+    
     #[OneToMany(targetEntity: Answer::class, mappedBy: 'question', cascade: ['all'], orphanRemoval: true)]
     private ?Collection $answers = null;
 
