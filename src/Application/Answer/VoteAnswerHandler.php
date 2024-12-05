@@ -13,10 +13,10 @@ namespace App\Application\Answer;
 
 use App\Domain\Answer;
 use App\Domain\Answer\AnswerRepository;
+use App\Domain\User\UserRepository;
 use App\Domain\Vote;
 use App\Domain\Vote\VoteRepository;
 use Doctrine\ORM\EntityNotFoundException;
-use League\Bundle\OAuth2ServerBundle\Repository\UserRepository;
 use Slick\Event\EventDispatcher;
 
 /**
@@ -36,11 +36,10 @@ final readonly class VoteAnswerHandler
 
     public function handle(VoteAnswerCommand $command): Answer
     {
-        $answer = null;
+        $answer = $this->answers->withId($command->answerId());
         try {
             $this->votes->withAnswerIdAndUserId($command->answerId(), $command->userId());
         } catch (EntityNotFoundException $e) {
-            $answer = $this->answers->withId($command->answerId());
             $user = $this->users->withId($command->userId());
             $vote = new Vote($answer, $user, $command->intention());
             $this->votes->add($vote);

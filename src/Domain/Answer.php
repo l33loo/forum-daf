@@ -17,6 +17,7 @@ use App\Domain\Event\Answer\AnswerWasChanged;
 use App\Domain\Event\Answer\AnswerWasPublished;
 use App\Domain\Event\Answer\AnswerWasRejected;
 use App\Domain\Event\Answer\AnswerWasUnpublished;
+use App\Domain\Event\Answer\AnswerWasVoted;
 use App\Infrastructure\JsonApi\AnswerSchema;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
@@ -132,5 +133,13 @@ class Answer extends Post
     public function votes(): Collection
     {
         return $this->votes;
+    }
+
+    public function addVote(Vote $vote): self
+    {
+        $this->votes->add($vote);
+        $this->recordThat(new AnswerWasVoted($this->answerId, $vote->user()->userId(), $vote->intention()));
+
+        return $this;
     }
 }

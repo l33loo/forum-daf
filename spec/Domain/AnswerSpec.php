@@ -11,15 +11,20 @@ namespace spec\App\Domain;
 
 use App\Domain\Answer;
 use App\Domain\Comment;
+use App\Domain\Comment\CommentId;
 use App\Domain\Event\Answer\AnswerWasAccepted;
 use App\Domain\Event\Answer\AnswerWasChanged;
 use App\Domain\Event\Answer\AnswerWasPublished;
 use App\Domain\Event\Answer\AnswerWasRejected;
 use App\Domain\Event\Answer\AnswerWasUnpublished;
+use App\Domain\Event\Answer\AnswerWasVoted;
 use App\Domain\Event\Comment\CommentWasAdded;
 use App\Domain\Post;
 use App\Domain\Question;
 use App\Domain\User;
+use App\Domain\User\Email;
+use App\Domain\User\UserId;
+use App\Domain\Vote;
 use Doctrine\Common\Collections\Collection;
 use PhpSpec\ObjectBehavior;
 use Slick\Event\EventGenerator;
@@ -34,13 +39,16 @@ class AnswerSpec extends ObjectBehavior
     private $body;
     private $author;
 
-    function let(Comment $comment, Question $question)
+    function let(Comment $comment, Question $question, Vote $vote, User $user)
     {
         $this->body = "Answer body...";
-        $this->author = new User(new User\Email('user@mail.com'));
-        $comment->commentId()->willReturn(new Comment\CommentId());
+        $this->author = new User(new Email('user@mail.com'));
+        $comment->commentId()->willReturn(new CommentId());
         $comment->author()->willReturn($this->author);
         $comment->body()->willReturn($this->body);
+        $vote->user()->willReturn($user);
+        $vote->intention()->willReturn(true);
+        $user->userId()->willReturn(new UserId());
 
         $this->beConstructedWith($this->author, $this->body, $question);
     }
@@ -154,5 +162,15 @@ class AnswerSpec extends ObjectBehavior
     function is_has_votes()
     {
        $this->votes()->shouldHaveType(Collection::class);
+    }
+
+    function it_can_be_added_a_vote(
+        Vote $vote
+    ) {
+        $this->releaseEvents();
+        $this->addVote($vote)->shouldBe($this->getWrappedObject());
+        $events = $this->releaseEvents();
+        $events->shouldHaveCount(1);
+        $events[0]->shouldBeAnInstanceOf(AnswerWasVoted::class);
     }
 }

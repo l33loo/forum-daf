@@ -14,12 +14,14 @@ namespace spec\App\Application\Answer;
 use App\Application\Answer\VoteAnswerCommand;
 use App\Application\Answer\VoteAnswerHandler;
 use App\Domain\Answer;
+use App\Domain\Answer\AnswerId;
 use App\Domain\Answer\AnswerRepository;
-use App\Domain\Question;
 use App\Domain\User;
-use App\Domain\User\Email;
+use App\Domain\User\UserId;
 use App\Domain\User\UserRepository;
+use App\Domain\Vote;
 use App\Domain\Vote\VoteRepository;
+use Doctrine\ORM\EntityNotFoundException;
 use PhpSpec\ObjectBehavior;
 use Prophecy\Argument;
 use Slick\Event\EventDispatcher;
@@ -31,26 +33,34 @@ use Slick\Event\EventDispatcher;
  */
 class VoteAnswerHandlerSpec extends ObjectBehavior
 {
-    private Answer $answer;
-    private User $user1;
-    private User $user2;
-    private User $user3;
+    private AnswerId $answerId;
+    private UserId $userId;
     private bool $intention;
 
     function let(
+        Vote $vote,
+        Answer $answer,
+        User $user,
         VoteRepository $votes,
+        AnswerRepository $answers,
+        UserRepository $users,
         EventDispatcher $dispatcher
     ) {
-        $this->user1 = new User(new Email('user1@email.com'));
-        $this->user2 = new User(new Email('user2@email.com'));
-        $this->user3 = new User(new Email('user3@email.com'));
-        $question = new Question($this->user1, 'Question?', 'Question body...');
-        $this->answer = new Answer($this->user2, "Body...", $question);
+        $this->userId = new UserId();
+        $this->answerId = new AnswerId();
         $this->intention = true;
-        $votes->withAnswerIdAndUserId($this->answer->answerId(), $this->user3->userId())->willReturn($this->answer);
+        $votes->withAnswerIdAndUserId(
+            $this->answerId,
+            $this->userId
+        )->willThrow(EntityNotFoundException::class);
+        $votes->add(Argument::type(Vote::class))->willReturn($vote);
+        $answers->withId($this->answerId)->willReturn($answer);
+        $answer->addVote(Argument::type(Vote::class))->willReturn($answer);
+        $users->withId($this->userId)->willReturn($user);
+        $vote->user()->willReturn($user);
         $dispatcher->dispatchEventsFrom(Argument::type(Answer::class))->willReturn([]);
 
-        $this->beConstructedWith($votes, $dispatcher);
+        $this->beConstructedWith($votes, $answers, $users, $dispatcher);
     }
 
     function it_is_initializable()
@@ -58,15 +68,41 @@ class VoteAnswerHandlerSpec extends ObjectBehavior
         $this->shouldHaveType(VoteAnswerHandler::class);
     }
 
-    function it_handles_vote_answer_command(
+    function it_handles_vote_answer_command_with_new_vote(
+        Answer $answer,
+        VoteRepository $votes,
         EventDispatcher $dispatcher
     ) {
         $command = new VoteAnswerCommand(
-            $this->answer->answerId(),
-            $this->user3->userId(),
+            $this->answerId,
+            $this->userId,
             $this->intention
         );
-        $this->handle($command)->shouldBe($this->answer);
-        $dispatcher->dispatchEventsFrom($this->answer)->shouldHaveBeenCalled();
+        $this->handle($command)->shouldBe($answer);
+        $votes->add(Argument::type(Vote::class))->shouldHaveBeenCalled();
+        $answer->addVote(Argument::type(Vote::class))->shouldHaveBeenCalled();
+        $dispatcher->dispatchEventsFrom($answer)->shouldHaveBeenCalled();
+    }
+
+    function it_handles_vote_answer_command_with_existing_vote(
+        Vote $vote,
+        Answer $answer,
+        VoteRepository $votes,
+        EventDispatcher $dispatcher
+    ) {
+        $votes->withAnswerIdAndUserId(
+            $this->answerId,
+            $this->userId
+        )->willReturn($vote);
+
+        $command = new VoteAnswerCommand(
+            $this->answerId,
+            $this->userId,
+            $this->intention
+        );
+        $this->handle($command)->shouldBe($answer);
+        $votes->add($vote)->shouldNotHaveBeenCalled();
+        $answer->addVote($vote)->shouldNotHaveBeenCalled();
+        $dispatcher->dispatchEventsFrom($answer)->shouldNotHaveBeenCalled();
     }
 }
