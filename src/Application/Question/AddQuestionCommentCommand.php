@@ -20,7 +20,7 @@ use App\Domain\User\UserId;
  *
  * @package App\Application\Question
  */
-final class AddQuestionCommentCommand
+final readonly class AddQuestionCommentCommand
 {
     public function __construct(
         private QuestionId $questionId,
