@@ -11,7 +11,9 @@ declare(strict_types=1);
 
 namespace App\Infrastructure\Doctrine\Vote;
 
+use App\Domain\Answer\AnswerId;
 use App\Domain\Exception\EntityNotFound;
+use App\Domain\User\UserId;
 use App\Domain\Vote;
 use App\Domain\Vote\VoteId;
 use App\Domain\Vote\VoteRepository;
@@ -49,6 +51,19 @@ final readonly class DoctrineVoteRepository implements VoteRepository
         }
 
         throw new EntityNotFound("Vote with id {$voteId} not found");
+    }
+
+    /**
+     * @inheritDoc
+     */
+    public function withAnswerIdAndUserId(AnswerId $answerId, UserId $userId): Vote
+    {
+        $vote = $this->entityManager->find(Vote::class, $answerId, $userId);
+        if ($vote instanceof Vote) {
+            return $vote;
+        }
+
+        throw new EntityNotFound("Vote with AnswerId {$answerId} and {$userId} not found");
     }
 
     /**

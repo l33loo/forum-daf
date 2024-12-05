@@ -11,8 +11,10 @@ declare(strict_types=1);
 
 namespace App\Domain\Vote;
 
+use App\Domain\Answer\AnswerId;
 use App\Domain\DomainException;
 use App\Domain\Exception\EntityNotFound;
+use App\Domain\User\UserId;
 use App\Domain\Vote;
 
 /**
@@ -39,6 +41,16 @@ interface VoteRepository
      * @throws DomainException|EntityNotFound When there are no votes with provided identifier
      */
     public function withId(VoteId $voteId): Vote;
+
+    /**
+     * Get a vote by its AnswerId and UserId
+     *
+     * @param AnswerId $answerId The ID of the vote to retrieve
+     * @param UserId $userId The ID of the vote to retrieve
+     * @return Vote The vote with the specified ID
+     * @throws DomainException|EntityNotFound When there are no votes with provided identifier
+     */
+    public function withAnswerIdAndUserId(AnswerId $answerId, UserId $userId): Vote;
 
     /**
      * Delete a vote from the repository
