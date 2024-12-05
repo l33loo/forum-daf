@@ -11,20 +11,55 @@ declare(strict_types = 1);
 
 namespace App\Domain;
 
+use App\Domain\Vote\VoteId;
+use App\Infrastructure\JsonApi\VoteSchema;
+use Doctrine\ORM\Mapping\Column;
+use Doctrine\ORM\Mapping\Entity;
+use Doctrine\ORM\Mapping\GeneratedValue;
+use Doctrine\ORM\Mapping\Id;
+use Doctrine\ORM\Mapping\JoinColumn;
+use Doctrine\ORM\Mapping\ManyToOne;
+use Doctrine\ORM\Mapping\Table;
+use Slick\JSONAPI\Object\SchemaDiscover\Attributes\AsResourceObject;
+
 /**
  * Vote
  *
  * @package App\Domain
  */
+#[Entity]
+#[Table(name: 'votes')]
+#[AsResourceObject(schemaClass: VoteSchema::class)]
 class Vote
 {
-    
+    #[Id]
+    #[GeneratedValue(strategy: 'NONE')]
+    #[Column(name: 'id', type: 'VoteId')]
+    private VoteId $voteId;
+
+    #[ManyToOne(targetEntity: Answer::class)]
+    #[JoinColumn(name: 'answer_id', referencedColumnName: 'id')]
+    private Answer $answer;
+
+    #[ManyToOne(targetEntity: User::class)]
+    #[JoinColumn(name: 'user_id', referencedColumnName: 'id')]
+    private User $user;
 
     public function __construct(
-        private Answer $answer,
-        private User $user,
-        private int $intention
-    ) {}
+        Answer $answer,
+        User $user,
+        #[Column]
+        private bool $intention
+    ) {
+        $this->answer = $answer;
+        $this->user = $user;
+        $this->voteId = new VoteId();
+    }
+
+    public function voteId(): VoteId
+    {
+        return $this->voteId;
+    }
 
     public function answer(): Answer
     {
@@ -36,7 +71,7 @@ class Vote
         return $this->user;
     }
 
-    public function intention(): int
+    public function intention(): bool
     {
         return $this->intention;
     }
