@@ -39,7 +39,7 @@ final class ChangeAnswerController extends AbstractController
      */
     #[Route(path: '/api/answer/{answerId}', name: 'api-change-answer', methods: ['PATCH', 'PUT'])]
     #[IsGranted(User::ROLE_USER)]
-    public function handle(AnswerId $answerId): Response
+    public function handle(string $answerId): Response
     {
         $command = $this->decodeTo(ChangeAnswerCommand::class);
         $answer = $this->handler->handle($command);
