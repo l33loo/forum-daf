@@ -45,7 +45,6 @@ class Comment extends Post
 
     public function __construct(
         User $author,
-        #[Column]
         string $body
     ) {
         $this->commentId = new CommentId();
