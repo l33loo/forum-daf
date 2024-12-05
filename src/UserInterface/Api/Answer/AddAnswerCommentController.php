@@ -34,12 +34,11 @@ final class AddAnswerCommentController extends AbstractController
     public function __construct(private readonly AddAnswerCommentHandler $handler)
     {}
 
-    // TODO: make sure role is correct
     /**
      * @throws DomainException
      */
     #[Route(path: '/api/answer/{answerId}/add-comment', name: 'api-add-answer-comment', methods: ['POST'])]
-    #[IsGranted(User::ROLE_VERIFIED_USER)]
+    #[IsGranted(User::ROLE_USER)]
     public function handle(AnswerId $answerId): Response
     {
         $command = $this->decodeTo(AddAnswerCommentCommand::class);
