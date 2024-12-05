@@ -28,7 +28,9 @@ use Doctrine\ORM\Mapping\Column;
 use Doctrine\ORM\Mapping\Entity;
 use Doctrine\ORM\Mapping\GeneratedValue;
 use Doctrine\ORM\Mapping\Id;
+use Doctrine\ORM\Mapping\InverseJoinColumn;
 use Doctrine\ORM\Mapping\JoinColumn;
+use Doctrine\ORM\Mapping\JoinTable;
 use Doctrine\ORM\Mapping\ManyToMany;
 use Doctrine\ORM\Mapping\OneToMany;
 use Doctrine\ORM\Mapping\Table;
@@ -45,7 +47,6 @@ use Slick\JSONAPI\Object\SchemaDiscover\Attributes\AsResourceObject;
 class Question extends Post
 {
     use CommentTrait;
-
     #[Id]
     #[GeneratedValue(strategy: 'NONE')]
     #[Column(name: 'id', type: 'QuestionId')]
@@ -57,9 +58,14 @@ class Question extends Post
     #[OneToMany(targetEntity: Answer::class, mappedBy: 'question', cascade: ['all'], orphanRemoval: true)]
     private ?Collection $answers = null;
 
+    #[JoinTable(name: 'question_comment')]
+    #[JoinColumn(name: 'question_id', referencedColumnName: 'id')]
+    #[InverseJoinColumn(name: 'comment_id', referencedColumnName: 'id', unique: true)]
+    #[ManyToMany(targetEntity: Comment::class)]
+    private ?Collection $comments = null;
+
     public function __construct(
         User $user,
-        // TODO: Check
         #[Column]
         private string $question,
         string $body

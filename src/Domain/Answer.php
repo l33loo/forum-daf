@@ -19,10 +19,15 @@ use App\Domain\Event\Answer\AnswerWasRejected;
 use App\Domain\Event\Answer\AnswerWasUnpublished;
 use App\Infrastructure\JsonApi\AnswerSchema;
 use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping\Column;
 use Doctrine\ORM\Mapping\Entity;
 use Doctrine\ORM\Mapping\GeneratedValue;
 use Doctrine\ORM\Mapping\Id;
+use Doctrine\ORM\Mapping\InverseJoinColumn;
+use Doctrine\ORM\Mapping\JoinColumn;
+use Doctrine\ORM\Mapping\JoinTable;
+use Doctrine\ORM\Mapping\ManyToMany;
 use Doctrine\ORM\Mapping\ManyToOne;
 use Doctrine\ORM\Mapping\Table;
 use Slick\JSONAPI\Object\SchemaDiscover\Attributes\AsResourceObject;
@@ -46,6 +51,12 @@ class Answer extends Post
 
     #[ManyToOne(targetEntity: Question::class, inversedBy: 'answers')]
     private Question $question;
+
+    #[JoinTable(name: 'answer_comment')]
+    #[JoinColumn(name: 'answer_id', referencedColumnName: 'id')]
+    #[InverseJoinColumn(name: 'comment_id', referencedColumnName: 'id', unique: true)]
+    #[ManyToMany(targetEntity: Comment::class)]
+    private ?Collection $comments = null;
 
     public function __construct(
         User $user,

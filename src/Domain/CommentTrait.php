@@ -16,10 +16,6 @@ use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping\OneToMany;
 
 trait CommentTrait {
-    // TODO: complete
-//    #[OneToMany(targetEntity: Comment::class, mappedBy: 'comment', cascade: ['all'], orphanRemoval: true)]
-    private ?Collection $comments = null;
-
     public function comments(): Collection
     {
         return $this->comments;
