@@ -39,13 +39,13 @@ final class AddQuestionTagController extends AbstractController
      */
     #[Route(path: '/api/question/{questionId}/add-tag', name: 'api-add-question-tag', methods: ['PATCH'])]
     #[IsGranted(User::ROLE_USER)]
-    public function handle(QuestionId $questionId, string $tag): Response
+    public function handle(string $questionId): Response
     {
         $command = $this->decodeTo(AddQuestionTagCommand::class);
         $question = $this->handler->handle($command);
         return $this->apiResponse(
             $question,
-            Response::HTTP_NO_CONTENT,
+            Response::HTTP_OK,
             [
                 "location" => $this->generateUrl('api-read-question', ['questionId' => $question->question()])
             ]

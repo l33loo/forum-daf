@@ -12,17 +12,26 @@ declare(strict_types=1);
 namespace App\Application\Question;
 
 use App\Domain\Question\QuestionId;
+use App\Domain\Tag;
+use Slick\JSONAPI\Object\SchemaDiscover\Attributes\AsResourceObject;
+use Slick\JSONAPI\Object\SchemaDiscover\Attributes\Relationship;
+use Slick\JSONAPI\Object\SchemaDiscover\Attributes\ResourceAttribute;
+use Slick\JSONAPI\Object\SchemaDiscover\Attributes\ResourceIdentifier;
 
 /**
  * AddQuestionTagCommand
  *
  * @package App\Application\Question
  */
+#[AsResourceObject(type: "questions")]
 final class AddQuestionTagCommand
 {
     public function __construct(
-        private QuestionId $questionId,
-        private string $tag
+        #[ResourceIdentifier(className: QuestionId::class, required: true)]
+        private readonly QuestionId $questionId,
+//        #[Relationship(type: Relationship::TO_MANY)]
+        #[ResourceAttribute(required: true)]
+        private readonly string $tag
     ) {
     }
 
