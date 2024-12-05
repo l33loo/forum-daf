@@ -150,4 +150,9 @@ class AnswerSpec extends ObjectBehavior
     {
         $this->question()->shouldHaveType(Question::class);
     }
+
+    function is_has_votes()
+    {
+       $this->votes()->shouldHaveType(Collection::class);
+    }
 }

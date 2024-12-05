@@ -37,8 +37,7 @@ class Vote
     #[Column(name: 'id', type: 'VoteId')]
     private VoteId $voteId;
 
-    #[ManyToOne(targetEntity: Answer::class)]
-    #[JoinColumn(name: 'answer_id', referencedColumnName: 'id')]
+    #[ManyToOne(targetEntity: Answer::class, inversedBy: 'votes')]
     private Answer $answer;
 
     #[ManyToOne(targetEntity: User::class)]

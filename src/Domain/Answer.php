@@ -29,6 +29,7 @@ use Doctrine\ORM\Mapping\JoinColumn;
 use Doctrine\ORM\Mapping\JoinTable;
 use Doctrine\ORM\Mapping\ManyToMany;
 use Doctrine\ORM\Mapping\ManyToOne;
+use Doctrine\ORM\Mapping\OneToMany;
 use Doctrine\ORM\Mapping\Table;
 use Slick\JSONAPI\Object\SchemaDiscover\Attributes\AsResourceObject;
 
@@ -58,6 +59,9 @@ class Answer extends Post
     #[ManyToMany(targetEntity: Comment::class)]
     private ?Collection $comments = null;
 
+    #[OneToMany(targetEntity: Vote::class, mappedBy: 'answer', cascade: ['all'], orphanRemoval: true)]
+    private ?Collection $votes = null;
+
     public function __construct(
         User $user,
         string $body,
@@ -66,6 +70,7 @@ class Answer extends Post
         $this->answerId = new AnswerId();
         $this->comments = new ArrayCollection();
         $this->question = $question;
+        $this->votes = new ArrayCollection();
 
         parent::__construct($user, $body);
     }
@@ -122,5 +127,10 @@ class Answer extends Post
     public function question(): Question
     {
         return $this->question;
+    }
+
+    public function votes(): Collection
+    {
+        return $this->votes;
     }
 }
