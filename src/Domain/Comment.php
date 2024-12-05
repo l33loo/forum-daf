@@ -50,13 +50,6 @@ class Comment extends Post
         $this->commentId = new CommentId();
 
         parent::__construct($author, $body);
-
-        $this->recordThat(new CommentWasAdded(
-            $this->postId,
-            $this->commentId,
-            $author->userId(),
-            $body
-        ));
     }
 
     /**

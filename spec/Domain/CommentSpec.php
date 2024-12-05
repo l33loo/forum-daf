@@ -62,9 +62,6 @@ class CommentSpec extends ObjectBehavior
     function its_an_event_generator()
     {
         $this->shouldBeAnInstanceOf(EventGenerator::class);
-        $events = $this->releaseEvents();
-        $events->shouldHaveCount(1);
-        $events[0]->shouldBeAnInstanceOf(CommentWasAdded::class);
     }
 
     function it_can_be_accepted()
