@@ -27,11 +27,6 @@ final class ChangeAnswerCommand
         return $this->answerId;
     }
 
-    public function answer(): string
-    {
-        return $this->answer;
-    }
-
     public function body(): string
     {
         return $this->body;
