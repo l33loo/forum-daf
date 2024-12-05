@@ -73,10 +73,7 @@ final class CommentSchema extends AbstractResourceSchema implements ResourceSche
         return [
             'author' => [
                 'data' => $object->author(),
-            ],
-            'answer' => [
-                'data' => $object->answer(),
-            ],
+            ]
         ];
     }
 }
