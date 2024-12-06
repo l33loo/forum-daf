@@ -15,13 +15,18 @@ use App\Domain\Answer\AnswerId;
 use App\Domain\User;
 use App\Domain\User\UserId;
 use Slick\JSONAPI\Object\SchemaDiscover\Attributes\AsResourceObject;
+use Slick\JSONAPI\Object\SchemaDiscover\Attributes\RelationshipIdentifier;
+use Slick\JSONAPI\Object\SchemaDiscover\Attributes\ResourceAttribute;
 
-#[AsResourceObject(type: "answers")]
-final class VoteAnswerCommand
+#[AsResourceObject(type: "votes")]
+final readonly class VoteAnswerCommand
 {
     public function __construct(
+        #[RelationshipIdentifier(name: 'answer', className: AnswerId::class, required: true)]
         private AnswerId $answerId,
+        #[RelationshipIdentifier(name: 'user', className: UserId::class, required: true)]
         private UserId $userId,
+        #[ResourceAttribute(required: true)]
         private bool $intention
     ) {}
 

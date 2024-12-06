@@ -11,13 +11,16 @@ declare(strict_types=1);
 
 namespace App\Infrastructure\Doctrine\Vote;
 
+use App\Domain\Answer;
 use App\Domain\Answer\AnswerId;
 use App\Domain\Exception\EntityNotFound;
+use App\Domain\User;
 use App\Domain\User\UserId;
 use App\Domain\Vote;
 use App\Domain\Vote\VoteId;
 use App\Domain\Vote\VoteRepository;
 use Doctrine\ORM\EntityManagerInterface;
+use Doctrine\ORM\QueryBuilder;
 
 /**
  * DoctrineVoteRepository
@@ -58,12 +61,38 @@ final readonly class DoctrineVoteRepository implements VoteRepository
      */
     public function withAnswerIdAndUserId(AnswerId $answerId, UserId $userId): Vote
     {
-        $vote = $this->entityManager->find(Vote::class, $answerId, $userId);
+        $qb1 = new QueryBuilder($this->entityManager);
+        $qb1->addSelect('a')
+            ->from(Answer::class, 'a')
+            ->where('a.answerId = ?1')
+            ->setParameter(1, $answerId);
+
+        $answer = $qb1->getQuery()->getOneOrNullResult();
+
+        $qb2 = new QueryBuilder($this->entityManager);
+        $qb2->addSelect('u')
+            ->from(User::class, 'u')
+            ->where('u.userId = ?1')
+            ->setParameter(1, $userId);
+
+        $user = $qb2->getQuery()->getOneOrNullResult();
+
+
+        $qb = new QueryBuilder($this->entityManager);
+        $qb->addSelect('v')
+            ->from(Vote::class, 'v')
+            ->where('v.answer = ?1')
+            ->andWhere('v.user = ?2')
+            ->setParameter(1, $answer)
+            ->setParameter(2, $user);
+
+        $vote = $qb->getQuery()->getOneOrNullResult();
+
         if ($vote instanceof Vote) {
             return $vote;
         }
 
-        throw new EntityNotFound("Vote with AnswerId {$answerId} and {$userId} not found");
+        throw new EntityNotFound("Vote with AnswerId {$answerId} and UserId {$userId} not found");
     }
 
     /**

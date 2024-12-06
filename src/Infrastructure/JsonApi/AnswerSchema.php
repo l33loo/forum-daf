@@ -77,6 +77,9 @@ final class AnswerSchema extends AbstractResourceSchema implements ResourceSchem
             'question' => [
                 'data' => $object->question(),
             ],
+            'votes' => [
+                'data' => $object->votes(),
+            ],
         ];
     }
 }
