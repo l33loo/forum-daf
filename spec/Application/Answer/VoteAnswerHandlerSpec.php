@@ -16,12 +16,12 @@ use App\Application\Answer\VoteAnswerHandler;
 use App\Domain\Answer;
 use App\Domain\Answer\AnswerId;
 use App\Domain\Answer\AnswerRepository;
+use App\Domain\Exception\EntityNotFound;
 use App\Domain\User;
 use App\Domain\User\UserId;
 use App\Domain\User\UserRepository;
 use App\Domain\Vote;
 use App\Domain\Vote\VoteRepository;
-use Doctrine\ORM\EntityNotFoundException;
 use PhpSpec\ObjectBehavior;
 use Prophecy\Argument;
 use Slick\Event\EventDispatcher;
@@ -52,7 +52,7 @@ class VoteAnswerHandlerSpec extends ObjectBehavior
         $votes->withAnswerIdAndUserId(
             $this->answerId,
             $this->userId
-        )->willThrow(EntityNotFoundException::class);
+        )->willThrow(EntityNotFound::class);
         $votes->add(Argument::type(Vote::class))->willReturn($vote);
         $answers->withId($this->answerId)->willReturn($answer);
         $answer->addVote(Argument::type(Vote::class))->willReturn($answer);
